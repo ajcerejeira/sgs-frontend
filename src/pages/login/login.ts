@@ -18,6 +18,7 @@ export class LoginPage {
   }
 
   login() {
+    this.navCtrl.push('AccidentListPage');
     console.log('login');
   }
 

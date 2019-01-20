@@ -9,7 +9,7 @@ page-login {
       ), url("../assets/imgs/splashbg.jpg") no-repeat transparent;
     background-position: center;
     background-size: cover;
-    height: 40%;
+    height: 30%;
     z-index: 1;
   }
   .splash-info {
@@ -30,9 +30,8 @@ page-login {
     font-size: 18px;
     font-weight: normal;
     text-transform: uppercase;
-    max-width: 80%;
     margin: auto;
     margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
   }
 }

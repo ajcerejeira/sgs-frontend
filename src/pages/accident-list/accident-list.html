@@ -5,14 +5,60 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>accident-list</ion-title>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <ion-title>Sinistros</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only><ion-icon name="search"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        col-12
+        col-sm-6
+        col-md-4
+        col-lg-3
+        *ngFor="let accident of accidents"
+      >
+        <ion-card (click)="accidentDetail()">
+          <img
+            src="https://www.google.com/maps/about/images/mymaps/mymaps-desktop-16x9.png"
+          />
+          <ion-item>
+            <ion-icon name="pin" item-start></ion-icon>
+            <h2>{{ accident.location.street }}</h2>
+            <p>{{ accident.location.region }}</p>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="calendar" item-start></ion-icon>
+            <h2>{{ accident.date }}</h2>
+          </ion-item>
+          <ion-grid no-padding no-margin>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-icon name="car" item-start></ion-icon>
+                  <h2>{{ accident.vehicles }}</h2>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-icon name="people" item-start></ion-icon>
+                  <h2>{{ accident.actors }}</h2>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-<ion-content padding>
-
+  <ion-fab right bottom>
+    <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

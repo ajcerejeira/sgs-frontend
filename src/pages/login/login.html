@@ -19,17 +19,18 @@
           <ion-list>
             <ion-item no-padding>
               <ion-label floating>Email</ion-label>
-              <ion-input type="email" name="email" no-border></ion-input>
+              <ion-input type="email" name="email" required></ion-input>
             </ion-item>
             <ion-item no-padding>
               <ion-label floating>Password</ion-label>
-              <ion-input type="password" name="password"></ion-input>
+              <ion-input type="password" name="password" required></ion-input>
             </ion-item>
-            <div padding-top padding-bottom>
-              <button ion-button color="primary" full>Login</button>
+            <div padding-top>
+              <button ion-button color="primary" type="submit" full>Login</button>
             </div>
           </ion-list>
         </form>
+        <a ion-button color="light" full small>Esqueceu a sua password?</a>
       </ion-col>
     </ion-row>
   </ion-grid>
