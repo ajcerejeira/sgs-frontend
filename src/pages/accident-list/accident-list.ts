@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the AccidentListPage page.
@@ -16,7 +16,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class AccidentListPage {
   accidents: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
     this.accidents = [
       {
         location: { street: "Rua Nova de Santa Cruz", region: "S.Victor, Braga" },
@@ -43,10 +43,16 @@ export class AccidentListPage {
         date: "10 de Fevereiro de 2018",
       },
     ]
+
   }
 
   accidentDetail() {
     console.log('accident-detail');
+  }
+
+  accidentCreate() {
+    let modal = this.modalCtrl.create('AccidentCreatePage');
+    modal.present();
   }
 
   ionViewDidLoad() {
