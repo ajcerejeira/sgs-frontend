@@ -28,7 +28,7 @@
     "@ionic-native/status-bar": "~4.18.0",
     "@ionic/storage": "2.2.0",
     "cordova-android": "7.1.4",
-    "cordova-browser": "5.0.4",
+    "cordova-browser": "^5.0.4",
     "cordova-plugin-camera": "git+https://github.com/apache/cordova-plugin-camera.git",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "4.0.1",
