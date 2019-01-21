@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { IonicPage, ViewController } from "ionic-angular";
 
 /**
  * Generated class for the AccidentCreatePage page.
@@ -10,20 +10,17 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 
 @IonicPage()
 @Component({
-  selector: 'page-accident-create',
-  templateUrl: 'accident-create.html',
+  selector: "page-accident-create",
+  templateUrl: "accident-create.html"
 })
 export class AccidentCreatePage {
-
-  constructor(public viewCtrl: ViewController) {
-  }
+  constructor(public viewCtrl: ViewController) {}
 
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AccidentCreatePage');
+    console.log("ionViewDidLoad AccidentCreatePage");
   }
-
 }
