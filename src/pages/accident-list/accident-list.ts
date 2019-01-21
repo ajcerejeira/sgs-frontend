@@ -47,6 +47,7 @@ export class AccidentListPage {
   }
 
   accidentDetail() {
+    this.navCtrl.push('AccidentDetailPage');
     console.log('accident-detail');
   }
 

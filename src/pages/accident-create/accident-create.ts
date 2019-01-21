@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, ViewController } from "ionic-angular";
+import { IonicPage, ViewController, App } from "ionic-angular";
 import { Geolocation } from "@ionic-native/geolocation";
 import {
   Geocoder,
@@ -31,6 +31,7 @@ export class AccidentCreatePage {
   position: Position;
 
   constructor(
+    public app: App,
     public viewCtrl: ViewController,
     private geolocation: Geolocation
   ) {}
@@ -78,5 +79,10 @@ export class AccidentCreatePage {
         })
       });
     })
+  }
+
+  createAccident() {
+    this.viewCtrl.dismiss();
+    this.app.getRootNav().push('AccidentDetailPage');
   }
 }
