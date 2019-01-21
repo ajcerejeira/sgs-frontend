@@ -31,7 +31,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <div [ngSwitch]="vehiclePage">
     <div *ngSwitchCase="'info'">
       <ion-fab right bottom>
@@ -41,8 +41,15 @@
       </ion-fab>
     </div>
     <div *ngSwitchCase="'gallery'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 col-lg-3 *ngFor="let picture of pictures; let i = index" [attr.data-index]="i">
+            <img [src]="pictures[i]" class="photo"/>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
       <ion-fab right bottom>
-        <button ion-fab color="primary">
+        <button ion-fab color="primary" (click)="openCamera()">
           <ion-icon name="camera"></ion-icon>
         </button>
       </ion-fab>
