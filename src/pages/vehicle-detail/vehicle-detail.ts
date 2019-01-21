@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { SafeUrl } from "@angular/platform-browser";
 import { IonicPage, NavController, NavParams, AlertController } from "ionic-angular";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -18,7 +18,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class VehicleDetailPage {
   pictures: SafeUrl[] = [];
   vehiclePage: string = 'info'; // Default segment to load
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private camera: Camera, private domSanitizer: DomSanitizer) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private camera: Camera) {}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VehicleDetailPage");
@@ -53,7 +53,7 @@ export class VehicleDetailPage {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
-      let base64Image = this.domSanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + imageData);
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.pictures.push(base64Image);
       console.log(this.pictures);
      }, (err) => {
