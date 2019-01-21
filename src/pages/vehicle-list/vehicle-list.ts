@@ -61,4 +61,7 @@ export class VehicleListPage {
     console.log('ionViewDidLoad VehicleListPage');
   }
 
+  vehicleDetail() {
+    this.navCtrl.push('VehicleDetailPage');
+  }
 }

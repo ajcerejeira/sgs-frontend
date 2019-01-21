@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the AccidentInfoPage page.
@@ -22,15 +22,15 @@ export class AccidentInfoPage {
 
   confirmDelete() {
     const prompt = this.alertCtrl.create({
-      title: 'Tem a certeza que pretende remover este sinistro?',
-      message: 'Esta ação é irreversível. Todos os dados relativos a este sinistro serão apagados',
+      title: 'Eliminar sinistro?',
+      message: 'Esta ação é irreversível. Todos os dados relativos a este sinistro serão apagados.',
       buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
         },
         {
-          text: 'Apagar',
+          text: 'Eliminar',
         },
       ]
     });

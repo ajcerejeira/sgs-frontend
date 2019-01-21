@@ -7,7 +7,6 @@ import {
   GoogleMap,
   GoogleMapOptions,
   Environment,
-  GeocoderRequest,
   BaseArrayClass,
   GeocoderResult,
   GoogleMapsEvent

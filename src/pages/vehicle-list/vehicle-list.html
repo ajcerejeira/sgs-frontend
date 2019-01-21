@@ -12,7 +12,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-6 col-md-4 col-lg-3 *ngFor="let vehicle of vehicles">
-        <ion-card>
+        <ion-card (click)="vehicleDetail()">
           <ion-grid no-padding>
             <ion-row>
               <ion-col no-padding *ngFor="let photo of vehicle.photos">
