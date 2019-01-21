@@ -1,7 +1,11 @@
 import { Component } from "@angular/core";
-import { SafeUrl } from "@angular/platform-browser";
-import { IonicPage, NavController, NavParams, AlertController } from "ionic-angular";
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  AlertController
+} from "ionic-angular";
+/*import { Camera, CameraOptions } from '@ionic-native/camera';*/
 
 /**
  * Generated class for the VehicleDetailPage page.
@@ -16,9 +20,14 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
   templateUrl: "vehicle-detail.html"
 })
 export class VehicleDetailPage {
-  pictures: SafeUrl[] = [];
-  vehiclePage: string = 'info'; // Default segment to load
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private camera: Camera) {}
+  pictures: string[] = [];
+  vehiclePage: string = "info"; // Default segment to load
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    // private camera: Camera
+  ) {}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VehicleDetailPage");
@@ -43,6 +52,7 @@ export class VehicleDetailPage {
   }
 
   openCamera() {
+    /*
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -58,6 +68,6 @@ export class VehicleDetailPage {
       console.log(this.pictures);
      }, (err) => {
       // Handle error
-     });
+     });*/
   }
 }

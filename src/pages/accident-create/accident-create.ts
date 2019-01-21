@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { IonicPage, ViewController, App } from "ionic-angular";
-import { Geolocation } from "@ionic-native/geolocation";
+/*import { Geolocation } from "@ionic-native/geolocation";
 import {
   Geocoder,
   GoogleMaps,
@@ -10,7 +10,7 @@ import {
   BaseArrayClass,
   GeocoderResult,
   GoogleMapsEvent
-} from "@ionic-native/google-maps";
+} from "@ionic-native/google-maps";*/
 
 /**
  * Generated class for the AccidentCreatePage page.
@@ -25,26 +25,27 @@ import {
   templateUrl: "accident-create.html"
 })
 export class AccidentCreatePage {
-  map: GoogleMap;
-  address: string = "Aqui estará a morada";
-  position: Position;
+  // map: GoogleMap;
+  // address: string = "Aqui estará a morada";
+  // position: Position;
 
   constructor(
     public app: App,
     public viewCtrl: ViewController,
-    private geolocation: Geolocation
+  //  private geolocation: Geolocation
   ) {}
 
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
-  ionViewDidLoad() {
-    this.loadMap();
+  async ionViewDidLoad() {
+    await this.loadMap();
     console.log("ionViewDidLoad AccidentCreatePage");
   }
 
   async loadMap() {
+    /*
     // Get position and address
     this.position = await this.geolocation.getCurrentPosition();
 
@@ -77,7 +78,7 @@ export class AccidentCreatePage {
           console.log('finish', mvcArray.getArray());
         })
       });
-    })
+    })*/
   }
 
   createAccident() {
