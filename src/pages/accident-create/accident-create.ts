@@ -1,10 +1,16 @@
 import { Component } from "@angular/core";
 import { IonicPage, ViewController } from "ionic-angular";
+import { Geolocation } from "@ionic-native/geolocation";
 import {
+  Geocoder,
   GoogleMaps,
   GoogleMap,
   GoogleMapOptions,
-  Environment
+  Environment,
+  GeocoderRequest,
+  BaseArrayClass,
+  GeocoderResult,
+  GoogleMapsEvent
 } from "@ionic-native/google-maps";
 
 /**
@@ -21,8 +27,13 @@ import {
 })
 export class AccidentCreatePage {
   map: GoogleMap;
+  address: string = "Aqui estará a morada";
+  position: Position;
 
-  constructor(public viewCtrl: ViewController) {}
+  constructor(
+    public viewCtrl: ViewController,
+    private geolocation: Geolocation
+  ) {}
 
   dismiss() {
     this.viewCtrl.dismiss();
@@ -33,23 +44,39 @@ export class AccidentCreatePage {
     console.log("ionViewDidLoad AccidentCreatePage");
   }
 
-  loadMap() {
+  async loadMap() {
+    // Get position and address
+    this.position = await this.geolocation.getCurrentPosition();
+
     // This code is necessary for browser
     Environment.setEnv({
-       'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCgYU6IZ6fWxr9gJ5mIPruICEFlr6TJJQM',
-       'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCgYU6IZ6fWxr9gJ5mIPruICEFlr6TJJQM'
+      API_KEY_FOR_BROWSER_RELEASE: "AIzaSyCgYU6IZ6fWxr9gJ5mIPruICEFlr6TJJQM",
+      API_KEY_FOR_BROWSER_DEBUG: "AIzaSyCgYU6IZ6fWxr9gJ5mIPruICEFlr6TJJQM"
     });
-
     let mapOptions: GoogleMapOptions = {
       camera: {
-         target: {
-           lat: 43.0741904,
-           lng: -89.3809802
-         },
-         zoom: 18,
-         tilt: 30
-       }
+        target: {
+          lat: this.position.coords.latitude,
+          lng: this.position.coords.longitude
+        },
+        zoom: 18,
+        tilt: 30
+      }
     };
-    this.map = GoogleMaps.create('map_canvas', mapOptions);
+    this.map = GoogleMaps.create("map_canvas", mapOptions);
+    this.map.one(GoogleMapsEvent.MAP_READY).then(async () => {
+      const geocoderRes = Geocoder.geocode({
+        position: [
+          {
+            lat: this.position.coords.latitude,
+            lng: this.position.coords.longitude
+          },
+        ]
+      }).then((mvcArray: BaseArrayClass<GeocoderResult[]>) => {
+        mvcArray.one('finish').then(() => {
+          console.log('finish', mvcArray.getArray());
+        })
+      });
+    })
   }
 }
