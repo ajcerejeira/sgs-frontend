@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 import { IonicPage, NavController, NavParams, AlertController } from "ionic-angular";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -17,7 +18,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class VehicleDetailPage {
   pictures: string[] = [];
   vehiclePage: string = 'info'; // Default segment to load
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private camera: Camera) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private camera: Camera, private domSanitizer: DomSanitizer) {}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VehicleDetailPage");

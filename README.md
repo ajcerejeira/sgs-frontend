@@ -7,11 +7,16 @@ Web and mobile app for the SGS (Sistema de Gestão de Sinistros) platform
 
 ## Running and compilling
 
+**Note** - In order for the camera to work flawlessly in Google Chrome browser, install
+the latest version:
+
+    ionic cordova plugin add https://github.com/apache/cordova-plugin-camera
+
 
 To access native features (like camera, geolocation, etc...) in browser run:
 
     ionic cordova run browser
 
-Otherwise if you don't
+Otherwise if you don't need those features you can test it locally with:
 
     ionic serve --watch
