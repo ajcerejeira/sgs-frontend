@@ -7,7 +7,7 @@ branches:
 before_script:
 - npm install -g ionic cordova
 script:
-- ionic build --prod
+- ionic cordova build browser --prod --release
 deploy:
  provider: pages
  skip-cleanup: true
@@ -15,4 +15,4 @@ deploy:
  keep-history: true
  on:
    branch: master
- local_dir: www
+ local_dir: platforms/browser/www
