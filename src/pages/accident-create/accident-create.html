@@ -16,24 +16,25 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <form>
-    <ion-list>
-      <ion-item no-padding>
-        <ion-label floating>Data de ocorrência</ion-label>
-        <ion-datetime
-          displayFormat="DD/MMM/YYYY HH:mm"
-          pickerFormat="DD/MMM/YYYY HH:mm"
-        ></ion-datetime>
-      </ion-item>
-      <ion-item no-padding>
-        <ion-label floating>Localização</ion-label>
-      </ion-item>
-      <div padding-top>
-        <button ion-button color="primary" type="submit" full>
-          Registar sinistro
-        </button>
-      </div>
-    </ion-list>
-  </form>
+<ion-content padding scroll="false">
+  <div class="container">
+    <ion-item no-padding>
+      <ion-label floating>Data de ocorrência</ion-label>
+      <ion-datetime
+        displayFormat="DD/MMM/YYYY HH:mm"
+        pickerFormat="DD/MMM/YYYY HH:mm"
+      ></ion-datetime>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label floating>Localização</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+    <div id="map_canvas">
+    </div>
+    <div padding-top>
+      <button ion-button color="primary" type="submit" full>
+        Registar sinistro
+      </button>
+    </div>
+  </div>
 </ion-content>
