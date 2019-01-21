@@ -5,7 +5,6 @@ import {
   NavParams,
   AlertController
 } from "ionic-angular";
-/*import { Camera, CameraOptions } from '@ionic-native/camera';*/
 
 /**
  * Generated class for the VehicleDetailPage page.
@@ -20,13 +19,23 @@ import {
   templateUrl: "vehicle-detail.html"
 })
 export class VehicleDetailPage {
-  pictures: string[] = [];
+  photos: string[] = [
+    "assets/imgs/seat-1.jpg",
+    "assets/imgs/seat-2.jpg",
+    "assets/imgs/seat-3.jpg",
+    "assets/imgs/renault-1.jpg",
+    "assets/imgs/renault-2.jpg",
+    "assets/imgs/mercedes-1.jpg",
+    "assets/imgs/mercedes-2.jpg",
+    "assets/imgs/mercedes-3.jpg",
+    "assets/imgs/mercedes-4.jpg",
+  ];
   vehiclePage: string = "info"; // Default segment to load
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    // private camera: Camera
   ) {}
 
   ionViewDidLoad() {
@@ -52,22 +61,5 @@ export class VehicleDetailPage {
   }
 
   openCamera() {
-    /*
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-    this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.pictures.push(base64Image);
-      console.log(this.pictures);
-     }, (err) => {
-      // Handle error
-     });*/
   }
 }
