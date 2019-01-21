@@ -6,6 +6,7 @@ branches:
  - master
 before_script:
 - npm install -g ionic cordova
+- ionic cordova plugin add https://github.com/apache/cordova-plugin-camera
 install:
 - npm install
 script:
