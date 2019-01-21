@@ -373,7 +373,8 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-ionic-webview": "2.3.2",
     "cordova-plugin-ionic-keyboard": "2.1.3",
-    "cordova-plugin-googlemaps": "2.4.6"
+    "cordova-plugin-googlemaps": "2.4.6",
+    "cordova-plugin-geolocation": "4.0.1"
 }
 // BOTTOM OF METADATA
 });
