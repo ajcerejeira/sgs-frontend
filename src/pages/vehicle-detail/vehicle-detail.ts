@@ -101,22 +101,17 @@ export class VehicleDetailPage {
         // If the returned image is a file simply add it to SRCs,
         // otherwise it is a BASE64 coded picture
         if (imageData.startsWith("file://")) {
-          imageSrc = imageData;
+          const imageSrc = imageData;
+          this.photos.push(imageSrc);
+          console.log(imageSrc);
         } else {
-          imageSrc = "data:image/jpeg;base64," + imageData;
+          const imageSrc = "data:image/jpeg;base64," + imageData;
+          this.photos.push(imageSrc);
+          console.log(imageSrc);
         }
-        this.photos.push(imageSrc);
-
-        const prompt = this.alertCtrl.create({
-          title: "Fotografia",
-          message: imageSrc,
-          buttons: ["Ok"]
-        });
-        prompt.present();
-
-        console.log(imageData);
       },
       err => {
+        console.error(err);
         // Handle error
       }
     );
