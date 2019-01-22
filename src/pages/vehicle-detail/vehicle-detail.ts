@@ -90,17 +90,31 @@ export class VehicleDetailPage {
   openCamera() {
     const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.NATIVE_URI,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
     };
 
     this.camera.getPicture(options).then(
-      imageData => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        let base64Image = "data:image/jpeg;base64," + imageData;
-        console.log(base64Image);
+      (imageData: string) => {
+        let imageSrc = '';
+        // If the returned image is a file simply add it to SRCs,
+        // otherwise it is a BASE64 coded picture
+        if (imageData.startsWith("file://")) {
+          imageSrc = imageData;
+        } else {
+          imageSrc = "data:image/jpeg;base64," + imageData;
+        }
+        this.photos.push(imageSrc);
+
+        const prompt = this.alertCtrl.create({
+          title: "Fotografia",
+          message: imageSrc,
+          buttons: ["Ok"]
+        });
+        prompt.present();
+
+        console.log(imageData);
       },
       err => {
         // Handle error
