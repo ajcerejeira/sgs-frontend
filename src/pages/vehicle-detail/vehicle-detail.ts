@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Camera, CameraOptions } from "@ionic-native/camera";
 import {
   IonicPage,
   NavController,
@@ -26,9 +27,15 @@ export class VehicleDetailPage {
   insurance: string = "Fidelidade";
   policy: string = "X22KXN2N4";
   damages: boolean[] = [
-    false, false, false,
-    false, false, false,
-    false, false, false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
   ];
   photos: string[] = [
     "assets/imgs/seat-1.jpg",
@@ -39,7 +46,7 @@ export class VehicleDetailPage {
     "assets/imgs/mercedes-1.jpg",
     "assets/imgs/mercedes-2.jpg",
     "assets/imgs/mercedes-3.jpg",
-    "assets/imgs/mercedes-4.jpg",
+    "assets/imgs/mercedes-4.jpg"
   ];
   vehiclePage: string = "info"; // Default segment to load
 
@@ -47,6 +54,7 @@ export class VehicleDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
+    private camera: Camera
   ) {}
 
   ionViewDidLoad() {
@@ -80,6 +88,24 @@ export class VehicleDetailPage {
   }
 
   openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.NATIVE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    };
+
+    this.camera.getPicture(options).then(
+      imageData => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        let base64Image = "data:image/jpeg;base64," + imageData;
+        console.log(base64Image);
+      },
+      err => {
+        // Handle error
+      }
+    );
   }
 
   toggleDamage(index: number) {
