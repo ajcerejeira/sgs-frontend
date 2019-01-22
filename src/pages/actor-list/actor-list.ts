@@ -66,4 +66,8 @@ export class ActorListPage {
     console.log('ionViewDidLoad ActorListPage');
   }
 
+  actorDetail() {
+    this.navCtrl.push('ActorDetailPage');
+  }
+
 }

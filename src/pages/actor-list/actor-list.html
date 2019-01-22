@@ -16,13 +16,13 @@
       <ion-icon name="car"></ion-icon>
       Condutores
     </ion-list-header>
-    <ion-item *ngFor="let driver of drivers">
+    <button ion-item *ngFor="let driver of drivers" (click)="actorDetail()">
       <h2>{{ driver.name }}</h2>
       <p>
         {{ driver.register }} {{ driver.car }} 
       </p>
       <ion-note item-end>{{ driver.wounds }}</ion-note>
-    </ion-item>
+    </button>
 
     <ion-list-header color="light">
       <ion-icon name="people"></ion-icon>

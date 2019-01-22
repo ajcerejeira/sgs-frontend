@@ -1,0 +1,45 @@
+<!--
+  Generated template for the ActorDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Interveniente</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="confirmDelete()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="actorPage">
+      <ion-segment-button value="info">
+        <ion-icon name="information-circle" class="segment-icon"></ion-icon>
+        <span class="segment-text">Detalhes</span>
+      </ion-segment-button>
+      <ion-segment-button value="testomonials">
+        <ion-icon name="mic" class="segment-icon"></ion-icon>
+        <span class="segment-text">Depoimentos</span>
+      </ion-segment-button>
+      <ion-segment-button value="signatura">
+        <ion-icon name="create" class="segment-icon"></ion-icon>
+        <span class="segment-text">Assinatura</span>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [ngSwitch]="actorPage">
+  <ion-fab right bottom *ngSwitchCase="'info'">
+    <button ion-fab color="primary" (click)="actorEdit()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-fab right bottom *ngSwitchCase="'testomonials'">
+    <button ion-fab color="primary">
+      <ion-icon name="mic"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
