@@ -19,6 +19,12 @@ import {
   templateUrl: "vehicle-detail.html"
 })
 export class VehicleDetailPage {
+  topLeft: boolean = false;
+  damages: boolean[] = [
+    false, false, false,
+    false, false, false,
+    false, false, false,
+  ];
   photos: string[] = [
     "assets/imgs/seat-1.jpg",
     "assets/imgs/seat-2.jpg",
@@ -61,5 +67,9 @@ export class VehicleDetailPage {
   }
 
   openCamera() {
+  }
+
+  toggleDamage(index: number) {
+    this.damages[index] = !this.damages[index];
   }
 }

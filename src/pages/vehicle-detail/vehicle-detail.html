@@ -44,7 +44,7 @@
       <ion-grid>
         <ion-row>
           <ion-col col-4 col-lg-3 *ngFor="let photo of photos">
-            <img src="{{ photo }}" class="photo"/>
+            <img src="{{ photo }}" class="photo" />
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -54,6 +54,51 @@
         </button>
       </ion-fab>
     </div>
-    <div *ngSwitchCase="'damages'"></div>
+    <div *ngSwitchCase="'damages'">
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-right: 4px;" (click)="toggleDamage(0)">
+            <img src="assets/imgs/car-topview/top-left.png"/>
+            <div [ngClass]="damages[0] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding (click)="toggleDamage(1)">
+            <img src="assets/imgs/car-topview/top-center.png" />
+            <div [ngClass]="damages[1] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-left: 4px;" (click)="toggleDamage(2)">
+            <img src="assets/imgs/car-topview/top-right.png" />
+            <div [ngClass]="damages[2] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row justify-content-center>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-right: 4px;" (click)="toggleDamage(3)">
+            <img src="assets/imgs/car-topview/middle-left.png" />
+            <div [ngClass]="damages[3] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding  (click)="toggleDamage(4)">
+            <img src="assets/imgs/car-topview/middle-center.png"/>
+            <div [ngClass]="damages[4] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-left: 4px;" (click)="toggleDamage(5)">
+            <img src="assets/imgs/car-topview/middle-right.png" />
+            <div [ngClass]="damages[5] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row justify-content-center>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-right: 4px;" (click)="toggleDamage(6)">
+            <img src="assets/imgs/car-topview/bottom-left.png" />
+            <div [ngClass]="damages[6] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding (click)="toggleDamage(7)">
+            <img src="assets/imgs/car-topview/bottom-center.png"/>
+            <div [ngClass]="damages[7] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+          <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-left: 4px;" (click)="toggleDamage(8)">
+            <img src="assets/imgs/car-topview/bottom-right.png" />
+            <div [ngClass]="damages[8] ? 'overlay-on' : 'overlay-off'"></div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
   </div>
 </ion-content>
