@@ -19,12 +19,12 @@
         <ion-icon name="information-circle" class="segment-icon"></ion-icon>
         <span class="segment-text">Detalhes</span>
       </ion-segment-button>
-      <ion-segment-button value="testomonials">
+      <ion-segment-button value="testimonials">
         <ion-icon name="mic" class="segment-icon"></ion-icon>
         <span class="segment-text">Depoimentos</span>
       </ion-segment-button>
       <ion-segment-button value="signatura">
-        <ion-icon name="create" class="segment-icon"></ion-icon>
+        <ion-icon name="creat," class="segment-icon"></ion-icon>
         <span class="segment-text">Assinatura</span>
       </ion-segment-button>
     </ion-segment>
@@ -37,9 +37,14 @@
       <ion-icon name="create"></ion-icon>
     </button>
   </ion-fab>
-  <ion-fab right bottom *ngSwitchCase="'testomonials'">
-    <button ion-fab color="primary">
-      <ion-icon name="mic"></ion-icon>
+  <ion-list *ngSwitchCase="'testimonials'">
+    <button ion-item *ngFor="let testimonial of testimonials">
+      <ion-icon name="play" item-start></ion-icon>
+      <h2>Gravação de áudio #{{ testimonial.id }}</h2>
+      <p>{{ testimonial.date }}</p>
     </button>
+  </ion-list>
+  <ion-fab right bottom *ngSwitchCase="'testimonials'">
+    <button ion-fab color="primary"><ion-icon name="mic"></ion-icon></button>
   </ion-fab>
 </ion-content>

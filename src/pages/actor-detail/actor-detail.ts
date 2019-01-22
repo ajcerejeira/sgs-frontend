@@ -20,6 +20,16 @@ import {
 })
 export class ActorDetailPage {
   actorPage: string = "info"; // Default segment to load
+  testimonials: any[] = [
+    {
+      id: "12345678",
+      date: "03 de Fevereiro de 2018",
+    },
+    {
+      id: "987654321",
+      date: "03 de Fevereiro de 2018",
+    }
+  ]
 
   constructor(
     public navCtrl: NavController,
