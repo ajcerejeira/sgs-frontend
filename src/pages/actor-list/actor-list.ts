@@ -14,6 +14,50 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'actor-list.html',
 })
 export class ActorListPage {
+  drivers: any[] = [
+    {
+      name: "Afonso Silva",
+      register: "11-23-58",
+      car: "Honda Civic",
+      wounds: "Ferimentos ligeiros",
+    },
+    {
+      name: "Alfredo Gomes",
+      register: "23-XD-2C",
+      car: "Renault Megane",
+      wounds: "Ferimentos médios",
+    }
+  ];
+  passengers: any[] = [
+    {
+      name: "Francisco Costa",
+      register: "11-23-58",
+      car: "Honda Civic",
+      wounds: "Nenhum ferimento",
+    },
+    {
+      name: "João Vieira",
+      register: "23-XD-2C",
+      car: "Renault Megane",
+      wounds: "Ferimentos graves",
+    },
+    {
+      name: "Octávio Maia",
+      register: "11-23-58",
+      car: "Honda Civic",
+      wounds: "Morte",
+    },
+  ];
+  victims: any[] = [
+    {
+      name: "Humberto Vaz",
+      wounds: "Nenhum ferimento",
+    },
+    {
+      name: "João Dias",
+      wounds: "Ferimentos ligeiros",
+    },
+  ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

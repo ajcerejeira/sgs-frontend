@@ -10,11 +10,39 @@
   </ion-navbar>
 </ion-header>
 
+<ion-content>
+  <ion-list>
+    <ion-list-header color="light">
+      <ion-icon name="car"></ion-icon>
+      Condutores
+    </ion-list-header>
+    <ion-item *ngFor="let driver of drivers">
+      <h2>{{ driver.name }}</h2>
+      <p>
+        {{ driver.register }} {{ driver.car }} 
+      </p>
+      <ion-note item-end>{{ driver.wounds }}</ion-note>
+    </ion-item>
 
-<ion-content padding>
+    <ion-list-header color="light">
+      <ion-icon name="people"></ion-icon>
+      Passageiros
+    </ion-list-header>
+    <ion-item *ngFor="let passenger of passengers">
+      <h2>{{ passenger.name }}</h2>
+      <p>{{ passenger.register }} {{ passenger.car }}</p>
+      <ion-note item-end>{{ passenger.wounds }}</ion-note>
+    </ion-item>
+    <ion-list-header color="light">
+      <ion-icon name="medkit"></ion-icon>
+      Vítimas
+    </ion-list-header>
+    <ion-item *ngFor="let victim of victims">
+      <h2>{{ victim.name }}</h2>
+      <ion-note item-end>{{ victim.wounds }}</ion-note>
+    </ion-item>
+  </ion-list>
   <ion-fab right bottom>
-    <button ion-fab color="primary">
-      <ion-icon name="add"></ion-icon>
-    </button>
+    <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
