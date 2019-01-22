@@ -20,6 +20,11 @@ import {
 })
 export class VehicleDetailPage {
   topLeft: boolean = false;
+  register: string = "23-XD-32";
+  make: string = "Seat";
+  model: string = "Ibiza";
+  insurance: string = "Fidelidade";
+  policy: string = "X22KXN2N4";
   damages: boolean[] = [
     false, false, false,
     false, false, false,
@@ -62,6 +67,14 @@ export class VehicleDetailPage {
           text: "Eliminar"
         }
       ]
+    });
+    prompt.present();
+  }
+
+  vehicleEdit() {
+    const prompt = this.alertCtrl.create({
+      title: "Modal para edição das informações gerais do veículo",
+      buttons: ["Ok"]
     });
     prompt.present();
   }
