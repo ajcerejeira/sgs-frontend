@@ -57,9 +57,21 @@
       Seguradora <ion-note item-end>{{ insurance }}</ion-note>
     </ion-item>
     <ion-list-header color="light">
+      <ion-icon name="person"></ion-icon>
+      Condutor
+    </ion-list-header>
+    <button ion-item>
+      <h2>{{ driver.name }}</h2>
+      <ion-note item-end>{{ driver.wounds }}</ion-note>
+    </button>
+    <ion-list-header color="light">
       <ion-icon name="people"></ion-icon>
       Passageiros
     </ion-list-header>
+    <button ion-item *ngFor="let passenger of passengers">
+      <h2>{{ passenger.name }}</h2>
+      <ion-note item-end>{{ passenger.wounds }}</ion-note>
+    </button>
   </ion-list>
   <ion-fab right bottom *ngSwitchCase="'info'">
     <button ion-fab color="primary" (click)="vehicleEdit()">

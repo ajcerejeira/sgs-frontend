@@ -1,10 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { Camera, CameraOptions } from "@ionic-native/camera";
 import {
   IonicPage,
   NavController,
   NavParams,
-  AlertController
+  AlertController,
+  Tabs,
 } from "ionic-angular";
 
 /**
@@ -26,6 +27,20 @@ export class VehicleDetailPage {
   model: string = "Ibiza";
   insurance: string = "Fidelidade";
   policy: string = "X22KXN2N4";
+  driver: any = {
+    name: "Afonso Silva",
+    wounds: "Ferimentos leves",
+  };
+  passengers: any[] = [
+    {
+      name: "Francisco Costa",
+      wounds: "Nenhum ferimento",
+    },
+    {
+      name: "João Vieira",
+      wounds: "Ferimentos graves",
+    },
+  ];
   damages: boolean[] = [
     false,
     false,
