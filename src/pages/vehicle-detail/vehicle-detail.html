@@ -7,8 +7,8 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>Veículo</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="confirmDelete()">
+    <ion-buttons end [ngSwitch]="vehiclePage">
+      <button ion-button icon-only (click)="confirmDelete()" *ngSwitchCase="'info'">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
