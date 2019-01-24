@@ -15,10 +15,12 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 export class AccidentDetailPage {
 
-  accidentInfoRoot = 'AccidentInfoPage'
-  vehicleListRoot = 'VehicleListPage'
-  actorListRoot = 'ActorListPage'
-  sketchRoot = 'SketchPage'
+  accidentInfoRoot = 'AccidentInfoPage';
+  vehicleListRoot = 'VehicleListPage';
+  actorListRoot = 'ActorListPage';
+  sketchRoot = 'SketchPage';
+  nvehicles = 4;
+  nactors = 2;
 
 
   constructor(public navCtrl: NavController) {}

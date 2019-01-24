@@ -34,19 +34,6 @@
     </ion-list-header>
     <ion-item> {{ address }} </ion-item>
     <img src="assets/imgs/map-example.png" />
-    <ion-list-header color="light">
-      <ion-icon name="stats"></ion-icon>
-      Estatísticas
-    </ion-list-header>
-    <ion-item>
-      Veículos <ion-badge item-end>{{ nvehicles }}</ion-badge>
-    </ion-item>
-    <ion-item>
-      Intervenientes <ion-badge item-end>{{ nactors }}</ion-badge>
-    </ion-item>
-    <ion-item>
-      Feridos <ion-badge item-end>{{ ninjured }}</ion-badge>
-    </ion-item>
   </ion-list>
   <ion-fab right bottom>
     <button ion-fab color="primary" (click)="showReport()">

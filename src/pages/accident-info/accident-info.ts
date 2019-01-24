@@ -17,9 +17,6 @@ export class AccidentInfoPage {
   date: string = "07 de Fevereiro de 2018";
   hour: string = "15:30";
   address: string = "Rua Poeta João de Deus, 134 Trofa";
-  nvehicles: number = 4;
-  nactors: number = 8;
-  ninjured: number = 3;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {}
 
