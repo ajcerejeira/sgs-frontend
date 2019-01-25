@@ -5,6 +5,7 @@ import {
   NavController,
   NavParams,
   AlertController,
+  ModalController,
   Tabs,
 } from "ionic-angular";
 
@@ -21,12 +22,14 @@ import {
   templateUrl: "vehicle-detail.html"
 })
 export class VehicleDetailPage {
+  vehicle: any;
   topLeft: boolean = false;
-  register: string = "23-XD-32";
-  make: string = "Seat";
-  model: string = "Ibiza";
-  insurance: string = "Fidelidade";
-  policy: string = "X22KXN2N4";
+  register: string;
+  brand: string;
+  model: string;
+  year: number;
+  insurance: string;
+  policy: string;
   driver: any = {
     name: "Afonso Silva",
     wounds: "Ferimentos leves",
@@ -66,11 +69,19 @@ export class VehicleDetailPage {
   vehiclePage: string = "info"; // Default segment to load
 
   constructor(
+    public modalCtrl: ModalController,
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    private camera: Camera
-  ) {}
+    private camera: Camera,
+  ) {
+    this.register = this.navParams.get('register');
+    this.model = this.navParams.get('model');
+    this.brand = this.navParams.get('brand');
+    this.policy = this.navParams.get('policy');
+    this.insurance = this.navParams.get('insurance');
+    this.year = this.navParams.get('year');
+  }
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VehicleDetailPage");
@@ -95,11 +106,17 @@ export class VehicleDetailPage {
   }
 
   vehicleEdit() {
-    const prompt = this.alertCtrl.create({
-      title: "Modal para edição das informações gerais do veículo",
-      buttons: ["Ok"]
-    });
-    prompt.present();
+    var vehicle = {
+      register: this.register,
+      model: this.model,
+      brand: this.brand,
+      policy: this.policy,
+      insurance: this.insurance,
+      year: this.year
+    };
+    let modal = this.modalCtrl.create('VehicleEditPage', { data: vehicle });
+    modal.onDidDismiss(data => { });
+    modal.present();
   }
 
   openCamera() {
