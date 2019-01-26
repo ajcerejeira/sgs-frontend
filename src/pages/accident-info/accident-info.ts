@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the AccidentInfoPage page.
@@ -18,10 +18,15 @@ export class AccidentInfoPage {
   hour: string = "15:30";
   address: string = "Rua Poeta João de Deus, 134 Trofa";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public modalCtrl: ModalController) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AccidentInfoPage');
+  }
+
+  editAccident(){
+    let modal = this.modalCtrl.create('AccidentEditPage');
+    modal.present();
   }
 
   confirmDelete() {

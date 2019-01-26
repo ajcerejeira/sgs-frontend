@@ -8,7 +8,9 @@
   <ion-navbar color="primary">
     <ion-title>Informações</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only><ion-icon name="create"></ion-icon></button>
+      <button ion-button icon-only (click)="editAccident()">
+        <ion-icon name="create"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="confirmDelete()">
         <ion-icon name="trash"></ion-icon>
       </button>
