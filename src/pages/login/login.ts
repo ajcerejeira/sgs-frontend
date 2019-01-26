@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams ,MenuController, AlertController, ToastController} from 'ionic-angular';
-import { EmailComposer } from '@ionic-native/email-composer'
+import { IonicPage, NavController, NavParams, MenuController, AlertController, ToastController } from 'ionic-angular';
+import { EmailComposer } from '@ionic-native/email-composer';
+import { HttpModule, Http } from '@angular/http';
 
 /**
  * Generated class for the LoginPage page.
@@ -15,18 +16,57 @@ import { EmailComposer } from '@ionic-native/email-composer'
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  badLog: boolean = false;
+  email: any;
+  password: any;
   to: '';
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public menu: MenuController, 
-    public forgotCtrl: AlertController, 
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public menu: MenuController,
+    public http: Http,
+    public forgotCtrl: AlertController,
     public toastCtrl: ToastController,
     public emailComposer: EmailComposer) {
   }
 
   login() {
-    this.navCtrl.setRoot('AccidentListPage');
-    console.log('login');
+
+    // this.navCtrl.setRoot('AccidentListPage');
+    // console.log('login');
+    // this.email= console.log('email');
+    // this.password= console.log('password');
+    console.log(this.email)
+
+    this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
+
+
+      "email": this.email,
+      "password": this.password
+    })
+
+      .subscribe(data => {
+        console.log(data['_body']);
+        this.navCtrl.setRoot('AccidentListPage');
+      }, error => {
+        console.log(error);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Check your facts fool',
+          duration: 3000,
+          // cssClass : 'normalToast'
+        });
+        toast.present();
+      });
+
+
+
+
+    // let postData = { 
+    //   // "email": this.email,
+    //   // "location": [this.latitude, this.longitude]
+    // }
+    // // console.log(JSON.parse(JSON.stringify('login')));
+
   }
 
   forgotPass() {
@@ -69,22 +109,7 @@ export class LoginPage {
     forgot.present();
   }
 
-/*send() {
-  let email = {
-    to: this.to,
-    addAlias: 'com.google.android.gm',
-    cc: [],
-    bcc: [],
-    attachment: [],
-    subject: "teste",
-    body: "teste"
-  }
-  console.log(email);
-  this.emailComposer.open(email);
-}*/
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
-
 }
