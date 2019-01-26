@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, AlertController, ToastController } from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
-import { HttpModule, Http } from '@angular/http';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the LoginPage page.
@@ -20,13 +20,15 @@ export class LoginPage {
   email: any;
   password: any;
   to: '';
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public navParams: NavParams,
     public menu: MenuController,
     public http: Http,
     public forgotCtrl: AlertController,
     public toastCtrl: ToastController,
-    public emailComposer: EmailComposer) {
+    public emailComposer: EmailComposer
+    ) {
   }
 
   login() {
