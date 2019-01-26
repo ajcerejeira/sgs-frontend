@@ -1,8 +1,8 @@
 <ion-menu [content]="content">
     <ion-content>
 
-                <ion-list>
-                    <ion-list-header color= primary>
+                <ion-list >
+                    <ion-list-header menuClose class="text-1x" (click)="openProfile()" color= primary>
                         <ion-avatar item-start>
                             <img src="assets/imgs/avatar.png">
                         </ion-avatar>
@@ -10,8 +10,8 @@
                                 Nome utilizador
                             </h2>
                             <p>Polícia</p>
-                        </ion-list-header>
-                    <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
+                    </ion-list-header>
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
         <ion-icon item-left [name]="menuItem.icon" color="primary"></ion-icon>
         <span ion-text color="primary">{{menuItem.title}}</span>
       </button>

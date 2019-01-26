@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AccidentListPage } from '../pages/accident-list/accident-list'
+import { UserProfilePage } from '../pages/user-profile/user-profile'
 
 export interface MenuItem {
     title: string;
@@ -21,6 +22,7 @@ export class MyApp {
 
 
   appMenuItems: Array<MenuItem>;
+  profile: MenuItem;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
@@ -49,6 +51,11 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  openProfile() {
+    this.nav.setRoot('UserProfilePage');
+  }
+
 
 }
 
