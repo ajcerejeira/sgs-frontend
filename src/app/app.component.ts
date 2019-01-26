@@ -56,6 +56,10 @@ export class MyApp {
     this.nav.setRoot('UserProfilePage');
   }
 
+  logout(){
+    this.nav.setRoot('LoginPage');
+  }
+
 
 }
 
