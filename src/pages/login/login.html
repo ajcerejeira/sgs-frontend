@@ -31,8 +31,17 @@
           </ion-list>
         </form>
           <h6 *ngIf="this.badLog" style="color:red" > <small> Check your facts fool </small></h6>
-        <a ion-button color="light" full small>Esqueceu a sua password?</a>
+        <a ion-button color="light" full small (click)="forgotPass()">Esqueceu a sua password?</a>
+        <!--<ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input [(ngModel)]="to" type="text" placeholder="To"></ion-input>
+        </ion-item>-->
+       
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
+
+<!--<a ion-button color="light" full small (click)="forgotPass()">Esqueceu a sua password?</a>
+            <ion-input [(ngModel)]="to" ></ion-input>-->

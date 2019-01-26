@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams ,MenuController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, ToastController } from 'ionic-angular';
+import { EmailComposer } from '@ionic-native/email-composer';
 import { HttpModule, Http } from '@angular/http';
-import { ToastController } from 'ionic-angular'
-
 
 /**
  * Generated class for the LoginPage page.
@@ -18,25 +17,32 @@ import { ToastController } from 'ionic-angular'
 })
 export class LoginPage {
   badLog: boolean = false;
-  email: any ;
-  password :any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public menu: MenuController, public http: Http, public toastCtrl :ToastController) {
+  email: any;
+  password: any;
+  to: '';
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public menu: MenuController,
+    public http: Http,
+    public forgotCtrl: AlertController,
+    public toastCtrl: ToastController,
+    public emailComposer: EmailComposer) {
   }
- 
+
   login() {
 
     // this.navCtrl.setRoot('AccidentListPage');
     // console.log('login');
-      // this.email= console.log('email');
-      // this.password= console.log('password');
+    // this.email= console.log('email');
+    // this.password= console.log('password');
     console.log(this.email)
 
     this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
 
 
-  "email": this.email,
-  "password": this.password
-})
+      "email": this.email,
+      "password": this.password
+    })
 
       .subscribe(data => {
         console.log(data['_body']);
@@ -45,8 +51,8 @@ export class LoginPage {
         console.log(error);
         const toast = this.toastCtrl.create({
           position: 'top',
-          message:'Check your facts fool',
-          duration :3000,
+          message: 'Check your facts fool',
+          duration: 3000,
           // cssClass : 'normalToast'
         });
         toast.present();
@@ -63,40 +69,47 @@ export class LoginPage {
 
   }
 
-
-  logChange(event) {
-  console.log(event);
-}
+  forgotPass() {
+    let forgot = this.forgotCtrl.create({
+      title: 'Esqueceu a sua password?',
+      message: "Introduza o seu email de registo de a proceder ao reset da password.",
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Email',
+          type: 'email'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+            console.log('clicou em cancelar');
+          }
+        },
+        {
+          text: 'Enviar',
+          handler: data => {
+            /*this.to= data.email;
+            this.send();*/
+            console.log(data);
+            let toast = this.toastCtrl.create({
+              message: 'Email foi enviado com sucesso!',
+              duration: 3000,
+              position: 'top',
+              cssClass: 'dark-trans',
+              closeButtonText: 'OK',
+              showCloseButton: true
+            });
+            toast.present();
+          }
+        }
+      ]
+    });
+    forgot.present();
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
-
 }
-
-
-  // accidentList() {
-  //   this.http.get("https://sgs-backend.herokuapp.com/api/accidents").map(res => res.json()).subscribe(res => {
-  //       this.accidents=res;
-  //     }, error => {
-  //       console.log(error);
-  //     });
-  // }
-
-
-  //   createAccident() {
-  //   let postData = {
-  //     "date": this.myDate,
-  //     "location": [this.latitude, this.longitude]
-  //   }
-
-  //   this.http.post("https://sgs-backend.herokuapp.com/api/accidents", postData)
-  //     .subscribe(data => {
-  //       console.log(data['_body']);
-  //     }, error => {
-  //       console.log(error);
-  //     });
-
-  //   this.viewCtrl.dismiss();
-  //   this.app.getRootNav().push('AccidentDetailPage');
-  // }

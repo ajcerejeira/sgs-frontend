@@ -24,31 +24,29 @@
         col-lg-3
         *ngFor="let accident of accidents"
       >
-        <ion-card (click)="accidentDetail()">
-          <img
-            src= {{accident.url}}
-          />
+        <ion-card (click)="accidentDetail(accident.id)">
+          <img src= {{accident.url}}/>
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
-            <h2>{{ accident.location.street }}</h2>
-            <p>{{ accident.location.region }}</p>
+            <h2>{{ accident.address.split(',')[0] }}</h2>
+            <p>{{ accident.address.split(',')[1] }}</p>
           </ion-item>
           <ion-item>
             <ion-icon name="calendar" item-start></ion-icon>
-            <h2>{{ accident.date }}</h2>
+            <h2>{{ accident.date.split('T')[0] }}</h2>
           </ion-item>
           <ion-grid no-padding no-margin>
             <ion-row>
               <ion-col>
                 <ion-item>
                   <ion-icon name="car" item-start></ion-icon>
-                  <h2>{{ accident.vehicles }}</h2>
+                  <h2>{{ accident.vehicles.length }}</h2>
                 </ion-item>
               </ion-col>
               <ion-col>
                 <ion-item>
                   <ion-icon name="people" item-start></ion-icon>
-                  <h2>{{ accident.actors }}</h2>
+                  <h2>{{ accident.actors}}</h2>
                 </ion-item>
               </ion-col>
             </ion-row>
