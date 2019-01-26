@@ -1,1 +1,50 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="content">
+  <ion-content padding>
+  <ion-header>
+    <ion-toolbar class="user-profile">
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4>
+              <div class="user-avatar">
+                <img src="assets/img/avatar.png">
+              </div>
+          </ion-col>
+          <ion-col padding-top col-8>
+            <h2 ion-text class="no-margin bold text-white">
+              Nome utilizador
+            </h2>
+            <span ion-text color="light">Polícia</span>
+          </ion-col>
+        </ion-row>
+
+
+      </ion-grid>
+
+
+    <ion-list>
+      <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
+        <ion-icon item-left [name]="menuItem.icon" color="primary"></ion-icon>
+        <span ion-text color="primary">{{menuItem.title}}</span>
+      </button>
+    </ion-list>
+
+
+
+</ion-toolbar>
+  </ion-header>
+
+
+<ion-footer>
+        <ion-col no-padding class="column">
+            <button botton ion-button icon-left small full color="light" menuClose (click)="logout()">
+        <ion-icon name="log-out"></ion-icon> Terminar sessão
+        </button>
+        </ion-col>
+</ion-footer>
+  </ion-content>
+
+</ion-menu>
+
+
+<ion-nav [root]="rootPage" #content></ion-nav>

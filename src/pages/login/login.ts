@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams ,MenuController} from 'ionic-angular';
 
 /**
  * Generated class for the LoginPage page.
@@ -14,11 +14,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public menu: MenuController) {
   }
 
   login() {
-    this.navCtrl.push('AccidentListPage');
+    this.navCtrl.setRoot('AccidentListPage');
     console.log('login');
   }
 
