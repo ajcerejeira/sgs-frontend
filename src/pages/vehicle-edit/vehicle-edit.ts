@@ -110,6 +110,17 @@ export class VehicleEditPage {
     this.vehicle.insurance = this.vehicleEdited.value['insurance'];
     this.vehicle.expiresIn = this.vehicleEdited.value['expiresIn'];
     console.log(this.vehicle);
+
+    // this.http.post("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id, this.vehicle)
+    //   .subscribe(data => {
+    //     console.log(data['_body']);
+    //   }, error => {
+    //     console.log(error);
+    //   });
+      // this.viewCtrl.dismiss();
+    //   this.app.getRootNav().push('AccidentDetailPage');
+  }
+
     // this.brand = "TReta";
     // this.currentVehicle = {
     //   category: "Veículo ligeiro",

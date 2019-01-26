@@ -61,7 +61,7 @@ export class VehicleCreatePage {
     };
     console.log(new_vehicle);
     // this.vehicles.push(new_vehicle);
-    // this.http.post("https://sgs-backend.herokuapp.com/api/accidents/"+id_accident+"/vehicles", new_vehicle)
+    // this.http.post("https://sgs-backend.herokuapp.com/api/vehicles", new_vehicle)
     //   .subscribe(data => {
     //     console.log(data['_body']);
     //   }, error => {
