@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AnimationStyleMetadata } from '@angular/core';
 import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
 
 /**
@@ -15,6 +15,7 @@ import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angu
 })
 export class VehicleListPage {
   vehicles: any;
+  vehicleToDelete: string;
 
   constructor(
     public modalCtrl: ModalController,
@@ -70,7 +71,17 @@ export class VehicleListPage {
           "assets/imgs/mercedes-4.jpg",
         ]
       }
-    ]
+    ];
+    this.vehicleToDelete = this.navParams.get('register');
+    if (this.vehicleToDelete != null) {
+      console.log("Apaga o veículo com a matrícula " + this.vehicleToDelete);
+      // Procura o veículo com aquela matrícula e elimina-o d alista.
+    }
+    else {
+      console.log("Não apagamos nada");
+
+      }
+
   }
 
   vehicleCreate() {

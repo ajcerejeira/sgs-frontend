@@ -24,12 +24,12 @@ import {
 export class VehicleDetailPage {
   vehicle: any;
   topLeft: boolean = false;
-  register: string;
-  brand: string;
-  model: string;
-  year: number;
-  insurance: string;
-  policy: string;
+  // register: string;
+  // brand: string;
+  // model: string;
+  // year: number;
+  // insurance: string;
+  // policy: string;
   driver: any = {
     name: "Afonso Silva",
     wounds: "Ferimentos leves",
@@ -75,46 +75,49 @@ export class VehicleDetailPage {
     public alertCtrl: AlertController,
     private camera: Camera,
   ) {
-    this.register = this.navParams.get('register');
-    this.model = this.navParams.get('model');
-    this.brand = this.navParams.get('brand');
-    this.policy = this.navParams.get('policy');
-    this.insurance = this.navParams.get('insurance');
-    this.year = this.navParams.get('year');
+    this.vehicle = {
+      register: this.navParams.get('register'),
+      model:this.navParams.get('model'),
+      brand: this.navParams.get('brand'),
+      policy: this.navParams.get('policy'),
+      insurance: this.navParams.get('insurance'),
+      year: this.navParams.get('year'),
   }
+}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VehicleDetailPage");
   }
 
-  confirmDelete() {
-    const prompt = this.alertCtrl.create({
-      title: "Eliminar veículo?",
-      message:
-        "Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.",
-      buttons: [
-        {
-          text: "Cancelar",
-          role: "cancel"
-        },
-        {
-          text: "Eliminar"
-        }
-      ]
-    });
-    prompt.present();
+  confirmDelete(vehicle) {
+    // const prompt = this.alertCtrl.create({
+    //   title: "Eliminar veículo?",
+    //   message:
+    //     "Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.",
+    //   buttons: [
+    //     {
+    //       text: "Cancelar",
+    //       role: "cancel"
+    //     },
+    //     {
+    //       text: "Eliminar"
+    //     }
+    //   ]
+    // });
+    // prompt.present();
+    this.navCtrl.push('VehicleListPage', vehicle);
   }
 
   vehicleEdit() {
-    var vehicle = {
-      register: this.register,
-      model: this.model,
-      brand: this.brand,
-      policy: this.policy,
-      insurance: this.insurance,
-      year: this.year
-    };
-    let modal = this.modalCtrl.create('VehicleEditPage', { data: vehicle });
+    // var vehicle = {
+    //   register: this.register,
+    //   model: this.model,
+    //   brand: this.brand,
+    //   policy: this.policy,
+    //   insurance: this.insurance,
+    //   year: this.year
+    // };
+    let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle });
     modal.onDidDismiss(data => { });
     modal.present();
   }

@@ -15,8 +15,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: "vehicle-edit.html"
 })
 export class VehicleEditPage {
-  private vehicle : FormGroup;
-  private currentVehicle : any;
+  private vehicleEdited : FormGroup;
+  private vehicle : any;
   register: string;
   brand: string;
   model: string;
@@ -30,23 +30,21 @@ export class VehicleEditPage {
     private formBuilder: FormBuilder,
     public navParams: NavParams
   ) {
-    this.currentVehicle = this.navParams.get('data');
-    this.register = this.currentVehicle.register;
-    this.brand = this.currentVehicle.brand;
-    this.model = this.currentVehicle.model;
-    this.year = this.currentVehicle.year;
-    this.insurance = this.currentVehicle.insurance;
-    this.policy = this.currentVehicle.policy;
-
-    this.vehicle = this.formBuilder.group({
+    this.vehicle = this.navParams.get('data');
+    
+    this.register = this.vehicle.register;
+    this.brand = this.vehicle.brand;
+    this.model = this.vehicle.model;
+    this.insurance = this.vehicle.insurance;
+    this.policy = this.vehicle.policy;
+    this.vehicleEdited = this.formBuilder.group({
       register: ['', Validators.required],
       brand: [''],
       model: [''],
-      year: [''],
       policy: [''],
       insurance: [''],
     })
-    
+    console.log(this.vehicle);
     ;}
 
   dismiss() {
@@ -55,18 +53,22 @@ export class VehicleEditPage {
 
   editVehicle(){
     this.viewCtrl.dismiss();
-    this.currentVehicle = {
-      category: "Veículo ligeiro",
-      color: "blue",
-      register: this.vehicle.value['register'],
-      brand: this.vehicle.value['brand'],
-      model: this.vehicle.value['model'],
-      year: this.vehicle.value['year'],
-      policy: this.vehicle.value['policy'],
-      insurance: this.vehicle.value['insurance'],
-      nactors: 1,
-      photos: []
-    };
+    this.vehicle.register = this.vehicleEdited.value['register'];
+    console.log(this.vehicle);
+    // this.brand = "TReta";
+    // this.currentVehicle = {
+    //   category: "Veículo ligeiro",
+    //   color: "blue",
+    //   register: this.vehicle.value['register'],
+    //   brand: this.vehicle.value['brand'],
+    //   model: this.vehicle.value['model'],
+    //   year: this.vehicle.value['year'],
+    //   policy: this.vehicle.value['policy'],
+    //   insurance: this.vehicle.value['insurance'],
+    //   nactors: 1,
+    //   photos: []
+    // };
+    // console.log(this.currentVehicle.brand);
     // this.vehicles = this.httpClient.post('');
 
     // console.log(this.vehicles);
