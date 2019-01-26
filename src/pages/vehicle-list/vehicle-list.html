@@ -14,7 +14,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-6 col-md-4 col-lg-3 *ngFor="let vehicle of vehicles">
-        <ion-card (click)="vehicleDetail()">
+        <ion-card (click)="vehicleDetail(vehicle)">
           <ion-grid no-padding>
             <ion-row>
               <ion-col no-padding *ngFor="let photo of vehicle.photos">
@@ -58,6 +58,6 @@
   </ion-grid>
 
   <ion-fab right bottom>
-    <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+    <button (click)="vehicleCreate()" ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
