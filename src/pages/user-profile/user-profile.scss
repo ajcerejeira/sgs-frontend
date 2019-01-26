@@ -1,12 +1,12 @@
 @import '../../theme/variables.scss';
 
-page-login {
+page-user-profile  {
   .splash-bg {
     position: relative;
     background: linear-gradient(
         rgba(20, 101, 170, 0.7), 
         rgba(20, 101, 170, 0.7)
-      ), url("../assets/imgs/splashbg.jpg") no-repeat transparent;
+      ), url("../assets/imgs/psp.jpg") no-repeat transparent;
     background-position: center;
     background-size: cover;
     height: 30%;
@@ -20,7 +20,7 @@ page-login {
   }
   .splash-logo {
     margin: auto;
-    background: url("../assets/imgs/appicon.png") repeat transparent;
+    background: url("../assets/imgs/avatar.png");
     background-size: 100%;
     width: 128px;
     height: 128px;
@@ -31,10 +31,7 @@ page-login {
     font-weight: normal;
     text-transform: uppercase;
     margin: auto;
-    margin-top: 2rem;
+    margin-top: 4rem;
     margin-bottom: 0.5rem;
   }
-
-
-
 }

@@ -91,6 +91,7 @@
         <variable name="API_KEY_FOR_BROWSER_RELEASE" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
         <variable name="API_KEY_FOR_BROWSER_DEBUG" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
     </plugin>
+    <plugin name="cordova-plugin-email-composer" spec="^0.9.2" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>

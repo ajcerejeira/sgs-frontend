@@ -70,4 +70,8 @@ export class ActorListPage {
     this.navCtrl.push('ActorDetailPage');
   }
 
+  addActor() {
+    //this.navCtrl.push('ActorCreatePage');
+  }
+
 }

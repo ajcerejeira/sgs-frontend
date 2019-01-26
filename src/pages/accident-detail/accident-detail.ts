@@ -22,7 +22,6 @@ export class AccidentDetailPage {
   nactors = 2;
   id : number;
 
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams

@@ -19,19 +19,29 @@
           <ion-list>
             <ion-item no-padding>
               <ion-label floating>Email</ion-label>
-              <ion-input type="email" name="email" required></ion-input>
+              <ion-input type="email" [(ngModel)]="email" (ionInput)="logChange($event)" name="email" required></ion-input>
             </ion-item>
             <ion-item no-padding>
               <ion-label floating>Password</ion-label>
-              <ion-input type="password" name="password" required></ion-input>
+              <ion-input type="password" [(ngModel)]="password" (ionInput)="logChange($event)" name="password" required></ion-input>
             </ion-item>
             <div padding-top>
               <button ion-button color="primary" type="submit" full>Login</button>
             </div>
           </ion-list>
         </form>
-        <a ion-button color="light" full small>Esqueceu a sua password?</a>
+          <h6 *ngIf="this.badLog" style="color:red" > <small> Check your facts fool </small></h6>
+        <a ion-button color="light" full small (click)="forgotPass()">Esqueceu a sua password?</a>
+        <!--<ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input [(ngModel)]="to" type="text" placeholder="To"></ion-input>
+        </ion-item>-->
+       
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
+
+<!--<a ion-button color="light" full small (click)="forgotPass()">Esqueceu a sua password?</a>
+            <ion-input [(ngModel)]="to" ></ion-input>-->
