@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { IonicPage, ViewController, App, NavParams } from "ionic-angular";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http } from "@angular/http"
+import { NULL_EXPR } from "@angular/compiler/src/output/output_ast";
 
 /**
  * Generated class for the VehicleCreatePage page.
@@ -24,7 +25,7 @@ export class VehicleCreatePage {
     public viewCtrl: ViewController,
     private formBuilder: FormBuilder,
     public navParams: NavParams,
-    // public http: Http
+    public http: Http
   ) {
     this.vehicle = this.formBuilder.group({
       register: ['', Validators.required],
@@ -49,25 +50,24 @@ export class VehicleCreatePage {
     var id_accident = 5;
     var new_vehicle = {
       register: this.vehicle.value['register'],
-      type: this.vehicle.value['type'],
+      type: null,
       brand: this.vehicle.value['brand'],
       model: this.vehicle.value['model'], 
-      year: this.vehicle.value['year'],
+      year: this.vehicle.value['year'].to_int,
       color: this.vehicle.value['color'],
       policy: this.vehicle.value['policy'],
       insurance: this.vehicle.value['insurance'],
       expiresIn: this.vehicle.value['expiresIn'],
-      damages: []
+      damages: [],
+      accident: 10
     };
     console.log(new_vehicle);
     // this.vehicles.push(new_vehicle);
-    // this.http.post("https://sgs-backend.herokuapp.com/api/vehicles", new_vehicle)
-    //   .subscribe(data => {
-    //     console.log(data['_body']);
-    //   }, error => {
-    //     console.log(error);
-    //   });
-      // this.viewCtrl.dismiss();
-    //   this.app.getRootNav().push('AccidentDetailPage');
+    this.http.post("https://sgs-backend.herokuapp.com/api/vehicles", new_vehicle)
+      .subscribe(data => {
+        console.log(data['_body']);
+      }, error => {
+        console.log(error);
+      });
   }
 }

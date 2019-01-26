@@ -8,6 +8,8 @@ import {
   ModalController,
   Tabs,
 } from "ionic-angular";
+import { Http } from "@angular/http"
+
 
 /**
  * Generated class for the VehicleDetailPage page.
@@ -74,8 +76,10 @@ export class VehicleDetailPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     private camera: Camera,
+    public http: Http,
   ) {
     this.vehicle = {
+      id: 8,
       register: this.navParams.get('register'),
       model:this.navParams.get('model'),
       brand: this.navParams.get('brand'),
@@ -89,23 +93,28 @@ export class VehicleDetailPage {
     console.log("ionViewDidLoad VehicleDetailPage");
   }
 
-  confirmDelete(vehicle) {
-    // const prompt = this.alertCtrl.create({
-    //   title: "Eliminar veículo?",
-    //   message:
-    //     "Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.",
-    //   buttons: [
-    //     {
-    //       text: "Cancelar",
-    //       role: "cancel"
-    //     },
-    //     {
-    //       text: "Eliminar"
-    //     }
-    //   ]
-    // });
-    // prompt.present();
-    this.navCtrl.push('VehicleListPage', vehicle);
+  confirmDelete() {
+    const prompt = this.alertCtrl.create({
+      title: 'Eliminar Veículo?',
+      message: 'Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id).subscribe(res => {
+              this.navCtrl.push('VehicleListPage');
+            }, error => {
+              console.log(error);
+            });
+          }
+        },
+      ]
+    });
+    prompt.present();
   }
 
   vehicleEdit() {

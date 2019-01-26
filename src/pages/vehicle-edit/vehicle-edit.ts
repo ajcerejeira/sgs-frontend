@@ -101,7 +101,7 @@ export class VehicleEditPage {
   editVehicle(){
     this.viewCtrl.dismiss();
     this.vehicle.register = this.vehicleEdited.value['register'];
-    this.vehicle.type = this.vehicleEdited.value['type'];
+    this.vehicle.type = null;
     this.vehicle.brand = this.vehicleEdited.value['brand'];
     this.vehicle.model = this.vehicleEdited.value['model'];
     this.vehicle.year = this.vehicleEdited.value['year'];
@@ -110,6 +110,7 @@ export class VehicleEditPage {
     this.vehicle.insurance = this.vehicleEdited.value['insurance'];
     this.vehicle.expiresIn = this.vehicleEdited.value['expiresIn'];
     console.log(this.vehicle);
+    
 
     // this.http.post("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id, this.vehicle)
     //   .subscribe(data => {
@@ -138,5 +139,4 @@ export class VehicleEditPage {
     // this.vehicles = this.httpClient.post('');
 
     // console.log(this.vehicles);
-  }
 }
