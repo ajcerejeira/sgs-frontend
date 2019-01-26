@@ -24,8 +24,8 @@
         col-lg-3
         *ngFor="let accident of accidents"
       >
-        <ion-card (click)="accidentDetail(accident.id)">
-          <img src= {{accident.url}}/>
+        <ion-card (click)="accidentDetail(accident)">
+          <img src= {{accident.mapImg}}/>
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
             <h2>{{ accident.address.split(',')[0] }}</h2>
