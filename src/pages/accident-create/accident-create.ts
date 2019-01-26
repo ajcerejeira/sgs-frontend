@@ -1,5 +1,5 @@
 import { Component, NgZone } from "@angular/core";
-import { IonicPage, ViewController, App } from "ionic-angular";
+import { IonicPage, NavController, ViewController, App } from "ionic-angular";
 import { Geolocation } from "@ionic-native/geolocation";
 import {
   Geocoder,
@@ -43,7 +43,8 @@ export class AccidentCreatePage {
     public app: App,
     public viewCtrl: ViewController,
     public geolocation: Geolocation,
-    public http: Http
+    public http: Http,
+    public navCtrl: NavController
   ) {
     this.geocoder = new google.maps.Geocoder;
     let elem = document.createElement("div")
@@ -148,6 +149,7 @@ export class AccidentCreatePage {
       });
 
     this.viewCtrl.dismiss();
-    this.app.getRootNav().push('AccidentDetailPage');
+    this.navCtrl.push('AccidentListPage');
+    //this.app.getRootNav().push('AccidentDetailPage');
   }
 }

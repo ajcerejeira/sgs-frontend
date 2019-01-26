@@ -34,7 +34,7 @@ export class AccidentInfoPage {
     console.log("ID É: " + this.navParams.data);
     console.log('ionViewDidLoad AccidentInfoPage');
 
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.navParams.data).map(res => res.json()).subscribe(res => {
       var dateObj = new Date(res.date);
 
       var month = new Array(12);
@@ -51,23 +51,21 @@ export class AccidentInfoPage {
       month[10] = "Novembro";
       month[11] = "Dezembro";
 
-      var monthValue = month[dateObj.getUTCMonth()]; 
+      var monthValue = month[dateObj.getUTCMonth()];
       var day = dateObj.getUTCDay();
       var year = dateObj.getUTCFullYear();
 
       this.date = day + " de " + monthValue + " de " + year;
-      this.hour = dateObj.getUTCHours().toString() + ":"+ dateObj.getUTCMinutes().toString();
+      this.hour = dateObj.getUTCHours().toString() + ":" + dateObj.getUTCMinutes().toString();
       this.address = res.location;
-      this.url = "https://maps.googleapis.com/maps/api/staticmap?center=" + res.location.toString() +"&zoom=19&size=400x400&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
+      this.url = "https://maps.googleapis.com/maps/api/staticmap?center=" + res.location.toString() + "&zoom=19&size=400x400&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
     }, error => {
       console.log(error);
     });
-
-
   }
 
   editAccident() {
-    let modal = this.modalCtrl.create('AccidentEditPage');
+    let modal = this.modalCtrl.create('AccidentEditPage', { id: this.navParams.data });
     modal.present();
   }
 
@@ -82,12 +80,18 @@ export class AccidentInfoPage {
         },
         {
           text: 'Eliminar',
+          handler: () => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).subscribe(res => {
+              this.navCtrl.push('AccidentListPage');
+            }, error => {
+              console.log(error);
+            });
+          }
         },
       ]
     });
     prompt.present();
   }
-
 
   showReport() {
     const alert = this.alertCtrl.create({
