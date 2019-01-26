@@ -5,8 +5,11 @@ import {
   NavController,
   NavParams,
   AlertController,
+  ModalController,
   Tabs,
 } from "ionic-angular";
+import { Http } from "@angular/http";
+
 
 /**
  * Generated class for the VehicleDetailPage page.
@@ -21,12 +24,14 @@ import {
   templateUrl: "vehicle-detail.html"
 })
 export class VehicleDetailPage {
+  vehicle: any;
   topLeft: boolean = false;
-  register: string = "23-XD-32";
-  make: string = "Seat";
-  model: string = "Ibiza";
-  insurance: string = "Fidelidade";
-  policy: string = "X22KXN2N4";
+  // register: string;
+  // brand: string;
+  // model: string;
+  // year: number;
+  // insurance: string;
+  // policy: string;
   driver: any = {
     name: "Afonso Silva",
     wounds: "Ferimentos leves",
@@ -66,11 +71,23 @@ export class VehicleDetailPage {
   vehiclePage: string = "info"; // Default segment to load
 
   constructor(
+    public modalCtrl: ModalController,
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    private camera: Camera
-  ) {}
+    private camera: Camera,
+    public http: Http,
+  ) {
+    this.vehicle = {
+      id: 8,
+      register: this.navParams.get('register'),
+      model:this.navParams.get('model'),
+      brand: this.navParams.get('brand'),
+      policy: this.navParams.get('policy'),
+      insurance: this.navParams.get('insurance'),
+      year: this.navParams.get('year'),
+  }
+}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VehicleDetailPage");
@@ -78,28 +95,40 @@ export class VehicleDetailPage {
 
   confirmDelete() {
     const prompt = this.alertCtrl.create({
-      title: "Eliminar veículo?",
-      message:
-        "Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.",
+      title: 'Eliminar Veículo?',
+      message: 'Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.',
       buttons: [
         {
-          text: "Cancelar",
-          role: "cancel"
+          text: 'Cancelar',
+          role: 'cancel',
         },
         {
-          text: "Eliminar"
-        }
+          text: 'Eliminar',
+          handler: () => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id).subscribe(res => {
+              this.navCtrl.push('VehicleListPage');
+            }, error => {
+              console.log(error);
+            });
+          }
+        },
       ]
     });
     prompt.present();
   }
 
   vehicleEdit() {
-    const prompt = this.alertCtrl.create({
-      title: "Modal para edição das informações gerais do veículo",
-      buttons: ["Ok"]
-    });
-    prompt.present();
+    // var vehicle = {
+    //   register: this.register,
+    //   model: this.model,
+    //   brand: this.brand,
+    //   policy: this.policy,
+    //   insurance: this.insurance,
+    //   year: this.year
+    // };
+    let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle });
+    modal.onDidDismiss(data => { });
+    modal.present();
   }
 
   openCamera() {

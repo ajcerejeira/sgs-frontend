@@ -1,13 +1,10 @@
-page-accident-create {
+page-vehicle-create {
   .container {
     display: flex;
     flex-flow: column;
     height: 100%;
   }
   #map_canvas {
-    margin-top: 0;
     flex: 1 1 auto;
-    //height: 90%;
   }
 }
-
