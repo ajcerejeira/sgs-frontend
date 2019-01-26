@@ -18,6 +18,7 @@ import { NULL_EXPR } from "@angular/compiler/src/output/output_ast";
 })
 export class VehicleCreatePage {
   private vehicle : FormGroup;
+  private idAccident: number;
   // private vehicles: any;
 
   constructor(
@@ -38,7 +39,8 @@ export class VehicleCreatePage {
       insurance: [''],
       expiresIn: [''],
     })
-    // this.vehicles = this.navParams.get('data');
+    this.idAccident = this.navParams.get('id');
+    console.log("ID_ACC: " + this.idAccident);
     ;}
 
   dismiss() {
@@ -47,7 +49,6 @@ export class VehicleCreatePage {
 
   createVehicle(){
     this.viewCtrl.dismiss();
-    var id_accident = 5;
     var new_vehicle = {
       register: this.vehicle.value['register'],
       type: null,
@@ -59,7 +60,7 @@ export class VehicleCreatePage {
       insurance: this.vehicle.value['insurance'],
       expiresIn: this.vehicle.value['expiresIn'],
       damages: [],
-      accident: 1
+      accident: this.idAccident
     };
     console.log(new_vehicle);
     // this.vehicles.push(new_vehicle);

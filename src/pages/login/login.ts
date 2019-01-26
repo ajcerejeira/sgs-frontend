@@ -32,18 +32,9 @@ export class LoginPage {
   }
 
   login() {
-
-    // this.navCtrl.setRoot('AccidentListPage');
-    // console.log('login');
-    // this.email= console.log('email');
-    // this.password= console.log('password');
-    console.log(this.email)
-
     this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
-
-
-      "email": this.email,
-      "password": this.password
+      "email": "a@a.com",//this.email,
+      "password": "a", //this.password
     })
 
       .subscribe(data => {
