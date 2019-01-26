@@ -24,6 +24,15 @@
         <ion-input [(ngModel)]="register" type="text" formControlName="register"> {{register.value}} </ion-input>
       </ion-item>
       <ion-item>
+        <ion-label>Categoria</ion-label>
+        <ion-select formControlName="type" okText="Selecionar" cancelText="Cancelar">
+          <ion-option value="motorcycle">Motociclo</ion-option>
+          <ion-option value="light">Ligeiro</ion-option>
+          <ion-option value="heavy">Pesado</ion-option>
+          {{type.value}}
+        </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-label>Marca</ion-label>
         <ion-input [(ngModel)]="brand" type="text" formControlName="brand"> {{brand.value}}</ion-input>
       </ion-item>
@@ -32,12 +41,24 @@
         <ion-input [(ngModel)]="model" type="text" formControlName="model"> {{model.value}}</ion-input>
       </ion-item>
       <ion-item>
+        <ion-label>Marca</ion-label>
+        <ion-input [(ngModel)]="year" type="text" formControlName="year"> {{year.value}}</ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Marca</ion-label>
+        <ion-input [(ngModel)]="color" type="text" formControlName="color"> {{color.value}}</ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label>Apólice</ion-label>
         <ion-input [(ngModel)]="policy" type="text" formControlName="policy"> {{policy.value}}</ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Seguradora</ion-label>
         <ion-input [(ngModel)]="insurance" type="text" formControlName="insurance"> {{insurance.value}}</ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Data de Validade do Seguro</ion-label>
+        <ion-input [(ngModel)]="expiresIn" type="text" formControlName="expiresIn"> {{expiresIn.value}}</ion-input>
       </ion-item>
       <button ion-button type="submit" [disabled]="!vehicleEdited.valid">Submit</button>
     </form>

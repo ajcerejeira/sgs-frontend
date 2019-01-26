@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { IonicPage, ViewController, App, NavParams } from "ionic-angular";
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Http } from "@angular/http"
 
 /**
  * Generated class for the VehicleCreatePage page.
@@ -16,23 +17,27 @@ import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 })
 export class VehicleCreatePage {
   private vehicle : FormGroup;
-  private vehicles: any;
+  // private vehicles: any;
 
   constructor(
     public app: App,
     public viewCtrl: ViewController,
     private formBuilder: FormBuilder,
-    public navParams: NavParams
+    public navParams: NavParams,
+    // public http: Http
   ) {
     this.vehicle = this.formBuilder.group({
       register: ['', Validators.required],
+      type: [''],
       brand: [''],
       model: [''],
       year: [''],
+      color: [''],
       policy: [''],
       insurance: [''],
+      expiresIn: [''],
     })
-    this.vehicles = this.navParams.get('data');
+    // this.vehicles = this.navParams.get('data');
     ;}
 
   dismiss() {
@@ -41,21 +46,28 @@ export class VehicleCreatePage {
 
   createVehicle(){
     this.viewCtrl.dismiss();
+    var id_accident = 5;
     var new_vehicle = {
-      category: "Veículo ligeiro",
-      color: "blue",
       register: this.vehicle.value['register'],
+      type: this.vehicle.value['type'],
       brand: this.vehicle.value['brand'],
-      model: this.vehicle.value['model'],
+      model: this.vehicle.value['model'], 
       year: this.vehicle.value['year'],
+      color: this.vehicle.value['color'],
       policy: this.vehicle.value['policy'],
       insurance: this.vehicle.value['insurance'],
-      nactors: 1,
-      photos: []
+      expiresIn: this.vehicle.value['expiresIn'],
+      damages: []
     };
-    this.vehicles.push(new_vehicle);
-    // this.vehicles = this.httpClient.post('');
-
-    // console.log(this.vehicles);
+    console.log(new_vehicle);
+    // this.vehicles.push(new_vehicle);
+    // this.http.post("https://sgs-backend.herokuapp.com/api/accidents/"+id_accident+"/vehicles", new_vehicle)
+    //   .subscribe(data => {
+    //     console.log(data['_body']);
+    //   }, error => {
+    //     console.log(error);
+    //   });
+      // this.viewCtrl.dismiss();
+    //   this.app.getRootNav().push('AccidentDetailPage');
   }
 }

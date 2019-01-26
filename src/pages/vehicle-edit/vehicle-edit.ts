@@ -19,33 +19,80 @@ export class VehicleEditPage {
   private vehicle : any;
   register: string;
   brand: string;
+  type: string;
   model: string;
   year: number;
+  color: string;
   insurance: string;
   policy: string;
+  expiresIn: string;
 
   constructor(
     public app: App,
     public viewCtrl: ViewController,
     private formBuilder: FormBuilder,
     public navParams: NavParams
-  ) {
+  ){
     this.vehicle = this.navParams.get('data');
-    
-    this.register = this.vehicle.register;
-    this.brand = this.vehicle.brand;
-    this.model = this.vehicle.model;
-    this.insurance = this.vehicle.insurance;
-    this.policy = this.vehicle.policy;
+
+    if(this.vehicle.register == null) {
+      this.register = "";
+    } else {
+      this.register = this.vehicle.register;
+    }
+    if(this.vehicle.type == null) {
+      this.type = "";
+    } else {
+      this.type = this.vehicle.type;
+    }
+    if(this.vehicle.brand == null) {
+      this.brand = "";
+    } else {
+      this.brand = this.vehicle.brand;
+    }
+    if(this.vehicle.model == null) {
+      this.model = "";
+    } else {
+      this.model = this.vehicle.model;
+    }
+    if(this.vehicle.year == null) {
+      this.year = 0;
+    } else {
+      this.year = this.vehicle.year;
+    }
+    if(this.vehicle.color == null) {
+      this.color = "";
+    } else {
+      this.color = this.vehicle.color;
+    }
+    if(this.vehicle.insurance == null) {
+      this.insurance = "";
+    } else {
+      this.insurance = this.vehicle.insurance;
+    }
+    if(this.vehicle.policy == null) {
+      this.policy = "";
+    } else {
+      this.policy = this.vehicle.policy;
+    }
+    if(this.vehicle.expiresIn == null) {
+      this.expiresIn = "";
+    } else {
+      this.expiresIn = this.vehicle.expiresIn;
+    }
+    console.log(this.expiresIn);
     this.vehicleEdited = this.formBuilder.group({
       register: ['', Validators.required],
+      type: [''],
       brand: [''],
       model: [''],
+      year: [''],
+      color: [''],
       policy: [''],
       insurance: [''],
+      expiresIn: [''],
     })
-    console.log(this.vehicle);
-    ;}
+  ;}
 
   dismiss() {
     this.viewCtrl.dismiss();
@@ -54,6 +101,14 @@ export class VehicleEditPage {
   editVehicle(){
     this.viewCtrl.dismiss();
     this.vehicle.register = this.vehicleEdited.value['register'];
+    this.vehicle.type = this.vehicleEdited.value['type'];
+    this.vehicle.brand = this.vehicleEdited.value['brand'];
+    this.vehicle.model = this.vehicleEdited.value['model'];
+    this.vehicle.year = this.vehicleEdited.value['year'];
+    this.vehicle.color = this.vehicleEdited.value['color'];
+    this.vehicle.policy = this.vehicleEdited.value['policy'];
+    this.vehicle.insurance = this.vehicleEdited.value['insurance'];
+    this.vehicle.expiresIn = this.vehicleEdited.value['expiresIn'];
     console.log(this.vehicle);
     // this.brand = "TReta";
     // this.currentVehicle = {

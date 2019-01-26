@@ -24,6 +24,14 @@
         <ion-input type="text" formControlName="register"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label>Categoria</ion-label>
+        <ion-select formControlName="type" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="motorcycle">Motociclo</ion-option>
+            <ion-option value="light">Ligeiro</ion-option>
+            <ion-option value="heavy">Pesado</ion-option>
+          </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-label>Marca</ion-label>
         <ion-input type="text" formControlName="brand"></ion-input>
       </ion-item>
@@ -36,12 +44,20 @@
         <ion-input type="text" formControlName="year"></ion-input>
       </ion-item>
       <ion-item>
+        <ion-label>Cor</ion-label>
+        <ion-input type="text" formControlName="color"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label>Apólice</ion-label>
         <ion-input type="text" formControlName="policy"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Seguradora</ion-label>
         <ion-input type="text" formControlName="insurance"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Data de Validade do Seguro</ion-label>
+        <ion-input type="text" formControlName="expiresIn"></ion-input>
       </ion-item>
       <button ion-button type="submit" [disabled]="!vehicle.valid">Submit</button>
     </form>
