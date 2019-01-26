@@ -6,6 +6,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
+import { Geolocation } from '@ionic-native/geolocation';
+import { GoogleMaps} from "@ionic-native/google-maps";
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -13,6 +16,7 @@ import { MyApp } from './app.component';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -23,6 +27,8 @@ import { MyApp } from './app.component';
     Camera,
     StatusBar,
     SplashScreen,
+    Geolocation,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

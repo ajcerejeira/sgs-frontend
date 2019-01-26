@@ -85,6 +85,12 @@
     <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
+    <plugin name="cordova-plugin-googlemaps" spec="2.5.0">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
+        <variable name="API_KEY_FOR_BROWSER_RELEASE" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
+        <variable name="API_KEY_FOR_BROWSER_DEBUG" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
+    </plugin>
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>
