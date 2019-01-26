@@ -18,8 +18,8 @@ export class AccidentDetailPage {
   vehicleListRoot = 'VehicleListPage';
   actorListRoot = 'ActorListPage';
   sketchRoot = 'SketchPage';
-  nvehicles = 4;
-  nactors = 2;
+  nvehicles: number;
+  nactors: number;
   id : number;
 
   constructor(
@@ -27,6 +27,8 @@ export class AccidentDetailPage {
     public navParams: NavParams
     ) {
       this.id = navParams.get('id');
+      this.nvehicles = navParams.get('vehicles').length;
+      //this.nactors = navParams.get('actors').length;
     }
 
 }
