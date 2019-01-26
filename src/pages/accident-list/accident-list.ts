@@ -29,8 +29,9 @@ export class AccidentListPage {
     this.accidents = []
   }
 
-  accidentDetail() {
-    this.navCtrl.push('AccidentDetailPage');
+  accidentDetail(idAccident) {
+    //console.log("ID:" +idAccident)
+    this.navCtrl.push('AccidentDetailPage',{id: idAccident});
     console.log('accident-detail');
   }
 

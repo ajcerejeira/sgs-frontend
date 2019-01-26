@@ -24,14 +24,12 @@
         col-lg-3
         *ngFor="let accident of accidents"
       >
-        <ion-card (click)="accidentDetail()">
-          <img
-            src="assets/imgs/map-example.png"
-          />
+        <ion-card (click)="accidentDetail(accident.id)">
+          <img src="assets/imgs/map-example.png"/>
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
             <h2>{{ accident.location }}</h2>
-            <p>{{ accident.location }}</p>
+            <p>{{ accident.id }}</p>
           </ion-item>
           <ion-item>
             <ion-icon name="calendar" item-start></ion-icon>
