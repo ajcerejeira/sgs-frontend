@@ -24,7 +24,7 @@
           Data e hora
         </ion-list-header>
         <ion-item>
-          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
+          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="accidentDate"></ion-datetime>
         </ion-item>
         <ion-list-header color="light" no-margin>
           <ion-icon name="pin"></ion-icon>
@@ -42,7 +42,7 @@
       </div>
   
       <div>
-        <button ion-button color="primary" type="submit" full (click)="createAccident()">
+        <button ion-button color="primary" type="submit" full (click)="updateAccident()">
           Salvar alterações
         </button>
       </div>

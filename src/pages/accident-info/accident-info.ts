@@ -36,7 +36,6 @@ export class AccidentInfoPage {
 
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.navParams.data).map(res => res.json()).subscribe(res => {
       var dateObj = new Date(res.date);
-
       var month = new Array(12);
       month[0] = "Janeiro";
       month[1] = "Fevereiro";
@@ -52,13 +51,13 @@ export class AccidentInfoPage {
       month[11] = "Dezembro";
 
       var monthValue = month[dateObj.getUTCMonth()];
-      var day = dateObj.getUTCDay();
+      var day = dateObj.getDate();
       var year = dateObj.getUTCFullYear();
 
       this.date = day + " de " + monthValue + " de " + year;
       this.hour = dateObj.getUTCHours().toString() + ":" + dateObj.getUTCMinutes().toString();
-      this.address = res.location;
-      this.url = "https://maps.googleapis.com/maps/api/staticmap?center=" + res.location.toString() + "&zoom=19&size=400x400&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
+      this.address = res.address;
+      this.url = "https://maps.googleapis.com/maps/api/staticmap?center=" + res.location.toString() + "&zoom=19&size=1920x1080&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
     }, error => {
       console.log(error);
     });
