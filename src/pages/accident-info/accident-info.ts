@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { Http } from "@angular/http";
 
 /**
  * Generated class for the AccidentInfoPage page.
@@ -14,14 +15,57 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
   templateUrl: 'accident-info.html',
 })
 export class AccidentInfoPage {
-  date: string = "07 de Fevereiro de 2018";
-  hour: string = "15:30";
-  address: string = "Rua Poeta João de Deus, 134 Trofa";
+  date: string;
+  hour: string;
+  address: string;
+  url: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {}
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController,
+    public http: Http
+  ) {
+
+  }
 
   ionViewDidLoad() {
+    console.log("ID É: " + this.navParams.data);
     console.log('ionViewDidLoad AccidentInfoPage');
+
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.navParams.data).map(res => res.json()).subscribe(res => {
+      var dateObj = new Date(res.date);
+      var month = new Array(12);
+      month[0] = "Janeiro";
+      month[1] = "Fevereiro";
+      month[2] = "Março";
+      month[3] = "Abril";
+      month[4] = "Maio";
+      month[5] = "Junho";
+      month[6] = "Julho";
+      month[7] = "Agosto";
+      month[8] = "Setembro";
+      month[9] = "Outubro";
+      month[10] = "Novembro";
+      month[11] = "Dezembro";
+
+      var monthValue = month[dateObj.getUTCMonth()];
+      var day = dateObj.getDate();
+      var year = dateObj.getUTCFullYear();
+
+      this.date = day + " de " + monthValue + " de " + year;
+      this.hour = dateObj.getUTCHours().toString() + ":" + dateObj.getUTCMinutes().toString();
+      this.address = res.address;
+      this.url = "https://maps.googleapis.com/maps/api/staticmap?center=" + res.location.toString() + "&zoom=19&size=1920x1080&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  editAccident() {
+    let modal = this.modalCtrl.create('AccidentEditPage', { id: this.navParams.data });
+    modal.present();
   }
 
   confirmDelete() {
@@ -35,6 +79,13 @@ export class AccidentInfoPage {
         },
         {
           text: 'Eliminar',
+          handler: () => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).subscribe(res => {
+              this.navCtrl.push('AccidentListPage');
+            }, error => {
+              console.log(error);
+            });
+          }
         },
       ]
     });
