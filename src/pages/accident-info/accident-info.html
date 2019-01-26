@@ -9,7 +9,9 @@
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
     <ion-title>Informações</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only><ion-icon name="create"></ion-icon></button>
+      <button ion-button icon-only (click)="editAccident()">
+        <ion-icon name="create"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="confirmDelete()">
         <ion-icon name="trash"></ion-icon>
       </button>
@@ -18,24 +20,27 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header color="light">
-      <ion-icon name="calendar"></ion-icon>
-      Data e hora
-    </ion-list-header>
-    <ion-item>
-      Data <ion-note item-end>{{ date }}</ion-note>
-    </ion-item>
-    <ion-item>
-      Hora <ion-note item-end>{{ hour }}</ion-note>
-    </ion-item>
-    <ion-list-header color="light">
-      <ion-icon name="pin"></ion-icon>
-      Localização
-    </ion-list-header>
-    <ion-item> {{ address }} </ion-item>
-    <img src="assets/imgs/map-example.png" />
-  </ion-list>
+  <div class="container">
+    <ion-list no-margin no-padding>
+      <ion-list-header color="light" no-margin>
+        <ion-icon name="calendar"></ion-icon>
+        Data e hora
+      </ion-list-header>
+      <ion-item>
+        Data <ion-note item-end>{{ date }}</ion-note>
+      </ion-item>
+      <ion-item>
+        Hora <ion-note item-end>{{ hour }}</ion-note>
+      </ion-item>
+      <ion-list-header color="light" no-margin>
+        <ion-icon name="pin"></ion-icon>
+        Localização: {{ address }}
+      </ion-list-header>
+      <!-- <ion-item> {{ address }} </ion-item> -->
+      <img class="map_canvas" src="{{url}}" />
+    </ion-list>
+  </div>
+
   <ion-fab right bottom>
     <button ion-fab color="primary" (click)="showReport()">
       <ion-icon name="paper"></ion-icon>

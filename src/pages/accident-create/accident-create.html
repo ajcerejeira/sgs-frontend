@@ -16,22 +16,32 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding scroll="false">
+<ion-content scroll="false">
   <div class="container">
-    <ion-item no-padding>
-      <ion-label floating>Data de ocorrência</ion-label>
-      <ion-datetime
-        displayFormat="DD/MMM/YYYY HH:mm"
-        pickerFormat="DD/MMM/YYYY HH:mm"
-      ></ion-datetime>
-    </ion-item>
-    <ion-item no-padding>
-      <ion-label floating>Localização</ion-label>
-      <ion-input type="text" [(ngModel)]="address" name="location"></ion-input>
-    </ion-item>
-    <div id="map_canvas">
+    <ion-list no-margin>
+      <ion-list-header color="light" no-margin>
+        <ion-icon name="calendar"></ion-icon>
+        Data e hora
+      </ion-list-header>
+      <ion-item>
+        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="myDate"></ion-datetime>
+      </ion-item>
+      <ion-list-header color="light" no-margin>
+        <ion-icon name="pin"></ion-icon>
+        Localização
+      </ion-list-header>
+    </ion-list>
+
+    <div id='map_canvas'>
+      <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Procura manual local do acidente"></ion-searchbar>
+      <ion-list [hidden]="autocompleteItems.length == 0">
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+          {{ item.description }}
+        </ion-item>
+      </ion-list>
     </div>
-    <div padding-top>
+
+    <div>
       <button ion-button color="primary" type="submit" full (click)="createAccident()">
         Registar sinistro
       </button>

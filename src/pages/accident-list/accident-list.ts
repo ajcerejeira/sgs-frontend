@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { Component, } from '@angular/core';
+import { IonicPage, App, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
+import { Http } from "@angular/http";
+import 'rxjs/add/operator/map';
 
 /**
  * Generated class for the AccidentListPage page.
@@ -16,46 +18,20 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 export class AccidentListPage {
   accidents: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
-    this.accidents = [
-      {
-        location: { street: "Rua Nova de Santa Cruz", region: "S.Victor, Braga" },
-        date: "23 de Fevereiro de 2018",
-        vehicles: 3,
-        actors: 2,
-        geoloc: [41.5518, -8.4229],
-        url:"https://maps.googleapis.com/maps/api/staticmap?center=41.5518,-8.4229&zoom=19&size=400x200&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
-      },
-      {
-        location: { street: "Rua Poeta João de Deus", region: "Trofa, Porto" },
-        date: "20 de Fevereiro de 2018",
-        vehicleS: 10,
-        geoloc: [41.5518, -8.4229],
-        url:"https://maps.googleapis.com/maps/api/staticmap?center=41.5518,-8.4229&zoom=19&size=400x200&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs",
-        actors: 22,
-      },
-      {
-        location: { street: "Rua da Ponte", region: "V. N. Famalicão, Braga" },
-        date: "18 de Fevereiro de 2018",
-        geoloc: [41.5518, -8.4229],
-        url:"https://maps.googleapis.com/maps/api/staticmap?center=41.5518,-8.4229&zoom=19&size=400x200&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
-      },
-      {
-        location: { street: "Rua das Flores", region: "Porto, Porto" },
-        date: "16 de Fevereiro de 2018",
-        geoloc: [41.5518, -8.4229],
-        url:"https://maps.googleapis.com/maps/api/staticmap?center=41.5518,-8.4229&zoom=19&size=400x200&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
-      },
-      {
-        location: { street: "Rua D. Pedro V", region: "Trofa, Porto" },
-        date: "10 de Fevereiro de 2018",
-      },
-    ]
-
+  constructor(
+    public app: App,
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public modalCtrl: ModalController,
+    public viewCtrl: ViewController,
+    public http: Http
+    ) {
+    this.accidents = []
   }
 
-  accidentDetail() {
-    this.navCtrl.push('AccidentDetailPage');
+  accidentDetail(idAccident) {
+    //console.log("ID:" +idAccident)
+    this.navCtrl.push('AccidentDetailPage',{id: idAccident});
     console.log('accident-detail');
   }
 
@@ -65,7 +41,15 @@ export class AccidentListPage {
   }
 
   ionViewDidLoad() {
+    this.accidentList();
     console.log('ionViewDidLoad AccidentListPage');
   }
 
+  accidentList() {
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents").map(res => res.json()).subscribe(res => {
+        this.accidents=res;
+      }, error => {
+        console.log(error);
+      });
+  }
 }
