@@ -21,7 +21,7 @@ export class AccidentDetailPage {
   sketchRoot = 'SketchPage';
   nvehicles = 4;
   nactors = 2;
-
+  location: [41.5518, -8.4229];
 
   constructor(public navCtrl: NavController) {}
 
