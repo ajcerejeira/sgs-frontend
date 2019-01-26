@@ -8,7 +8,7 @@ import {
   ModalController,
   Tabs,
 } from "ionic-angular";
-import { Http } from "@angular/http"
+import { Http } from "@angular/http";
 
 
 /**

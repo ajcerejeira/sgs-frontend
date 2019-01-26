@@ -59,7 +59,7 @@ export class VehicleCreatePage {
       insurance: this.vehicle.value['insurance'],
       expiresIn: this.vehicle.value['expiresIn'],
       damages: [],
-      accident: 10
+      accident: 1
     };
     console.log(new_vehicle);
     // this.vehicles.push(new_vehicle);

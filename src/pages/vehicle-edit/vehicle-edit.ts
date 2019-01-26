@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { IonicPage, ViewController, App, NavParams } from "ionic-angular";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Http } from "@angular/http";
 
 /**
  * Generated class for the VehicleCreatePage page.
@@ -31,7 +32,8 @@ export class VehicleEditPage {
     public app: App,
     public viewCtrl: ViewController,
     private formBuilder: FormBuilder,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public http: Http,
   ){
     this.vehicle = this.navParams.get('data');
 
@@ -100,26 +102,27 @@ export class VehicleEditPage {
 
   editVehicle(){
     this.viewCtrl.dismiss();
+    this.vehicle.id = 2;
+    this.vehicle.accident = 1; 
     this.vehicle.register = this.vehicleEdited.value['register'];
     this.vehicle.type = null;
     this.vehicle.brand = this.vehicleEdited.value['brand'];
     this.vehicle.model = this.vehicleEdited.value['model'];
-    this.vehicle.year = this.vehicleEdited.value['year'];
-    this.vehicle.color = this.vehicleEdited.value['color'];
+    this.vehicle.year = this.vehicleEdited.value['year'].to_int;
+    this.vehicle.color = "#ffffff";
     this.vehicle.policy = this.vehicleEdited.value['policy'];
     this.vehicle.insurance = this.vehicleEdited.value['insurance'];
-    this.vehicle.expiresIn = this.vehicleEdited.value['expiresIn'];
+    this.vehicle.damages = [];
+    this.vehicle.expiresIn = "2012-04-23T18:25:43.511Z";
     console.log(this.vehicle);
-    
 
-    // this.http.post("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id, this.vehicle)
-    //   .subscribe(data => {
-    //     console.log(data['_body']);
-    //   }, error => {
-    //     console.log(error);
-    //   });
-      // this.viewCtrl.dismiss();
-    //   this.app.getRootNav().push('AccidentDetailPage');
+
+    this.http.put("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id, this.vehicle)
+      .subscribe(data => {
+        console.log(data['_body']);
+      }, error => {
+        console.log(error);
+      });
   }
 
     // this.brand = "TReta";
