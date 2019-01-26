@@ -23,9 +23,10 @@ export class ActorDetailPage {
   @ViewChild(SignaturePad) public signaturePad : SignaturePad;
 
   public signaturePadOptions : Object = {
-    'minWidth': 2,
-    'canvasWidth': 340,
-    'canvasHeight': 200
+    'minWidth': 1,
+    'maxWidth': 3,
+    'canvasWidth': 680,
+    'canvasHeight': 400
   };
   public signatureImage : string;
   public drawn = false;
