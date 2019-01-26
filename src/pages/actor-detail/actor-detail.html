@@ -23,7 +23,7 @@
         <ion-icon name="mic" class="segment-icon"></ion-icon>
         <span class="segment-text">Testemunhos</span>
       </ion-segment-button>
-      <ion-segment-button value="signatura">
+      <ion-segment-button value="signature">
         <ion-icon name="create" class="segment-icon"></ion-icon>
         <span class="segment-text">Assinatura</span>
       </ion-segment-button>
@@ -47,4 +47,12 @@
   <ion-fab right bottom *ngSwitchCase="'testimonials'">
     <button ion-fab color="primary"><ion-icon name="mic"></ion-icon></button>
   </ion-fab>
+  <ion-list *ngSwitchCase="'signature'">
+    <div *ngIf="drawn == 1" ><img [src]="signatureImage" *ngIf="signatureImage" /></div>
+    <div *ngIf="drawn == 0"><signature-pad [options]="signaturePadOptions"  id="signatureCanvas"></signature-pad></div>
+  </ion-list>
+  <ion-fab right bottom *ngSwitchCase="'signature'">
+    <button ion-fab color="primary" (click)="openSignatureModel()"><ion-icon name="create"></ion-icon></button>
+  </ion-fab>
+  
 </ion-content>

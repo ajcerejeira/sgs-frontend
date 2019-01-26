@@ -35,7 +35,7 @@
     </ion-item>
     <ion-list-header color="light">
       <ion-icon name="medkit"></ion-icon>
-      Vítimas
+      Outros
     </ion-list-header>
     <ion-item *ngFor="let victim of victims">
       <h2>{{ victim.name }}</h2>
@@ -43,6 +43,6 @@
     </ion-item>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="primary" (click)="addActor()" ><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 </ion-content>
