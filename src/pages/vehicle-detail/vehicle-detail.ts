@@ -132,7 +132,7 @@ export class VehicleDetailPage {
       accident:1,
     }
 
-    this.http.put(this.url+1, data)
+    this.http.put(this.url+this.vehicle.id, data)
       .subscribe(data => {
         console.log(data['_body']);
       }, error => {
