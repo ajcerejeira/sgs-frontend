@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { Http } from "@angular/http";
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 /**
  * Generated class for the AccidentInfoPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-accident-info',
@@ -25,10 +24,11 @@ export class AccidentInfoPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
-    public http: Http
+    public http: Http,
+    public iab: InAppBrowser
   ) {
-
   }
+
 
   ionViewDidLoad() {
     console.log("ID É: " + this.navParams.data);
@@ -80,7 +80,7 @@ export class AccidentInfoPage {
         {
           text: 'Eliminar',
           handler: () => {
-            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).subscribe(res => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/" + this.navParams.data).subscribe(res => {
               this.navCtrl.push('AccidentListPage');
             }, error => {
               console.log(error);
@@ -93,11 +93,10 @@ export class AccidentInfoPage {
   }
 
   showReport() {
-    const alert = this.alertCtrl.create({
-      title: 'Auto do sinistro',
-      subTitle: 'Este popup desaparecerá e será mostrado o PDF do auto',
-      buttons: ['OK']
-    });
-    alert.present();
+    let url = "https://sgs-backend.herokuapp.com/api/accidents/" + this.navParams.data + "/report";
+    //console.log("URL: " + url)
+    let target = "_system";
+    this.iab.create(url,target);
   }
+
 }
