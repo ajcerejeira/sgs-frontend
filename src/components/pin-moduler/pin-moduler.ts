@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the PinModulerComponent component.
@@ -19,25 +20,33 @@ export class PinModulerComponent {
   
   public rotation;
   public typeObject:string;  
+  public typePin:string;
 
+  // text: string;
 
-  text: string;
+  // constructor() {
+  //   console.log('Hello PinModulerComponent Component');
+  //   this.text = 'Hello World';
+  // }
 
-  constructor() {
-    console.log('Hello PinModulerComponent Component');
-    this.text = 'Hello World';
-  }
-
-
+     constructor(public navParams:NavParams) {
+       console.log(this.navParams.data);
+       console.log(this.navParams.data.pinType);
+       this.typePin = this.navParams.data.pinType;
+       console.log(this.typePin);
+   }
+    
 
   ngOnInit() {
     this.rotation=0;
-    this.typeObject='assets/imgs/croquiItens/redCar/redcar'+this.rotation+'.png'
+    this.typeObject='assets/imgs/croquiItens/' + this.typePin +'/'+ this.typePin +this.rotation+'.png'
   }
 
 
+
+
   public change(){
-    this.typeObject='assets/imgs/croquiItens/redCar/redcar'+this.rotation+'.png'
+    this.typeObject='assets/imgs/croquiItens/'+ this.typePin +'/'+ this.typePin +this.rotation+'.png'
     // alert(this.rotation);
   }
 

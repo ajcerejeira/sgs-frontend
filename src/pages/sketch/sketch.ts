@@ -18,15 +18,23 @@ import {PinModulerComponent} from '../../components/pin-moduler/pin-moduler'
 })
 export class SketchPage {
 
+  public chosenPin:string;  
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController) {
   }
 
 
   public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PinModulerComponent);
+    let popover = this.popoverCtrl.create(PinModulerComponent,{pinType:this.chosenPin});
     popover.present({
       ev: myEvent
     });
+  }
+
+
+  public choosePin(pinType, myEvent){
+    this.chosenPin=pinType;
+    this.presentPopover(myEvent);
   }
 
 
