@@ -57,6 +57,9 @@ export class MyApp {
   }
 
   logout(){
+    // localStorage.removeItem("id_token");
+    // localStorage.removeItem("expires_at");
+    localStorage.setItem('id_token', "");
     this.nav.setRoot('LoginPage');
   }
 
