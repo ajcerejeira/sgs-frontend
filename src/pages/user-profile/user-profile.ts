@@ -17,8 +17,8 @@ import { Http, Headers } from '@angular/http';
 })
 export class UserProfilePage {
 
-  name: string="oola";
-  email:string="a tua tia";
+  name: string="";
+  email:string="";
 
 
   ngOnInit(){

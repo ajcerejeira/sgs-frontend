@@ -67,9 +67,6 @@ export class LoginPage {
   }
 
     setSession(authResult) {
-        localStorage.setItem('bla', 'o popoeeye')
-        console.log(localStorage.getItem('bla'))
-        // const expiresAt = moment();
         console.log(authResult)
         localStorage.setItem('id_token', JSON.stringify(authResult));
         console.log(localStorage.getItem('id_token'));

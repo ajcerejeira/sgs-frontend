@@ -40,6 +40,7 @@ export class PinModulerComponent {
   ngOnInit() {
     this.rotation=0;
     this.typeObject='assets/imgs/croquiItens/' + this.typePin +'/'+ this.typePin +this.rotation+'.png'
+    console.log( this.typeObject);
   }
 
 
@@ -47,6 +48,7 @@ export class PinModulerComponent {
 
   public change(){
     this.typeObject='assets/imgs/croquiItens/'+ this.typePin +'/'+ this.typePin +this.rotation+'.png'
+    console.log( this.typeObject);
     // alert(this.rotation);
   }
 
