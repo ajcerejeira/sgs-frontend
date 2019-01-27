@@ -102,6 +102,10 @@ export class LoginPage {
     forgot.present();
   }
 
+  register() {
+    this.navCtrl.setRoot('UserRegisterPage');
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
