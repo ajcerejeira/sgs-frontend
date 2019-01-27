@@ -7,11 +7,14 @@
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title>Sinistros</ion-title>
+    <ion-title *ngIf= "!isSearchBarOpen">
+      Sinistros
+      </ion-title>
+      <ion-searchbar showCancelButton cancelButtonText="true" *ngIf= "isSearchBarOpen" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
     <ion-buttons end>
-      <ion-searchbar animated></ion-searchbar>
       <!--<ion-searchbar showCancelButton cancelButtonText="Custom Cancel"></ion-searchbar>-->
-      <!--<button ion-button icon-only><ion-icon name="search"></ion-icon></button>-->
+      <button ion-button icon-only *ngIf= "!isSearchBarOpen" (click)="isSearchBarOpen=true">
+        <ion-icon name="search"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
