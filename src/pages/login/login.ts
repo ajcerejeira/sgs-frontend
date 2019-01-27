@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController, ToastController } from 'ionic-angular';
+import { Component , Injectable} from '@angular/core';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, ToastController} from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Http } from '@angular/http';
+// import * as moment from 'moment';
 
 /**
  * Generated class for the LoginPage page.
@@ -15,10 +16,12 @@ import { Http } from '@angular/http';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
+@Injectable()
 export class LoginPage {
   badLog: boolean = false;
   email: any;
   password: any;
+  session:any;
   to: '';
   constructor(
     public navCtrl: NavController,
@@ -32,13 +35,14 @@ export class LoginPage {
   }
 
   login() {
-    this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
-      "email": "a@a.com",//this.email,
-      "password": "a", //this.password
+    return this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
+      "email": this.email,
+      "password": this.password
     })
-
       .subscribe(data => {
-        console.log(data['_body']);
+        const token = data['_body'];
+        localStorage.setItem('token', token);
+      
         this.navCtrl.setRoot('AccidentListPage');
       }, error => {
         console.log(error);
@@ -61,6 +65,15 @@ export class LoginPage {
     // // console.log(JSON.parse(JSON.stringify('login')));
 
   }
+
+    setSession(authResult) {
+        console.log(authResult)
+        localStorage.setItem('id_token', JSON.stringify(authResult));
+        console.log(localStorage.getItem('id_token'));
+        // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+    }        
+
+
 
   forgotPass() {
     let forgot = this.forgotCtrl.create({
@@ -105,4 +118,39 @@ export class LoginPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
+
+
+
+
+// @Injectable()
+// export class AuthService {
+
+//     constructor(private http: Http) {
+
+//     }
+
+//     login(email:string, password:string ) {
+//         return this.http.post<User>('/api/login', {email, password})
+//             .do(res => this.setSession) 
+//             .shareReplay();
+//     }
+          
+//     private setSession(authResult) {
+//         const expiresAt = moment();
+
+//         localStorage.setItem('id_token', authResult.idToken);
+//         localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+//     }          
+
+
+
+
+
+// }
+
+
+
+
+
+
 }

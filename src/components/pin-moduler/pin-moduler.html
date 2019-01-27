@@ -1,0 +1,27 @@
+<!-- Generated template for the PinModulerComponent component -->
+<!--<div>
+  {{text}}
+</div>-->
+
+
+<ion-content>
+
+  <ion-item >
+    <ion-range min="-180" max="180" [(ngModel)]="rotation" (ionBlur)=change()>
+      <!--<ion-label range-left>-180</ion-label>
+      <ion-label range-right>180</ion-label>-->
+    </ion-range>
+  </ion-item>
+
+<!--min="-180" max="180"-->
+
+<div class="divpad">
+  <ion-img  align="bottom" padding="center" class="croquiItem" [src]="typeObject" ></ion-img>
+</div>
+
+
+
+
+
+
+</ion-content>

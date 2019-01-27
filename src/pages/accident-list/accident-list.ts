@@ -17,6 +17,8 @@ import 'rxjs/add/operator/map';
 })
 export class AccidentListPage {
   accidents: any;
+  isSearchBarOpen:false;
+
 
   constructor(
     public app: App,

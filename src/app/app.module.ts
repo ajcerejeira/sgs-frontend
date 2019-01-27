@@ -9,11 +9,13 @@ import { EmailComposer } from '@ionic-native/email-composer';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps} from "@ionic-native/google-maps";
+import {PinModulerComponent} from '../components/pin-moduler/pin-moduler';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @NgModule({
   declarations: [
     MyApp,
+    PinModulerComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +25,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    PinModulerComponent
   ],
   providers: [
     Camera,

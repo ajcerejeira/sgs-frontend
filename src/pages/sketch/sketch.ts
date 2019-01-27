@@ -1,6 +1,10 @@
 import { Component, NgZone } from "@angular/core";
 import { IonicPage, NavController, ViewController, NavParams, AlertController, App } from "ionic-angular";
 import { Geolocation } from "@ionic-native/geolocation";
+import { PopoverController } from 'ionic-angular';
+import {PinModulerComponent} from '../../components/pin-moduler/pin-moduler'
+import { Http } from "@angular/http";
+
 import {
   GoogleMaps,
   GoogleMap,
@@ -15,13 +19,6 @@ import {
   BaseArrayClass,
   LatLng
 } from "@ionic-native/google-maps";
-import { Http } from "@angular/http";
-/**
- * Generated class for the SketchPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -32,7 +29,8 @@ export class SketchPage {
   map: GoogleMap;
   position: Position;
   id: string;
-
+  public chosenPin:string;
+  
   constructor(
     public navCtrl: NavController,
     public zone: NgZone,
@@ -42,17 +40,28 @@ export class SketchPage {
     public http: Http,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-  ) {
+    public popoverCtrl: PopoverController
+  )
+  {
     this.id = this.navParams.data;
+  }
+  
+  public presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PinModulerComponent,{pinType:this.chosenPin});
+    popover.present({
+      ev: myEvent
+    });
+  }
 
+  public choosePin(pinType, myEvent){
+    this.chosenPin=pinType;
+    this.presentPopover(myEvent);
   }
 
   latitude: any;
   longitude: any;
 
-  polygonPoints: ILatLng[] = [
-
-  ];
+  polygonPoints: ILatLng[] = [];
 
   ionViewDidLoad() {
     console.log("SKETCH ID É: " + this.id);

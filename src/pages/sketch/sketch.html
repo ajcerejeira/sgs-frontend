@@ -22,8 +22,8 @@
     <ion-fab right top>
       <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
       <ion-fab-list side="bottom">
-        <button ion-fab><ion-icon name="car"></ion-icon></button>
-        <button ion-fab><ion-icon name="person"></ion-icon></button>
+        <button ion-fab (click)="choosePin('redcar',$event)"><ion-icon name="car"></ion-icon></button>
+        <button ion-fab (click)="choosePin('body',$event)"><ion-icon name="person"></ion-icon></button>
         <button ion-fab><ion-icon name="eye"></ion-icon></button>
         <button ion-fab><ion-icon name="warning"></ion-icon></button>
         <button ion-fab><ion-icon name="pin" (click)="loadPolygons()"></ion-icon></button>
