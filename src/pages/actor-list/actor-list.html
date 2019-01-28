@@ -13,36 +13,53 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header color="light">
-      <ion-icon name="car"></ion-icon>
-      Condutores
-    </ion-list-header>
-    <button ion-item *ngFor="let driver of drivers" (click)="actorDetail()">
-      <h2>{{ driver.name }}</h2>
-      <p>
-        {{ driver.register }} {{ driver.car }} 
-      </p>
-      <ion-note item-end>{{ driver.wounds }}</ion-note>
-    </button>
+      <ion-list-header color="light">
+          <ion-icon name="car"></ion-icon>
+          Condutores
+        </ion-list-header>
+        <button ion-item *ngFor="let driver of drivers" (click)="actorDetail(driver)">
+          <h2>{{ driver.name }}</h2>
+          <p>{{ driver.register }} {{ driver.make }} {{ driver.model }}</p>
 
-    <ion-list-header color="light">
-      <ion-icon name="people"></ion-icon>
-      Passageiros
-    </ion-list-header>
-    <ion-item *ngFor="let passenger of passengers">
-      <h2>{{ passenger.name }}</h2>
-      <p>{{ passenger.register }} {{ passenger.car }}</p>
-      <ion-note item-end>{{ passenger.wounds }}</ion-note>
-    </ion-item>
-    <ion-list-header color="light">
-      <ion-icon name="medkit"></ion-icon>
-      Outros
-    </ion-list-header>
-    <ion-item *ngFor="let victim of victims">
-      <h2>{{ victim.name }}</h2>
-      <ion-note item-end>{{ victim.wounds }}</ion-note>
-    </ion-item>
-  </ion-list>
+          <ion-note item-end>{{ driver.wounds }}</ion-note>
+        </button>
+    
+        <ion-list-header *ngIf="passengers?.length > 0" color="light">
+          <ion-icon name="people"></ion-icon>
+          Passageiros
+        </ion-list-header>
+        <button ion-item *ngFor="let passenger of passengers"(click)="actorDetail(passenger)">
+            <h2>{{ passenger.name }}</h2>
+            <p>{{ passenger.register }} {{ passenger.make }} {{ passenger.model }}</p>
+          <ion-note item-end>{{ passenger.wounds }}</ion-note>
+        </button>
+    
+        <ion-list-header *ngIf="pedestrians?.length > 0" color="light">
+          <ion-icon name="walk"></ion-icon>
+        Peões
+        </ion-list-header>
+        <button ion-item *ngFor="let pedestrian of pedestrians"(click)="actorDetail(pedestrian)">
+          <h2>{{ pedestrian.name }}</h2>
+          <ion-note item-end>{{ pedestrian.wounds }}</ion-note>
+        </button>
+    
+        <ion-list-header *ngIf="witnesses?.length > 0" color="light">
+          <ion-icon name="eye"></ion-icon>
+        Testemunhas
+        </ion-list-header>
+        <button ion-item *ngFor="let witness of witnesses"(click)="actorDetail(witness)">
+          <h2>{{ witness.name }}</h2>
+        </button>
+    
+        <ion-list-header *ngIf="others?.length > 0" color="light">
+          <ion-icon name="medkit"></ion-icon>
+          Outros
+        </ion-list-header>
+        <button ion-item *ngFor="let other of others"(click)="actorDetail(other)">
+          <h2>{{ other.name }}</h2>
+          <ion-note item-end>{{ other.wounds }}</ion-note>
+        </button>
+      </ion-list>
   <ion-fab right bottom>
     <button ion-fab color="primary" (click)="addActor()" ><ion-icon name="add"></ion-icon></button>
   </ion-fab>
