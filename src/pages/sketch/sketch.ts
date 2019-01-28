@@ -1,8 +1,7 @@
-import { Component, NgZone } from "@angular/core";
-import { IonicPage, NavController, ViewController, NavParams, AlertController, App } from "ionic-angular";
+import { Component, NgZone, ViewChild } from "@angular/core";
+import { IonicPage, NavController, ViewController, NavParams, AlertController, App, Select, PopoverController } from "ionic-angular";
 import { Geolocation } from "@ionic-native/geolocation";
-import { PopoverController } from 'ionic-angular';
-import {PinModulerComponent} from '../../components/pin-moduler/pin-moduler'
+import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler'
 import { Http } from "@angular/http";
 
 import {
@@ -29,8 +28,11 @@ export class SketchPage {
   map: GoogleMap;
   position: Position;
   id: string;
-  public chosenPin:string;
-  
+  chosenPin: string;
+  color: string;
+  vehicles: any;
+  @ViewChild('mySelect') selectRef: Select;
+
   constructor(
     public navCtrl: NavController,
     public zone: NgZone,
@@ -41,21 +43,8 @@ export class SketchPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController
-  )
-  {
+  ) {
     this.id = this.navParams.data;
-  }
-  
-  public presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PinModulerComponent,{pinType:this.chosenPin});
-    popover.present({
-      ev: myEvent
-    });
-  }
-
-  public choosePin(pinType, myEvent){
-    this.chosenPin=pinType;
-    this.presentPopover(myEvent);
   }
 
   latitude: any;
@@ -64,8 +53,17 @@ export class SketchPage {
   polygonPoints: ILatLng[] = [];
 
   ionViewDidLoad() {
-    console.log("SKETCH ID É: " + this.id);
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
+      this.vehicles = res.vehicles;
+      console.log(this.vehicles);
+    }, error => {
+      console.log(error);
+    });
     this.loadMap();
+  }
+
+  popupVehicles() {
+    this.selectRef.open();
   }
 
   confirmDelete() {
@@ -88,10 +86,21 @@ export class SketchPage {
     prompt.present();
   }
 
-  loadMap() {
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
+  onOk(licensePlate) {
+    this.vehicles.forEach(v => {
+      if (v.register === licensePlate) {
+        let vehicle=v;
+        console.log("COLOR: " + vehicle.color)
+        this.choosePin('carroCroqui', vehicle.color, '$event');
+      }
+    });
+  }
+
+  async loadMap() {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
       // Get position and address
       this.position = res.location;
+      this.vehicles = res.vehicles;
 
       let mapOptions: GoogleMapOptions = {
         camera: {
@@ -161,15 +170,15 @@ export class SketchPage {
   loadPolygons() {
     this.map.clear();
     this.polygonPoints = []
-    this.polygonPoints.push({lat: this.latitude+0.0005000, lng: this.longitude+0.0005000});
-    this.polygonPoints.push({lat: this.latitude+0.0005000, lng: this.longitude-0.0005000});
-    this.polygonPoints.push({lat: this.latitude-0.0005000, lng: this.longitude-0.0005000});
-    this.polygonPoints.push({lat: this.latitude-0.0005000, lng: this.longitude+0.0005000});
-    
+    this.polygonPoints.push({ lat: this.latitude + 0.0005000, lng: this.longitude + 0.0005000 });
+    this.polygonPoints.push({ lat: this.latitude + 0.0005000, lng: this.longitude - 0.0005000 });
+    this.polygonPoints.push({ lat: this.latitude - 0.0005000, lng: this.longitude - 0.0005000 });
+    this.polygonPoints.push({ lat: this.latitude - 0.0005000, lng: this.longitude + 0.0005000 });
+
     let polygon: Polygon = this.map.addPolygonSync({
       'points': this.polygonPoints,
-      'strokeColor' : '#AA00FF',
-      'fillColor' : '#00FFAA',
+      'strokeColor': '#AA00FF',
+      'fillColor': '#00FFAA',
       'strokeWidth': 10
     });
 
@@ -187,4 +196,17 @@ export class SketchPage {
     });
   }
 
+  //POPOVER
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PinModulerComponent, { pinType: this.chosenPin, color: this.color });
+    popover.present({
+      ev: myEvent
+    });
+  }
+
+  choosePin(pinType, color, myEvent) {
+    this.chosenPin = pinType;
+    this.color = color;
+    this.presentPopover(myEvent);
+  }
 }
