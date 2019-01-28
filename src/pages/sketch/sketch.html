@@ -6,7 +6,9 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Croqui digital</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="confirmDelete()">
@@ -16,18 +18,40 @@
   </ion-navbar>
 </ion-header>
 
+<ion-item>
+  <ion-label>Veículo(s)</ion-label>
+  <ion-select [(ngModel)]="chosenVehicle" (ngModelChange)="onOk(chosenVehicle)" #mySelect>
+    <!-- <ion-option *ngFor="let v of vehicles; let i=index;" [selected]="i === 0"> -->
+    <ion-option *ngFor="let v of vehicles">{{v.register}}</ion-option>
+  </ion-select>
+</ion-item>
+
 <ion-content>
   <div class="container">
     <div id='map_canvas'></div>
     <ion-fab right top>
-      <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
+      <button ion-fab color="primary">
+        <ion-icon name="add"></ion-icon>
+      </button>
       <ion-fab-list side="bottom">
-        <button ion-fab (click)="choosePin('redcar',$event)"><ion-icon name="car"></ion-icon></button>
-        <button ion-fab (click)="choosePin('body',$event)"><ion-icon name="person"></ion-icon></button>
-        <button ion-fab><ion-icon name="eye"></ion-icon></button>
-        <button ion-fab><ion-icon name="warning"></ion-icon></button>
-        <button ion-fab><ion-icon name="pin" (click)="loadPolygons()"></ion-icon></button>
-        <button ion-fab><ion-icon name="radio-button-on" (click)="loadRadiusCircle()"></ion-icon></button>
+        <button ion-fab (click)="popupVehicles()">
+          <ion-icon name="car"></ion-icon>
+        </button>
+        <button ion-fab>
+          <ion-icon name="person" (click)="choosePin('body',$event)"></ion-icon>
+        </button>
+        <button ion-fab>
+          <ion-icon name="eye"></ion-icon>
+        </button>
+        <button ion-fab>
+          <ion-icon name="warning"></ion-icon>
+        </button>
+        <button ion-fab>
+          <ion-icon name="pin" (click)="loadPolygons()"></ion-icon>
+        </button>
+        <button ion-fab>
+          <ion-icon name="radio-button-on" (click)="loadRadiusCircle()"></ion-icon>
+        </button>
       </ion-fab-list>
     </ion-fab>
   </div>

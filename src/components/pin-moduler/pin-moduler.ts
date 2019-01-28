@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 /**
  * Generated class for the PinModulerComponent component.
@@ -8,49 +9,31 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * Components.
  */
 
-
-
-
 @Component({
   selector: 'pin-moduler',
   templateUrl: 'pin-moduler.html'
 })
 export class PinModulerComponent {
-
-  
   public rotation;
-  public typeObject:string;  
-  public typePin:string;
+  public typeObject: string;
+  public typePin: string;
+  public color: any;
 
-  // text: string;
+  constructor(
+    public navParams: NavParams,
+    private sanitizer: DomSanitizer
+    ) {
+    this.typePin = this.navParams.data.pinType;
+    this.color = this.sanitizer.bypassSecurityTrustStyle(this.navParams.data.color);
+  }
 
-  // constructor() {
-  //   console.log('Hello PinModulerComponent Component');
-  //   this.text = 'Hello World';
-  // }
-
-     constructor(public navParams:NavParams) {
-       console.log(this.navParams.data);
-       console.log(this.navParams.data.pinType);
-       this.typePin = this.navParams.data.pinType;
-       console.log(this.typePin);
-   }
-    
 
   ngOnInit() {
-    this.rotation=0;
-    this.typeObject='assets/imgs/croquiItens/' + this.typePin +'/'+ this.typePin +this.rotation+'.png'
-    console.log( this.typeObject);
+    this.rotation = 0;
+    this.typeObject = '../assets/imgs/croquiItens/' + this.typePin + '/' + this.typePin + this.rotation + '.png'
   }
 
-
-
-
-  public change(){
-    this.typeObject='assets/imgs/croquiItens/'+ this.typePin +'/'+ this.typePin +this.rotation+'.png'
-    console.log( this.typeObject);
-    // alert(this.rotation);
+  public change() {
+    this.typeObject = '../assets/imgs/croquiItens/' + this.typePin + '/' + this.typePin + this.rotation + '.png'
   }
-
-
 }
