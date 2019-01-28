@@ -14,12 +14,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'user-register.html',
 })
 export class UserRegisterPage {
+  name:string;
+  password: string;
+  type: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserRegisterPage');
+  }
+
+  editUser(){
+
   }
 
 }
