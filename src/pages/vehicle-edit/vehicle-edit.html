@@ -58,7 +58,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Data de Validade do Seguro</ion-label>
-        <ion-input [(ngModel)]="expiresIn" type="text" formControlName="expiresIn"> {{expiresIn.value}}</ion-input>
+        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expiresIn">{{expiresIn.value}}</ion-datetime>
       </ion-item>
       <button ion-button type="submit" [disabled]="!vehicleEdited.valid">Submit</button>
     </form>

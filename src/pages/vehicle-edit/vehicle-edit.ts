@@ -102,7 +102,6 @@ export class VehicleEditPage {
 
   editVehicle(){
     this.viewCtrl.dismiss();
-    this.vehicle.id = 2;
     this.vehicle.accident = 1; 
     this.vehicle.register = this.vehicleEdited.value['register'];
     this.vehicle.type = null;
@@ -113,7 +112,7 @@ export class VehicleEditPage {
     this.vehicle.policy = this.vehicleEdited.value['policy'];
     this.vehicle.insurance = this.vehicleEdited.value['insurance'];
     this.vehicle.damages = [];
-    this.vehicle.expiresIn = "2012-04-23T18:25:43.511Z";
+    this.vehicle.expiresIn = this.vehicleEdited.value['expiresIn'];
     console.log(this.vehicle);
 
 

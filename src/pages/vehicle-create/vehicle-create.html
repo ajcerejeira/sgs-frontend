@@ -56,8 +56,8 @@
         <ion-input type="text" formControlName="insurance"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Data de Validade do Seguro</ion-label>
-        <ion-input type="text" formControlName="expiresIn"></ion-input>
+        <ion-label>Data de Validade</ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expiresIn"></ion-datetime>
       </ion-item>
       <button ion-button type="submit" [disabled]="!vehicle.valid">Submit</button>
     </form>

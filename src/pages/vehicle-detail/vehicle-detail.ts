@@ -79,7 +79,7 @@ export class VehicleDetailPage {
     public http: Http,
   ) {
     this.vehicle = {
-      id: 8,
+      id: this.navParams.get('id'),
       register: this.navParams.get('register'),
       model:this.navParams.get('model'),
       brand: this.navParams.get('brand'),

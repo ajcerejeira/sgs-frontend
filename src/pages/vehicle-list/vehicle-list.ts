@@ -50,6 +50,7 @@ export class VehicleListPage {
   }
 
   vehicleDetail(vehicle) {
+    console.log(vehicle);
     this.navCtrl.push('VehicleDetailPage', vehicle);
   }
 }
