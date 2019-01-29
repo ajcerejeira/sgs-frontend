@@ -258,6 +258,7 @@ loadMapCroqui() {
 
 
     ].join("");
+    //mudar esta tag para o simbolo de x, ou outra opçao para fechar a janela
     frame.getElementsByTagName("img")[0].addEventListener("click", () => {
       htmlInfoWindow.close()//setBackgroundColor('blue');
     });
