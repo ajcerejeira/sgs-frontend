@@ -33,7 +33,7 @@
       </ion-item>
       <ion-item>  
         <ion-label>Marca</ion-label>
-        <ion-input type="text" formControlName="brand"></ion-input>
+        <ion-input type="text" formControlName="make"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Modelo</ion-label>
@@ -69,7 +69,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Data de Validade</ion-label>
-        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expiresIn"></ion-datetime>
+        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate"></ion-datetime>
       </ion-item>
       <button ion-button type="submit" [disabled]="!vehicle.valid">Submit</button>
     </form>

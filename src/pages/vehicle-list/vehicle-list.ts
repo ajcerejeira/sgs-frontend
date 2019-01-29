@@ -39,7 +39,6 @@ export class VehicleListPage {
     console.log("LISTA VEIC ID: "+ this.navParams.data);
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
         this.vehicles=res.vehicles;
-        console.log(this.vehicles);
       }, error => {
         console.log(error);
       });
@@ -58,7 +57,10 @@ export class VehicleListPage {
   }
 
   vehicleDetail(vehicle) {
-    console.log(vehicle);
-    this.navCtrl.push('VehicleDetailPage', vehicle);
+    var data = {
+      vehicle: vehicle,
+      idAccident: this.navParams.data
+    }
+    this.navCtrl.push('VehicleDetailPage', data);
   }
 }

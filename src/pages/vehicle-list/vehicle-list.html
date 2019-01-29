@@ -28,8 +28,8 @@
               <ion-col col-8>
                 <ion-item>
                   <ion-icon name="information-circle" item-start></ion-icon>
-                  <h2>{{ vehicle.register }}</h2>
-                  <p>{{ vehicle.brand }}</p>
+                  <h2>{{ vehicle.meta.register }}</h2>
+                  <p>{{ vehicle.meta.make }}</p>
                 </ion-item>
               </ion-col>
               <ion-col col-4>
@@ -43,13 +43,13 @@
               <ion-col col-8>
                 <ion-item>
                   <ion-icon name="car" item-start></ion-icon>
-                  <h2>{{ vehicle.category }}</h2>
+                  <h2>{{ vehicle.meta.type }}</h2>
                 </ion-item>
               </ion-col>
               <ion-col col-4>
                 <ion-item>
                   <ion-icon name="people" item-start></ion-icon>
-                  <p>{{ vehicle.nactors }}</p>
+                  <p> 0 </p>
                 </ion-item>
               </ion-col>
             </ion-row>
