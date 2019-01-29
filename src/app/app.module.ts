@@ -36,7 +36,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     SplashScreen,
     EmailComposer,
     Geolocation,
-    GoogleMaps
+    GoogleMaps,
     Data,
     InAppBrowser,
     Media,

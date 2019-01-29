@@ -87,7 +87,7 @@
         "API_KEY_FOR_IOS": "AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug",
         "API_KEY_FOR_BROWSER_RELEASE": "AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug",
         "API_KEY_FOR_BROWSER_DEBUG": "AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug"
-      }
+      },
       "cordova-plugin-media": {}
     },
     "platforms": [

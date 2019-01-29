@@ -74,7 +74,7 @@ export class VehicleDetailPage {
     private camera: Camera,
     public http: Http,
   ) {
-    this.vehicle = this.navParams.get('vehicle').meta;
+    this.vehicle = this.navParams.get('vehicle');
     this.vehicleId = this.navParams.get('vehicle').id;
     this.idAccident = this.navParams.get('idAccident');
   }
@@ -108,7 +108,7 @@ export class VehicleDetailPage {
   }
 
   vehicleEdit() {
-    let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle });
+    let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle, idAccident: this.idAccident});
     modal.onDidDismiss(data => { });
     modal.present();
   }
