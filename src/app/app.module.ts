@@ -11,6 +11,7 @@ import { File } from '@ionic-native/file';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps} from "@ionic-native/google-maps";
+import { Data } from '../providers/data/data';
 import {PinModulerComponent} from '../components/pin-moduler/pin-moduler';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -35,7 +36,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
     SplashScreen,
     EmailComposer,
     Geolocation,
-    GoogleMaps,
+    GoogleMaps
+    Data,
     InAppBrowser,
     Media,
     File,
