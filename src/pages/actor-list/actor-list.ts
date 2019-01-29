@@ -44,14 +44,16 @@ export class ActorListPage {
     if(this.navParams.get('accident')) this.accidentId = this.navParams.get('accident'); 
     else this.accidentId = this.navParams.data
 
-    console.log("Intervenientes do acidente: " + this.accidentId);
+    //console.log("Intervenientes do acidente: " + this.accidentId);
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+ this.accidentId).map(res => res.json()).subscribe(res => {
+      //console.log(JSON.stringify(res))  
       var actors = res.actors;
       var vehicles = res.vehicles;
+      //console.log(JSON.stringify(actors))
       //console.log(JSON.stringify(vehicles))
         for (var i = 0; i < actors.length; i++){
           
-          if (actors[i].role === "driver" ){ 
+          if (actors[i].role === "Driver" ){ 
             for (var j = 0; j < vehicles.length; j++){
               if(vehicles[j].id == actors[i].vehicle){
                 actors[i].register = vehicles[j].register;
@@ -62,7 +64,7 @@ export class ActorListPage {
            }
             //console.log(JSON.stringify(actors[i]));
             this.drivers.push(actors[i]);}
-          if (actors[i].role === "passenger" ){
+          if (actors[i].role === "Passenger" ){
             for (var j = 0; j < vehicles.length; j++){
               if(vehicles[j].id == actors[i].vehicle){
                 actors[i].register = vehicles[j].register;
@@ -72,9 +74,9 @@ export class ActorListPage {
               }
             } 
             this.passengers.push(actors[i]);}
-          if (actors[i].role === "pedestrian" ){ this.pedestrians.push(actors[i]);}
-          if (actors[i].role === "witness" ){ this.witnesses.push(actors[i]);}
-          if (actors[i].role === "other" ){ this.others.push(actors[i]);}
+          if (actors[i].role === "Pedestrian" ){ this.pedestrians.push(actors[i]);}
+          if (actors[i].role === "Witness" ){ this.witnesses.push(actors[i]);}
+          if (actors[i].role === "Other" ){ this.others.push(actors[i]);}
         }
 
       }, error => {

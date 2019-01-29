@@ -31,6 +31,8 @@ export class ActorDetailPage {
   };
   public signatureImage : string;
   public drawn = false;
+
+  accidentId : any;
   
   actorPage: string = "info"; // Default segment to load
   actor : any
@@ -39,17 +41,20 @@ register : string
 make : string
 model : string
 idv : any
+year: string
+month: string
+day: string
 
 id : any  
-idType: string;
-idNumber: string;
-expires: string;
-emitedBy: string;
+identityDocumentType: string;
+identityDocumentNumber: string;
+identityDocumentExpirationDate: string;
+identityDocumentEmitedBy: string;
 name: string;
 birth: string;
 email: string;
 phone: string;
-nacionality: string;
+nationality: string;
 naturality: string;
 parentage: string[];
 locality: string;
@@ -57,7 +62,7 @@ zipcode: string;
 address: string;
 doorNumber: string;
 role: string; 
-injury: string;
+wounds: string;
 alcoholTest: number
 
 
@@ -79,7 +84,7 @@ alcoholTest: number
     public alertCtrl: AlertController,
     public http: Http
   ) {
-    
+    this.accidentId = this.navParams.get('accident');
   }
 
   
@@ -87,27 +92,32 @@ alcoholTest: number
   ionViewDidLoad() {
     console.log("Intervin :" + JSON.stringify(this.navParams))
     this.actor = this.navParams.get('actor')
-    this.idType = this.actor.idType;
-      this.idNumber = this.actor.idNumber;
-      this.expires = this.actor.expires;
-      this.emitedBy = this.actor.emitedBy;
-      this.name = this.actor.name;
-      this.birth = this.actor.birth;
-      this.email = this.actor.email;
-      this.phone = this.actor.phone;
-      this.nacionality = this.actor.nacionality;
-      this.naturality = this.actor.naturality;
-      this.parentage = this.actor.parentage;
-      this.locality = this.actor.locality;
-      this.zipcode = this.actor.zipcode;
-      this.address = this.actor.address;
-      this.doorNumber = this.actor.doorNumber;
+    this.identityDocumentType = this.actor.person.identityDocumentType;
+      this.identityDocumentNumber = this.actor.person.identityDocumentNumber;
+      this.identityDocumentExpirationDate = this.actor.person.identityDocumentExpirationDate;
+      this.identityDocumentEmitedBy = this.actor.person.identityDocumentEmitedBy;
+      this.name = this.actor.person.name;
+      this.year = this.actor.person.birth.substring(0, 4);
+      this.month = this.actor.person.birth.substring(4, 7);
+      this.day = this.actor.person.birth.substring(8, 10);
+      this.birth = this.day.concat(this.month)
+      this.birth = this.birth.concat("-")
+      this.birth = this.birth.concat(this.year)
+      this.email = this.actor.person.email;
+      this.phone = this.actor.person.phone;
+      this.nationality = this.actor.person.nationality;
+      this.naturality = this.actor.person.naturality;
+      this.parentage = this.actor.person.parentage;
+      this.locality = this.actor.person.locality;
+      this.zipcode = this.actor.person.zipcode;
+      this.address = this.actor.person.address;
+      this.doorNumber = this.actor.person.doorNumber;
       this.role = this.actor.role; 
-      this.injury = this.actor.injury;
+      this.wounds = this.actor.wounds;
       this.alcoholTest = this.actor.alcoholTest; 
 
-    if(this.actor.vehicle!=null){
-    this.http.get("https://sgs-backend.herokuapp.com/api/vehicles/"+this.actor.vehicle).map(res => res.json()).subscribe(res => {
+    /*if(this.actor.vehicle!=null){
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"vehicles/").map(res => res.json()).subscribe(res => {
       
 
        
@@ -123,7 +133,7 @@ alcoholTest: number
       }, error => {
         console.log(error);
       });
-    }
+    }*/
     console.log("ionViewDidLoad ActorDetailPage");
     
   }
@@ -141,8 +151,8 @@ alcoholTest: number
         {
           text: "Eliminar",
           handler: () => {
-            this.http.delete("https://sgs-backend.herokuapp.com/api/actors/"+this.actor.id).subscribe(res => {
-              this.navCtrl.push('ActorListPage',{accident : this.actor.accident});
+            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"/actors/"+this.actor.id).subscribe(res => {
+              this.navCtrl.push('ActorListPage',{accident : this.accidentId});
             }, error => {
               console.log(error);
             });
@@ -172,7 +182,7 @@ alcoholTest: number
   
 
   actorEdit() {
-    let modal = this.modalController.create('ActorEditPage', { data: this.actor });
+    let modal = this.modalController.create('ActorEditPage', { data: this.actor, accident: this.accidentId });
     modal.onDidDismiss(data => { });
     modal.present();
   }

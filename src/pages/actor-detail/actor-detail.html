@@ -38,7 +38,7 @@
         </ion-list-header>
     
         <ion-item>Tipo: <ion-note item-end >{{ role }}</ion-note></ion-item>
-        <ion-item>Ferimentos: <ion-note item-end>{{ injury }}</ion-note></ion-item>
+        <ion-item>Ferimentos: <ion-note item-end>{{ wounds }}</ion-note></ion-item>
         <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
         <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
             <h2>{{ register }} </h2>
@@ -67,10 +67,10 @@
         <ion-list-header color="light">
             Identificação
         </ion-list-header>
-        <ion-item>Tipo de Identificação: <ion-note item-end>{{ idType }}</ion-note></ion-item>
-        <ion-item>Nº de Identificação: <ion-note item-end>{{ idNumber }}</ion-note></ion-item>
-        <ion-item>Data de Validade: <ion-note item-end>{{ expires }}</ion-note></ion-item>
-        <ion-item>Emitido por: <ion-note item-end>{{ emitedBy }}</ion-note></ion-item>
+        <ion-item>Tipo de Identificação: <ion-note item-end>{{ identityDocumentType }}</ion-note></ion-item>
+        <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note></ion-item>
+        <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDate }}</ion-note></ion-item>
+        <ion-item>Emitido por: <ion-note item-end>{{ identityDocumentEmitedBy }}</ion-note></ion-item>
         <ion-item> <ion-note item-end></ion-note></ion-item>
       </ion-list>
   <ion-fab right bottom *ngSwitchCase="'info'">

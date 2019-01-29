@@ -27,24 +27,23 @@
     <ion-item>
       <ion-label>Tipo de Interveniente:</ion-label>
       <ion-select [(ngModel)]="role"  okText="Selecionar" cancelText="Cancelar">
-          <ion-option value="driver">Condutor</ion-option>
-          <ion-option value="passenger">Passageiro</ion-option>
-          <ion-option value="pedestrian">Peão</ion-option>
-          <ion-option value="witness">Testemunha</ion-option>
-          <ion-option value="other">Outro</ion-option>
+          <ion-option value="Driver">Condutor</ion-option>
+          <ion-option value="Passenger">Passageiro</ion-option>
+          <ion-option value="Pedestrian">Peão</ion-option>
+          <ion-option value="Witness">Testemunha</ion-option>
+          <ion-option value="Other">Outro</ion-option>
           {{role}}
         </ion-select>
     </ion-item>
 
     <ion-item>
         <ion-label>Ferimentos:</ion-label>
-        <ion-select [(ngModel)]="injury"  okText="Selecionar" cancelText="Cancelar">
-            <ion-option value="none">Nenhuns</ion-option>
-            <ion-option value="light">Leves</ion-option>
-            <ion-option value="severe">Graves</ion-option>
-            <ion-option value="very severe">Muito Graves</ion-option>
-            <ion-option value="dead">Morto</ion-option>
-            {{injury}}
+        <ion-select [(ngModel)]="wounds"  okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="None">Nenhuns</ion-option>
+            <ion-option value="Light">Leves</ion-option>
+            <ion-option value="Severe">Graves</ion-option>
+            <ion-option value="Dead">Morto</ion-option>
+            {{wounds}}
           </ion-select>
     </ion-item>
     <ion-item>
@@ -75,7 +74,7 @@
     </ion-item>
     <ion-item>
         <ion-label>Nacionalidade:</ion-label>
-        <ion-input [(ngModel)]="nacionality"  type="text" > {{nacionality}}</ion-input>
+        <ion-input [(ngModel)]="nationality"  type="text" > {{nationality}}</ion-input>
     </ion-item>
     <ion-item>
         <ion-label>Naturalidade:</ion-label>
@@ -115,19 +114,19 @@
     </ion-list-header>
     <ion-item>
         <ion-label>Tipo de Identificação</ion-label>
-        <ion-input [(ngModel)]="idType"  type="text"> {{idType}}</ion-input>
+        <ion-input [(ngModel)]="identityDocumentType"  type="text"> {{identityDocumentType}}</ion-input>
     </ion-item>
     <ion-item>
         <ion-label>Nº de Identificação</ion-label>
-        <ion-input [(ngModel)]="idNumber"  type="text"> {{idNumber}}</ion-input>
+        <ion-input [(ngModel)]="identityDocumentNumber"  type="text"> {{identityDocumentNumber}}</ion-input>
     </ion-item>
     <ion-item>
         <ion-label>Data de Validade:</ion-label>
-        <ion-datetime [(ngModel)]="expires" displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" min="1900-01-01" max="2050-12-31" > {{expires}}</ion-datetime>
+        <ion-datetime [(ngModel)]="identityDocumentExpirationDate" displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" min="1900-01-01" max="2050-12-31" > {{identityDocumentExpirationDate}}</ion-datetime>
       </ion-item>
     <ion-item>
         <ion-label>Emitido por:</ion-label>
-        <ion-input [(ngModel)]="emitedBy"  type="text"> {{emitedBy}}</ion-input>
+        <ion-input [(ngModel)]="identityDocumentEmitedBy"  type="text"> {{identityDocumentEmitedBy}}</ion-input>
     </ion-item>
       <ion-item> <ion-note item-end></ion-note></ion-item>
     </ion-list>
