@@ -3,7 +3,6 @@ import { IonicPage, NavController, ViewController, NavParams, AlertController, A
 import { Geolocation } from "@ionic-native/geolocation";
 import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler'
 import { Http } from "@angular/http";
-
 import {
   GoogleMaps,
   GoogleMap,
@@ -19,6 +18,8 @@ import {
   LatLng
 } from "@ionic-native/google-maps";
 
+declare var google: any;
+
 @IonicPage()
 @Component({
   selector: 'page-sketch',
@@ -30,7 +31,7 @@ export class SketchPage {
   id: string;
   chosenPin: string;
   color: string;
-  signs: any = ["Sinal STOP", "Semáforo"];
+  signs: any = ["STOP", "Semáforo"];
   vehicles: any;
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('signSelect') signRef: Select;
@@ -52,6 +53,7 @@ export class SketchPage {
   latitude: any;
   longitude: any;
   polygonPoints: ILatLng[] = [];
+  markerList: any = [];
 
   ionViewDidLoad() {
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
@@ -67,19 +69,36 @@ export class SketchPage {
     this.signRef.open();
   }
 
-  onOkSign() {
-    var path;
-    this.signs.forEach(res => {
-      switch(res){
-        case 'Semáforo':
-          path = '../assets/imgs/croquiItens/signs/traffic-light.png'
-          break;
-        case 'Sinal STOP':
-          path = '../assets/imgs/croquiItens/signs/stop.png'
-          break;
-      }
-    });
-    this.choosePin(path, '', '$event');
+  onOkSign(chosenSign) {
+    var icon;
+    switch (chosenSign) {
+      case 'STOP':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/stop.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+      case 'Semáforo':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/traffic-light.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+    };
+
+    let position = { lat: this.latitude, lng: this.longitude }
+    let marker = {
+      position: position,
+      draggable: true,
+      icon: icon
+    };
+    this.map.addMarkerSync(marker);
+    this.markerList.push(marker);
+    console.log("array: " +this.markerList)
   }
 
   confirmDelete() {
@@ -108,10 +127,10 @@ export class SketchPage {
 
   onOkVehicle(licensePlate) {
     this.vehicles.forEach(v => {
-      if (v.register === licensePlate) {
-        let vehicle=v;
+      if (v.meta.register === licensePlate) {
         let path = '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg';
-        this.choosePin(path, vehicle.color, '$event');
+        console.log("COR que envio: " + v.meta.color)
+        this.choosePin(path, v.meta.color, '$event');
       }
     });
   }
@@ -119,7 +138,7 @@ export class SketchPage {
   async loadMap() {
     await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
       // Get position and address
-      this.position = res.location;
+      this.position = res.position;
       this.vehicles = res.vehicles;
 
       let mapOptions: GoogleMapOptions = {
@@ -232,17 +251,71 @@ export class SketchPage {
 
   //MARKER
   loadMarker() {
-    let POINTS: BaseArrayClass<any> = new BaseArrayClass<any>([
+    let pontos: BaseArrayClass<any> = new BaseArrayClass<any>([
       {
-        position: {lat:this.latitude, lng:this.longitude},
+        position: { lat: this.latitude, lng: this.longitude },
         iconData: "http://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/24/Number-2-icon.png"
       }
     ]);
 
-    POINTS.forEach((data: any) => {
+    pontos.forEach((data: any) => {
       data.disableAutoPan = true;
       let marker: Marker = this.map.addMarkerSync(data);
       marker.setIcon(marker.get('iconData'));
+    });
+  }
+
+  //zoom listener
+  // zoomListener() {
+  //   this.map.clear();
+  //   var pixelSizeAtZoom0 = 2; //the size of the icon at zoom level 0
+  //   var maxPixelSize = 250; //restricts the maximum size of the icon, otherwise the browser will choke at higher zoom levels trying to scale an image to millions of pixels
+
+  //   var zoom = this.map.getCameraZoom();
+  //   console.log("ZOOM:" + zoom)
+  //   var relativePixelSize = (pixelSizeAtZoom0 * Math.pow(2, zoom)); // use 2 to the power of current zoom to calculate relative pixel size.  Base of exponent is 2 because relative size should double every time you zoom in
+
+  //   if (relativePixelSize > maxPixelSize) //restrict the maximum size of the icon
+  //     relativePixelSize = maxPixelSize;
+
+  //   console.log("MAX: " + maxPixelSize)
+  //   console.log("RELATIVO: " + relativePixelSize)
+  //   this.markerList.forEach((data: any) => {
+  //     data.disableAutoPan = true;
+  //     let marker: Marker = this.map.addMarkerSync(data);
+
+  //     console.log(JSON.stringify(data))
+  //     //change the size of the icon
+  //     marker.setIcon({
+  //       url: data.icon.url, //marker's same icon graphic
+  //       size: new google.maps.Size(relativePixelSize, relativePixelSize) //changes the scale
+  //     });
+  //   });
+  // }
+
+  zoomListener() {
+    this.map.clear();
+    var proportion: number;
+    var icon;
+    var zoom = this.map.getCameraZoom();
+    console.log("ZOOM:" + zoom)
+    
+    proportion = 1/(18/zoom);
+
+    this.markerList.forEach((data: any) => {
+      data.disableAutoPan = true;
+      if(zoom>=15) 
+        icon = data.icon.url
+      else 
+        icon = '../assets/imgs/croquiItens/signs/crash.png'
+      
+      let marker: Marker = this.map.addMarkerSync(data);
+
+      //change the size of the icon
+      marker.setIcon({
+        url: icon //marker's same icon graphic
+        //size: new google.maps.Size(proportion*data.icon.size.width, proportion*data.icon.size.height) //changes the scale
+      });
     });
   }
 }

@@ -11,6 +11,9 @@
     </button>
     <ion-title>Croqui digital</ion-title>
     <ion-buttons end>
+        <button ion-button icon-only (click)="zoomListener()">
+            <ion-icon name="refresh"></ion-icon>
+          </button>
       <button ion-button icon-only (click)="confirmDelete()">
         <ion-icon name="trash"></ion-icon>
       </button>
@@ -22,7 +25,7 @@
   <ion-label>Veículo</ion-label>
   <ion-select [(ngModel)]="chosenVehicle" (ngModelChange)="onOkVehicle(chosenVehicle)" #vehicleSelect>
     <!-- <ion-option *ngFor="let v of vehicles; let i=index;" [selected]="i === 0"> -->
-    <ion-option *ngFor="let v of vehicles">{{v.register}}</ion-option>
+    <ion-option *ngFor="let v of vehicles">{{v.meta.register}}</ion-option>
   </ion-select>
 </ion-item>
 

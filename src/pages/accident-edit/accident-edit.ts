@@ -65,7 +65,7 @@ export class AccidentEditPage {
   async loadMap() {
     await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
       // Get position and address
-      this.position = res.location;
+      this.position = res.position;
       this.accidentDate = res.date;
 
       let mapOptions: GoogleMapOptions = {
@@ -130,7 +130,7 @@ export class AccidentEditPage {
   updateAccident() {
     let postData = {
       "date": this.accidentDate,
-      "location": [this.latitude, this.longitude]
+      "position": [this.latitude, this.longitude]
     }
 
     this.http.put("https://sgs-backend.herokuapp.com/api/accidents/"+this.id, postData)

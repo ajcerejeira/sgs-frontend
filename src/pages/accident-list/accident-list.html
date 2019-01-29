@@ -30,11 +30,11 @@
         *ngFor="let accident of accidents"
       >
         <ion-card (click)="accidentDetail(accident)">
-          <img src= {{accident.mapImg}}/>
+          <img src= {{accident.mapUrl}}/>
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
-            <h2>{{ accident.address.split(',')[0] }}</h2>
-            <p>{{ accident.address.split(',')[1] }}</p>
+            <h2>{{ accident.address ? accident.address.split(',')[0] : 'Rua Desconhecida' }}</h2>
+            <p>{{ accident.address ? accident.address.split(',')[1] : 'Rua Desconhecida' }}</p>
           </ion-item>
           <ion-item>
             <ion-icon name="calendar" item-start></ion-icon>
@@ -45,13 +45,13 @@
               <ion-col>
                 <ion-item>
                   <ion-icon name="car" item-start></ion-icon>
-                  <h2>{{ accident.vehicles.length }}</h2>
+                  <h2>{{ accident.vehicles ? accident.vehicles.length : 0}}</h2> 
                 </ion-item>
               </ion-col>
               <ion-col>
                 <ion-item>
                   <ion-icon name="people" item-start></ion-icon>
-                  <h2>{{ accident.actors.length}}</h2>
+                  <h2>{{ accident.actors ? accident.actors.length : 0}}</h2> 
                 </ion-item>
               </ion-col>
             </ion-row>

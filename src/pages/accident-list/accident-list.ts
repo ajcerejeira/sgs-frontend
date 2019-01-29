@@ -19,7 +19,6 @@ export class AccidentListPage {
   accidents: any;
   isSearchBarOpen:false;
 
-
   constructor(
     public app: App,
     public navCtrl: NavController, 

@@ -57,7 +57,7 @@ export class AccidentInfoPage {
       this.date = day + " de " + monthValue + " de " + year;
       this.hour = dateObj.getUTCHours().toString() + ":" + dateObj.getUTCMinutes().toString();
       this.address = res.address;
-      this.url = "https://maps.googleapis.com/maps/api/staticmap?center=" + res.location.toString() + "&zoom=19&size=1920x1080&key=AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs"
+      this.url = res.mapUrl;
     }, error => {
       console.log(error);
     });

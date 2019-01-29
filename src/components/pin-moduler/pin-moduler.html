@@ -1,5 +1,6 @@
 <ion-content *ngIf="typePin == '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg'">
   <h2>{{typePin}}</h2>
+  <h2>{{color}}</h2>
   <ion-range [min]="0" [max]="360" [(ngModel)]="number"></ion-range>
   <div class="icon" [ngStyle]="{
     'background-color': color, 
