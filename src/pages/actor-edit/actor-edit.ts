@@ -138,7 +138,7 @@ export class ActorEditPage {
     if(this.identityDocumentExpirationDate === "") this.identityDocumentExpirationDate = null;
     var parents = []
     if(this.parentage1.length > 0) parents.push(this.parentage1);
-    if(this.parentage2.length > 0) parents.push(this.parentage1);
+    if(this.parentage2.length > 0) parents.push(this.parentage2);
     let person ={
       "identityDocumentType" : this.identityDocumentType,
       "identityDocumentNumber" : this.identityDocumentNumber,
