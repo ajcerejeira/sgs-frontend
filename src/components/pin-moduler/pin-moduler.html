@@ -1,10 +1,21 @@
-<ion-content>
-  <ion-item>
-    <ion-range min="-180" max="180" [(ngModel)]="rotation" (ionBlur)=change()></ion-range>
-  </ion-item>
-
-  <div class="displayed">
-    <img class="displayed" height="auto" width="auto" src={{typeObject}} style="background: '{{color}}', url('{{typeObject}}') no-repeat transparent;">
+<ion-content *ngIf="typePin == '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg'">
+  <h2>{{typePin}}</h2>
+  <ion-range [min]="0" [max]="360" [(ngModel)]="number"></ion-range>
+  <div class="icon" [ngStyle]="{
+    'background-color': color, 
+    'transform': 'rotate('+number+'deg)', 
+    '-webkit-transform': 'rotate('+number+'deg)', 
+    '-ms-transform': 'rotate('+number+'deg)', 
+    '-webkit-mask': 'url('+typePin+') no-repeat 50% 50%',
+    'mask': 'url('+typePin+') no-repeat 50% 50%'}">
   </div>
+</ion-content>
 
+<ion-content *ngIf="typePin != '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg'">
+  <h2>{{typePin}}</h2>
+  <div class="icon" [ngStyle]="{
+    'background-color': '#000000', 
+    '-webkit-mask': 'url('+typePin+') no-repeat 50% 50%',
+    'mask': 'url('+typePin+') no-repeat 50% 50%'}">
+  </div>
 </ion-content>

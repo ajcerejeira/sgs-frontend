@@ -30,8 +30,10 @@ export class SketchPage {
   id: string;
   chosenPin: string;
   color: string;
+  signs: any = ["Sinal STOP", "Semáforo"];
   vehicles: any;
-  @ViewChild('mySelect') selectRef: Select;
+  @ViewChild('vehicleSelect') vehicleRef: Select;
+  @ViewChild('signSelect') signRef: Select;
 
   constructor(
     public navCtrl: NavController,
@@ -49,21 +51,35 @@ export class SketchPage {
 
   latitude: any;
   longitude: any;
-
   polygonPoints: ILatLng[] = [];
 
   ionViewDidLoad() {
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
       this.vehicles = res.vehicles;
-      console.log(this.vehicles);
+      //console.log(this.vehicles);
     }, error => {
       console.log(error);
     });
     this.loadMap();
   }
 
-  popupVehicles() {
-    this.selectRef.open();
+  popupSigns() {
+    this.signRef.open();
+  }
+
+  onOkSign() {
+    var path;
+    this.signs.forEach(res => {
+      switch(res){
+        case 'Semáforo':
+          path = '../assets/imgs/croquiItens/signs/traffic-light.png'
+          break;
+        case 'Sinal STOP':
+          path = '../assets/imgs/croquiItens/signs/stop.png'
+          break;
+      }
+    });
+    this.choosePin(path, '', '$event');
   }
 
   confirmDelete() {
@@ -86,12 +102,16 @@ export class SketchPage {
     prompt.present();
   }
 
-  onOk(licensePlate) {
+  popupVehicles() {
+    this.vehicleRef.open();
+  }
+
+  onOkVehicle(licensePlate) {
     this.vehicles.forEach(v => {
       if (v.register === licensePlate) {
         let vehicle=v;
-        console.log("COLOR: " + vehicle.color)
-        this.choosePin('carroCroqui', vehicle.color, '$event');
+        let path = '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg';
+        this.choosePin(path, vehicle.color, '$event');
       }
     });
   }
@@ -208,5 +228,21 @@ export class SketchPage {
     this.chosenPin = pinType;
     this.color = color;
     this.presentPopover(myEvent);
+  }
+
+  //MARKER
+  loadMarker() {
+    let POINTS: BaseArrayClass<any> = new BaseArrayClass<any>([
+      {
+        position: {lat:this.latitude, lng:this.longitude},
+        iconData: "http://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/24/Number-2-icon.png"
+      }
+    ]);
+
+    POINTS.forEach((data: any) => {
+      data.disableAutoPan = true;
+      let marker: Marker = this.map.addMarkerSync(data);
+      marker.setIcon(marker.get('iconData'));
+    });
   }
 }

@@ -63,7 +63,7 @@ export class AccidentEditPage {
   }
 
   async loadMap() {
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
       // Get position and address
       this.position = res.location;
       this.accidentDate = res.date;

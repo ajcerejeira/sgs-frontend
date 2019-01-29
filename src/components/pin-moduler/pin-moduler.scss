@@ -3,15 +3,11 @@ pin-moduler {
         display: block;
     }
 
-    #popover{
-        opacity:0.3;
-        position:absolute;
-    }
-
-    img{
-        float:left;
-        margin:0;
-        opacity:0.5;
-        width: 100%;
-    }
+    .icon {
+        width: 250px;
+        height: 250px;
+        display: inline-block;
+        -webkit-mask-size: cover;
+        mask-size: cover;
+      }
 }
