@@ -7,9 +7,14 @@
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title>Sinistros</ion-title>
+    <ion-title *ngIf= "!isSearchBarOpen">
+      Sinistros
+      </ion-title>
+      <ion-searchbar showCancelButton cancelButtonText="true" *ngIf= "isSearchBarOpen" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
     <ion-buttons end>
-      <button ion-button icon-only><ion-icon name="search"></ion-icon></button>
+      <!--<ion-searchbar showCancelButton cancelButtonText="Custom Cancel"></ion-searchbar>-->
+      <button ion-button icon-only *ngIf= "!isSearchBarOpen" (click)="isSearchBarOpen=true">
+        <ion-icon name="search"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -24,31 +29,29 @@
         col-lg-3
         *ngFor="let accident of accidents"
       >
-        <ion-card (click)="accidentDetail()">
-          <img
-            src="assets/imgs/map-example.png"
-          />
+        <ion-card (click)="accidentDetail(accident)">
+          <img src= {{accident.mapUrl}}/>
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
-            <h2>{{ accident.location.street }}</h2>
-            <p>{{ accident.location.region }}</p>
+            <h2>{{ accident.address ? accident.address.split(',')[0] : 'Rua Desconhecida' }}</h2>
+            <p>{{ accident.address ? accident.address.split(',')[1] : 'Rua Desconhecida' }}</p>
           </ion-item>
           <ion-item>
             <ion-icon name="calendar" item-start></ion-icon>
-            <h2>{{ accident.date }}</h2>
+            <h2>{{ accident.date.split('T')[0] }}</h2>
           </ion-item>
           <ion-grid no-padding no-margin>
             <ion-row>
               <ion-col>
                 <ion-item>
                   <ion-icon name="car" item-start></ion-icon>
-                  <h2>{{ accident.vehicles }}</h2>
+                  <h2>{{ accident.vehicles ? accident.vehicles.length : 0}}</h2> 
                 </ion-item>
               </ion-col>
               <ion-col>
                 <ion-item>
                   <ion-icon name="people" item-start></ion-icon>
-                  <h2>{{ accident.actors }}</h2>
+                  <h2>{{ accident.actors ? accident.actors.length : 0}}</h2> 
                 </ion-item>
               </ion-col>
             </ion-row>

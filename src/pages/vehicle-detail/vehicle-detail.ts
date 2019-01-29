@@ -1,12 +1,13 @@
-import { Component, ViewChild } from "@angular/core";
-import { Camera, CameraOptions } from "@ionic-native/camera";
+import { Component } from '@angular/core';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import {
   IonicPage,
   NavController,
   NavParams,
   AlertController,
-  Tabs,
-} from "ionic-angular";
+  ModalController,
+} from 'ionic-angular';
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the VehicleDetailPage page.
@@ -17,28 +18,26 @@ import {
 
 @IonicPage()
 @Component({
-  selector: "page-vehicle-detail",
-  templateUrl: "vehicle-detail.html"
+  selector: 'page-vehicle-detail',
+  templateUrl: 'vehicle-detail.html',
 })
 export class VehicleDetailPage {
+  idAccident: number;
+  vehicle: any;
+  vehicleId: any;
   topLeft: boolean = false;
-  register: string = "23-XD-32";
-  make: string = "Seat";
-  model: string = "Ibiza";
-  insurance: string = "Fidelidade";
-  policy: string = "X22KXN2N4";
   driver: any = {
-    name: "Afonso Silva",
-    wounds: "Ferimentos leves",
+    name: 'Afonso Silva',
+    wounds: 'Ferimentos leves',
   };
   passengers: any[] = [
     {
-      name: "Francisco Costa",
-      wounds: "Nenhum ferimento",
+      name: 'Francisco Costa',
+      wounds: 'Nenhum ferimento',
     },
     {
-      name: "João Vieira",
-      wounds: "Ferimentos graves",
+      name: 'João Vieira',
+      wounds: 'Ferimentos graves',
     },
   ];
   damages: boolean[] = [
@@ -50,56 +49,104 @@ export class VehicleDetailPage {
     false,
     false,
     false,
-    false
+    false,
   ];
   photos: string[] = [
-    "assets/imgs/seat-1.jpg",
-    "assets/imgs/seat-2.jpg",
-    "assets/imgs/seat-3.jpg",
-    "assets/imgs/renault-1.jpg",
-    "assets/imgs/renault-2.jpg",
-    "assets/imgs/mercedes-1.jpg",
-    "assets/imgs/mercedes-2.jpg",
-    "assets/imgs/mercedes-3.jpg",
-    "assets/imgs/mercedes-4.jpg"
+    'assets/imgs/seat-1.jpg',
+    'assets/imgs/seat-2.jpg',
+    'assets/imgs/seat-3.jpg',
+    'assets/imgs/renault-1.jpg',
+    'assets/imgs/renault-2.jpg',
+    'assets/imgs/mercedes-1.jpg',
+    'assets/imgs/mercedes-2.jpg',
+    'assets/imgs/mercedes-3.jpg',
+    'assets/imgs/mercedes-4.jpg',
   ];
-  vehiclePage: string = "info"; // Default segment to load
-
+  vehiclePage: string = 'info'; // Default segment to load
+  public url: string = 'http://sgs-backend.herokuapp.com/api/vehicles/';
   constructor(
+    public modalCtrl: ModalController,
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    private camera: Camera
-  ) {}
+    private camera: Camera,
+    public http: Http,
+  ) {
+    this.vehicle = this.navParams.get('vehicle');
+    this.vehicleId = this.navParams.get('vehicle').id;
+    this.idAccident = this.navParams.get('idAccident');
+  }
 
   ionViewDidLoad() {
-    console.log("ionViewDidLoad VehicleDetailPage");
+    console.log('VEICULO: ' + this.vehicle.id);
+    console.log('ionViewDidLoad VehicleDetailPage');
   }
 
   confirmDelete() {
     const prompt = this.alertCtrl.create({
-      title: "Eliminar veículo?",
+      title: 'Eliminar Veículo?',
       message:
-        "Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.",
+        'Esta ação é irreversível. Todos os dados relativos a este veículo serão apagados.',
       buttons: [
         {
-          text: "Cancelar",
-          role: "cancel"
+          text: 'Cancelar',
+          role: 'cancel',
         },
         {
-          text: "Eliminar"
-        }
-      ]
+          text: 'Eliminar',
+          handler: () => {
+            this.http
+              .delete(
+                'https://sgs-backend.herokuapp.com/api/accidents/' +
+                  this.idAccident +
+                  '/vehicles/' +
+                  this.vehicleId,
+              )
+              .subscribe(
+                res => {
+                  this.navCtrl.push('VehicleListPage');
+                },
+                error => {
+                  console.log(error);
+                },
+              );
+          },
+        },
+      ],
     });
     prompt.present();
   }
 
+  sendDamages() {
+    let array = [];
+    for (let i = 0; i < this.damages.length; i++) {
+      if (this.damages[i] === true) {
+        array.push(i);
+      }
+    }
+
+    let data = {
+      damages: array,
+      accident: 1,
+    };
+
+    this.http.put(this.url + this.vehicle.id, data).subscribe(
+      data => {
+        console.log(data['_body']);
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  }
+
   vehicleEdit() {
-    const prompt = this.alertCtrl.create({
-      title: "Modal para edição das informações gerais do veículo",
-      buttons: ["Ok"]
+    let modal = this.modalCtrl.create('VehicleEditPage', {
+      data: this.vehicle,
+      idAccident: this.idAccident,
     });
-    prompt.present();
+    modal.onDidDismiss(data => {});
+    modal.present();
   }
 
   openCamera() {
@@ -112,15 +159,14 @@ export class VehicleDetailPage {
 
     this.camera.getPicture(options).then(
       (imageData: string) => {
-        let imageSrc = '';
         // If the returned image is a file simply add it to SRCs,
         // otherwise it is a BASE64 coded picture
-        if (imageData.startsWith("file://")) {
+        if (imageData.startsWith('file://')) {
           const imageSrc = imageData;
           this.photos.push(imageSrc);
           console.log(imageSrc);
         } else {
-          const imageSrc = "data:image/jpeg;base64," + imageData;
+          const imageSrc = 'data:image/jpeg;base64,' + imageData;
           this.photos.push(imageSrc);
           console.log(imageSrc);
         }
@@ -128,7 +174,7 @@ export class VehicleDetailPage {
       err => {
         console.error(err);
         // Handle error
-      }
+      },
     );
   }
 

@@ -1,0 +1,7 @@
+{
+  "name": "Sistema de Gestão de Sinistros",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
