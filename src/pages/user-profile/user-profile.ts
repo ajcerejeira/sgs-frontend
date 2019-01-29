@@ -5,6 +5,7 @@ import {
   NavParams,
   AlertController,
   ToastController,
+  ModalController 
 } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 // import * as moment from 'moment';
@@ -22,8 +23,11 @@ import { Http, Headers } from '@angular/http';
   templateUrl: 'user-profile.html',
 })
 export class UserProfilePage {
-  name: string = '';
+  idUser: number;
+  name: any;
+  //name: string = '';
   email: string = '';
+  
 
   ngOnInit() {
     this.auth();
@@ -35,7 +39,11 @@ export class UserProfilePage {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public http: Http,
-  ) {}
+    public modalController: ModalController
+  ) {
+    this.name = this.navParams.get('name');
+    this.idUser = this.navParams.get('idUser');
+  }
 
   auth() {
     console.log(this.getSession());
@@ -92,9 +100,13 @@ export class UserProfilePage {
   }
 
   profileEdit() {
-    const prompt = this.alertCtrl.create({
-      title: 'Modal para edição do utilizador',
+    let modal = this.modalController.create('UserEditPage', { 
+      data: this.email, 
+      user: this.idUser, 
     });
-    prompt.present();
+    modal.onDidDismiss(data => { });
+    modal.present();
+    console.log(this.email);
   }
+  
 }
