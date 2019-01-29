@@ -1,7 +1,13 @@
-import { Component } from "@angular/core";
-import { IonicPage, ViewController, App, NavParams, NavController } from "ionic-angular";
+import { Component } from '@angular/core';
+import {
+  IonicPage,
+  ViewController,
+  App,
+  NavParams,
+  NavController,
+} from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Http } from "@angular/http";
+import { Http } from '@angular/http';
 
 /**
  * Generated class for the VehicleCreatePage page.
@@ -12,13 +18,13 @@ import { Http } from "@angular/http";
 
 @IonicPage()
 @Component({
-  selector: "page-vehicle-edit",
-  templateUrl: "vehicle-edit.html"
+  selector: 'page-vehicle-edit',
+  templateUrl: 'vehicle-edit.html',
 })
 export class VehicleEditPage {
-  private vehicleEdited : FormGroup;
+  private vehicleEdited: FormGroup;
   private idAccident: number;
-  private vehicle : any;
+  private vehicle: any;
   register: string;
   make: string;
   type: string;
@@ -40,48 +46,48 @@ export class VehicleEditPage {
     this.vehicle = this.navParams.get('data');
     this.idAccident = this.navParams.get('idAccident');
 
-    if(this.vehicle.meta.register == null) {
-      this.register = "";
+    if (this.vehicle.meta.register == null) {
+      this.register = '';
     } else {
       this.register = this.vehicle.meta.register;
     }
-    if(this.vehicle.meta.type == null) {
-      this.type = "";
+    if (this.vehicle.meta.type == null) {
+      this.type = '';
     } else {
       this.type = this.vehicle.meta.type;
     }
-    if(this.vehicle.meta.make == null) {
-      this.make = "";
+    if (this.vehicle.meta.make == null) {
+      this.make = '';
     } else {
       this.make = this.vehicle.meta.make;
     }
-    if(this.vehicle.meta.model == null) {
-      this.model = "";
+    if (this.vehicle.meta.model == null) {
+      this.model = '';
     } else {
       this.model = this.vehicle.meta.model;
     }
-    if(this.vehicle.meta.year == null) {
+    if (this.vehicle.meta.year == null) {
       this.year = 0;
     } else {
       this.year = this.vehicle.meta.year;
     }
-    if(this.vehicle.meta.color == null) {
-      this.color = "";
+    if (this.vehicle.meta.color == null) {
+      this.color = '';
     } else {
       this.color = this.vehicle.meta.color;
     }
-    if(this.vehicle.meta.insurance == null) {
-      this.insurance = "";
+    if (this.vehicle.meta.insurance == null) {
+      this.insurance = '';
     } else {
       this.insurance = this.vehicle.meta.insurance;
     }
-    if(this.vehicle.meta.policy == null) {
-      this.policy = "";
+    if (this.vehicle.meta.policy == null) {
+      this.policy = '';
     } else {
       this.policy = this.vehicle.meta.policy;
     }
-    if(this.vehicle.meta.expirationDate == null) {
-      this.expirationDate = "";
+    if (this.vehicle.meta.expirationDate == null) {
+      this.expirationDate = '';
     } else {
       this.expirationDate = this.vehicle.meta.expirationDate;
     }
@@ -96,53 +102,63 @@ export class VehicleEditPage {
       policy: [''],
       insurance: [''],
       expirationDate: [''],
-    })
-  ;}
+    });
+  }
 
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
-  editVehicle(){
+  editVehicle() {
     this.viewCtrl.dismiss();
     var new_vehicle = {
       meta: {
         register: this.vehicleEdited.value['register'],
         type: this.vehicleEdited.value['type'],
         make: this.vehicleEdited.value['make'],
-        model: this.vehicleEdited.value['model'], 
+        model: this.vehicleEdited.value['model'],
         year: this.vehicleEdited.value['year'].to_int,
         color: this.vehicleEdited.value['color'],
         policy: this.vehicleEdited.value['policy'],
         insurance: this.vehicleEdited.value['insurance'],
-        expirationDate: this.vehicleEdited.value['expirationDate']
+        expirationDate: this.vehicleEdited.value['expirationDate'],
       },
       damages: [],
     };
-    this.http.put("https://sgs-backend.herokuapp.com/api/accidents/"+this.idAccident+"/vehicles/"+this.vehicle.id, new_vehicle)
-      .subscribe(data => {
-        console.log(data['_body']);
-      }, error => {
-        console.log(error);
-      });
-      this.navCtrl.push('VehicleDetailPage', this.vehicle)
+    this.http
+      .put(
+        'https://sgs-backend.herokuapp.com/api/accidents/' +
+          this.idAccident +
+          '/vehicles/' +
+          this.vehicle.id,
+        new_vehicle,
+      )
+      .subscribe(
+        data => {
+          console.log(data['_body']);
+        },
+        error => {
+          console.log(error);
+        },
+      );
+    this.navCtrl.push('VehicleDetailPage', this.vehicle);
   }
 
-    // this.make = "TReta";
-    // this.currentVehicle = {
-    //   category: "Veículo ligeiro",
-    //   color: "blue",
-    //   register: this.vehicle.value['register'],
-    //   make: this.vehicle.value['make'],
-    //   model: this.vehicle.value['model'],
-    //   year: this.vehicle.value['year'],
-    //   policy: this.vehicle.value['policy'],
-    //   insurance: this.vehicle.value['insurance'],
-    //   nactors: 1,
-    //   photos: []
-    // };
-    // console.log(this.currentVehicle.make);
-    // this.vehicles = this.httpClient.post('');
+  // this.make = "TReta";
+  // this.currentVehicle = {
+  //   category: "Veículo ligeiro",
+  //   color: "blue",
+  //   register: this.vehicle.value['register'],
+  //   make: this.vehicle.value['make'],
+  //   model: this.vehicle.value['model'],
+  //   year: this.vehicle.value['year'],
+  //   policy: this.vehicle.value['policy'],
+  //   insurance: this.vehicle.value['insurance'],
+  //   nactors: 1,
+  //   photos: []
+  // };
+  // console.log(this.currentVehicle.make);
+  // this.vehicles = this.httpClient.post('');
 
-    // console.log(this.vehicles);
+  // console.log(this.vehicles);
 }

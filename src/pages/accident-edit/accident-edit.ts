@@ -1,11 +1,18 @@
-import { Component, NgZone } from "@angular/core";
-import { IonicPage, NavController, ViewController, NavParams, App } from "ionic-angular";
-import { Geolocation } from "@ionic-native/geolocation";
+import { Component, NgZone } from '@angular/core';
+import {
+  IonicPage,
+  NavController,
+  ViewController,
+  NavParams,
+  App,
+} from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
 import {
   GoogleMaps,
   GoogleMap,
-  GoogleMapOptions} from "@ionic-native/google-maps";
-import { Http } from "@angular/http";
+  GoogleMapOptions,
+} from '@ionic-native/google-maps';
+import { Http } from '@angular/http';
 
 declare var google: any;
 
@@ -39,10 +46,10 @@ export class AccidentEditPage {
     public viewCtrl: ViewController,
     public geolocation: Geolocation,
     public http: Http,
-    public navParams: NavParams
+    public navParams: NavParams,
   ) {
-    this.geocoder = new google.maps.Geocoder;
-    let elem = document.createElement("div")
+    this.geocoder = new google.maps.Geocoder();
+    let elem = document.createElement('div');
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
     this.autocomplete = { input: '' };
@@ -58,35 +65,41 @@ export class AccidentEditPage {
   }
 
   ionViewDidLoad() {
-    console.log("EDIT ID É: " + this.id);
+    console.log('EDIT ID É: ' + this.id);
     this.loadMap();
   }
 
   async loadMap() {
-    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
-      // Get position and address
-      this.position = res.position;
-      this.accidentDate = res.date;
+    await this.http
+      .get('https://sgs-backend.herokuapp.com/api/accidents/' + this.id)
+      .map(res => res.json())
+      .subscribe(
+        res => {
+          // Get position and address
+          this.position = res.position;
+          this.accidentDate = res.date;
 
-      let mapOptions: GoogleMapOptions = {
-        camera: {
-          target: {
-            lat: this.position[0],
-            lng: this.position[1]
-          },
-          zoom: 18
-        }
-      };
-      this.latitude = this.position[0]
-      this.longitude = this.position[1]
-      this.map = GoogleMaps.create("map_canvas", mapOptions);
-      this.map.clear();
-      this.map.addMarker({
-        position: mapOptions.camera.target
-      });
-    }, error => {
-      console.log(error);
-    });
+          let mapOptions: GoogleMapOptions = {
+            camera: {
+              target: {
+                lat: this.position[0],
+                lng: this.position[1],
+              },
+              zoom: 18,
+            },
+          };
+          this.latitude = this.position[0];
+          this.longitude = this.position[1];
+          this.map = GoogleMaps.create('map_canvas', mapOptions);
+          this.map.clear();
+          this.map.addMarker({
+            position: mapOptions.camera.target,
+          });
+        },
+        error => {
+          console.log(error);
+        },
+      );
   }
 
   updateSearchResults() {
@@ -94,26 +107,28 @@ export class AccidentEditPage {
       this.autocompleteItems = [];
       return;
     }
-    this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions) => {
+    this.GoogleAutocomplete.getPlacePredictions(
+      { input: this.autocomplete.input },
+      predictions => {
         this.autocompleteItems = [];
         if (predictions) {
           this.zone.run(() => {
-            predictions.forEach((prediction) => {
+            predictions.forEach(prediction => {
               this.autocompleteItems.push(prediction);
             });
           });
         }
-      });
+      },
+    );
   }
 
   selectSearchResult(item) {
     this.autocompleteItems = [];
-    this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+    this.geocoder.geocode({ placeId: item.place_id }, (results, status) => {
       if (status === 'OK' && results[0]) {
         var location = {
           lat: results[0].geometry.location.lat(),
-          lng: results[0].geometry.location.lng()
+          lng: results[0].geometry.location.lng(),
         };
         //console.log(results[0].geometry.location.lat())
         this.latitude = location.lat;
@@ -121,24 +136,31 @@ export class AccidentEditPage {
         this.map.setCameraTarget(location);
         this.map.clear();
         this.map.addMarker({
-          position: location
+          position: location,
         });
       }
-    })
+    });
   }
 
   updateAccident() {
     let postData = {
-      "date": this.accidentDate,
-      "position": [this.latitude, this.longitude]
-    }
+      date: this.accidentDate,
+      position: [this.latitude, this.longitude],
+    };
 
-    this.http.put("https://sgs-backend.herokuapp.com/api/accidents/"+this.id, postData)
-      .subscribe(data => {
-        console.log(data['_body']);
-      }, error => {
-        console.log(error);
-      });
+    this.http
+      .put(
+        'https://sgs-backend.herokuapp.com/api/accidents/' + this.id,
+        postData,
+      )
+      .subscribe(
+        data => {
+          console.log(data['_body']);
+        },
+        error => {
+          console.log(error);
+        },
+      );
 
     this.viewCtrl.dismiss();
     this.navCtrl.push('AccidentListPage');

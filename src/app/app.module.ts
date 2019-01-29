@@ -10,26 +10,16 @@ import { Media } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Geolocation } from '@ionic-native/geolocation';
-import { GoogleMaps} from "@ionic-native/google-maps";
+import { GoogleMaps } from '@ionic-native/google-maps';
 import { PinModulerComponent } from '../components/pin-moduler/pin-moduler';
 import { Data } from '../providers/data/data';
 import { MyApp } from './app.component';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    PinModulerComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpModule,
-    IonicModule.forRoot(MyApp)
-  ],
+  declarations: [MyApp, PinModulerComponent],
+  imports: [BrowserModule, HttpModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    PinModulerComponent
-  ],
+  entryComponents: [MyApp, PinModulerComponent],
   providers: [
     Camera,
     StatusBar,
@@ -41,7 +31,7 @@ import { MyApp } from './app.component';
     File,
     Data,
     InAppBrowser,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
-  ]
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+  ],
 })
 export class AppModule {}

@@ -3,11 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { AccidentCreatePage } from './accident-create';
 
 @NgModule({
-  declarations: [
-    AccidentCreatePage,
-  ],
-  imports: [
-    IonicPageModule.forChild(AccidentCreatePage),
-  ],
+  declarations: [AccidentCreatePage],
+  imports: [IonicPageModule.forChild(AccidentCreatePage)],
 })
 export class AccidentCreatePageModule {}
