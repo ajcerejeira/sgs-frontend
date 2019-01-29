@@ -2,6 +2,8 @@ import { Component, AnimationStyleMetadata } from '@angular/core';
 import { IonicPage, NavController, ModalController, NavParams } from 'ionic-angular';
 import { Http } from "@angular/http";
 import 'rxjs/add/operator/map';
+import { Data } from '../../providers/data/data';
+
 
 /**
  * Generated class for the VehicleListPage page.
@@ -18,15 +20,20 @@ import 'rxjs/add/operator/map';
 export class VehicleListPage {
   vehicles: any;
   vehicleToDelete: string;
+  filteredVehicles: any;
+  filterBy: string = "";
 
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public navParams: NavParams,
-    public http: Http
-    ) 
-    {
-    }
+    public http: Http,
+    public dataService: Data
+  ) {}
+
+  searchVehicles() {
+    this.filteredVehicles = this.dataService.filterItems(this.filterBy, this.vehicles);
+  }
 
   vehiclesList() {
     console.log("LISTA VEIC ID: "+ this.navParams.data);
@@ -46,6 +53,7 @@ export class VehicleListPage {
 
   ionViewDidLoad() {
     this.vehiclesList();
+    this.filteredVehicles = this.vehicles;
     console.log('ionViewDidLoad VehicleListPage');
   }
 

@@ -10,6 +10,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps} from "@ionic-native/google-maps";
+import { Data } from '../providers/data/data';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { GoogleMaps} from "@ionic-native/google-maps";
     EmailComposer,
     Geolocation,
     GoogleMaps,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Data
   ]
 })
 export class AppModule {}
