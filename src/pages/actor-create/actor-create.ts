@@ -71,10 +71,11 @@ export class ActorCreatePage {
   createActor(id){
     var birthD = new Date(this.birth);
     var expiresD = new Date(this.expires);
-    const parentageList = [];
+    var parentageList = [];
+    
     if (this.formGroup.value["parentage"].length>0) parentageList.push(this.formGroup.value["parentage"]);
     if (this.formGroup.value["parentage1"].length>0) parentageList.push(this.formGroup.value["parentage1"]);
-
+  
     var person = {
       identityDocumentType: this.formGroup.value["identityDocumentType"],
       identityDocumentNumber: this.formGroup.value["identityDocumentNumber"],
@@ -92,6 +93,7 @@ export class ActorCreatePage {
       zipcode: this.formGroup.value["zipcode"],
       doorNumber: this.formGroup.value["doorNumber"],
     }
+
 
     var personDetails = {
       person,
