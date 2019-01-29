@@ -38,9 +38,11 @@
   <ion-item-sliding *ngFor="let audio of audioList; index as i;">
 
       <ion-item>
-          <ion-icon name="play" item-start></ion-icon>
-          <h2>{{ audio.filename }}</h2>
-          <p>{{ audio.filename }}</p>
+          <button ion-item *ngFor="let audio of audioList; index as i;" (click)="testimonialPlay(audio.filename, i)">
+              <ion-icon name="play" item-start></ion-icon>
+              <h2>{{ audio.filename }}</h2>
+              <p>{{ audio.filename }}</p>
+          </button>
       </ion-item>
       <ion-item-options>
         <button ion-button color="danger" (click)="removeItem(i)">
