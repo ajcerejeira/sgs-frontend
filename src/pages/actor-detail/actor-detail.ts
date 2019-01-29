@@ -1,13 +1,17 @@
 import { Component, ViewChild } from "@angular/core";
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+import { Http } from "@angular/http";
+import { Media, MediaObject } from "@ionic-native/media";
+import { File } from "@ionic-native/file";
 import {
   IonicPage,
   NavController,
   NavParams,
   ModalController,
-  AlertController
+  AlertController,
+  Platform,
+  ToastController
 } from "ionic-angular";
-import {SignaturePad} from 'angular2-signaturepad/signature-pad';
-import { Http } from "@angular/http";
 /**
  * Generated class for the ActorDetailPage page.
  *
@@ -21,73 +25,78 @@ import { Http } from "@angular/http";
   templateUrl: "actor-detail.html"
 })
 export class ActorDetailPage {
-  @ViewChild(SignaturePad) public signaturePad : SignaturePad;
+  @ViewChild(SignaturePad) public signaturePad: SignaturePad;
 
-  public signaturePadOptions : Object = {
-    'minWidth': 1,
-    'maxWidth': 3,
-    'canvasWidth': 680,
-    'canvasHeight': 400
+  public signaturePadOptions: Object = {
+    minWidth: 1,
+    maxWidth: 3,
+    canvasWidth: 680,
+    canvasHeight: 400
   };
-  public signatureImage : string;
+  public signatureImage: string;
   public drawn = false;
 
   accidentId : any;
-  
   actorPage: string = "info"; // Default segment to load
   actor : any
   vehicle : any
-register : string
-make : string
-model : string
-idv : any
-year: string
-month: string
-day: string
+  register : string
+  make : string
+  model : string
+  idv : any
+  year: string
+  month: string
+  day: string
+  id : any  
+  identityDocumentType: string;
+  identityDocumentNumber: string;
+  identityDocumentExpirationDate: string;
+  identityDocumentEmitedBy: string;
+  name: string;
+  birth: string;
+  email: string;
+  phone: string;
+  nationality: string;
+  naturality: string;
+  parentage: string[];
+  locality: string;
+  zipcode: string;
+  address: string;
+  doorNumber: string;
+  role: string; 
+  wounds: string;
+  alcoholTest: number
 
-id : any  
-identityDocumentType: string;
-identityDocumentNumber: string;
-identityDocumentExpirationDate: string;
-identityDocumentEmitedBy: string;
-name: string;
-birth: string;
-email: string;
-phone: string;
-nationality: string;
-naturality: string;
-parentage: string[];
-locality: string;
-zipcode: string;
-address: string;
-doorNumber: string;
-role: string; 
-wounds: string;
-alcoholTest: number
+  public width = 340;
+  public height = 200;
 
-
-  testimonials: any[] = [
-    {
-      id: "12345678",
-      date: "03 de Fevereiro de 2018",
-    },
-    {
-      id: "987654321",
-      date: "03 de Fevereiro de 2018",
-    }
-  ]
+  // Recording vars
+  recording: boolean = false;
+  filePath: string;
+  fileName: string;
+  audio: MediaObject;
+  audioList: any[] = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalController:ModalController,
     public alertCtrl: AlertController,
-    public http: Http
+    public http: Http,
+    public toastCtrl: ToastController,
+    public media: Media,
+    public file: File,
+    public platform: Platform,
   ) {
     this.accidentId = this.navParams.get('accident');
   }
 
-  
+  canvasResize() {
+    let canvas = document.querySelector("canvas");
+    //this.signaturePad.set('minWidth', 1);
+    //this.signaturePad.set('canvasWidth', canvas.offsetWidth);
+    //this.signaturePad.set('canvasHeight', canvas.offsetHeight);
+  }
 
   ionViewDidLoad() {
     console.log("Intervin :" + JSON.stringify(this.navParams))
@@ -138,6 +147,10 @@ alcoholTest: number
     
   }
 
+  ionViewWillEnter() {
+    this.testimonialList();
+  }
+
   confirmDelete() {
     const prompt = this.alertCtrl.create({
       title: "Eliminar interveniente?",
@@ -163,7 +176,12 @@ alcoholTest: number
     prompt.present();
   }
 
-  
+  testimonialList() {
+    if (localStorage.getItem("testimonialList")) {
+      this.audioList = JSON.parse(localStorage.getItem("testimonialt"));
+      console.log(this.audioList);
+    }
+  }
 
   openSignature(){
     //let modal = this.modalController.create('ActorSignaturePage');
@@ -171,15 +189,87 @@ alcoholTest: number
     if(this.drawn) {this.signatureImage = null; this.drawn = false;}
     else{
       if(this.signaturePad.isEmpty() == false){
-      this.drawn = true;
-      this.signatureImage = this.signaturePad.toDataURL();
-      this.signaturePad.clear();
+        this.drawn = true;
+        this.signatureImage = this.signaturePad.toDataURL();
+        this.signaturePad.clear();
+      }
     }
-    }
-  
   }
 
-  
+  testimonialStartRecord() {
+    if (this.platform.is("ios")) {
+      this.fileName =
+        "record" +
+        new Date().getDate() +
+        new Date().getMonth() +
+        new Date().getFullYear() +
+        new Date().getHours() +
+        new Date().getMinutes() +
+        new Date().getSeconds() +
+        ".3gp";
+      this.filePath =
+        this.file.documentsDirectory.replace(/file:\/\//g, "") + this.fileName;
+      this.audio = this.media.create(this.filePath);
+    } else if (this.platform.is("android")) {
+      this.fileName =
+        "record" +
+        new Date().getDate() +
+        new Date().getMonth() +
+        new Date().getFullYear() +
+        new Date().getHours() +
+        new Date().getMinutes() +
+        new Date().getSeconds() +
+        ".3gp";
+      this.filePath =
+        this.file.externalDataDirectory.replace(/file:\/\//g, "") +
+        this.fileName;
+      this.audio = this.media.create(this.filePath);
+    }
+    this.audio.startRecord();
+    this.recording = true;
+    const toast = this.toastCtrl.create({ message: 'A gravar áudio...', duration: 3000 });
+    toast.present();
+  }
+
+  testimonialStopRecord() {
+    this.audio.stopRecord();
+    let data = { filename: this.fileName };
+    this.audioList.push(data);
+    localStorage.setItem("audiolist", JSON.stringify(this.audioList));
+    this.recording = false;
+    this.testimonialList();
+    const toast = this.toastCtrl.create({ message: `Gravação concluída: ${this.fileName}`, duration: 3000 });
+    toast.present();
+  }
+
+  testimonialPlay(file, idx) {
+    if (this.platform.is("ios")) {
+      this.filePath =
+        this.file.documentsDirectory.replace(/file:\/\//g, "") + file;
+      this.audio = this.media.create(this.filePath);
+    } else if (this.platform.is("android")) {
+      this.filePath =
+        this.file.externalDataDirectory.replace(/file:\/\//g, "") + file;
+      this.audio = this.media.create(this.filePath);
+    }
+    this.audio.play();
+    this.audio.setVolume(0.8);
+  }
+
+  openSignatureModel() {
+    //let modal = this.modalController.create('ActorSignaturePage');
+    //modal.present();
+    if (this.drawn) {
+      this.signatureImage = null;
+      this.drawn = false;
+    } else {
+      if (this.signaturePad.isEmpty() == false) {
+        this.drawn = true;
+        this.signatureImage = this.signaturePad.toDataURL();
+        this.signaturePad.clear();
+      }
+    }
+  }
 
   actorEdit() {
     let modal = this.modalController.create('ActorEditPage', { data: this.actor, accident: this.accidentId });

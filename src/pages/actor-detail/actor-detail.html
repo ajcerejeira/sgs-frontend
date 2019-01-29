@@ -79,14 +79,15 @@
     </button>
   </ion-fab>
   <ion-list *ngSwitchCase="'testimonials'">
-    <button ion-item *ngFor="let testimonial of testimonials">
+    <button ion-item *ngFor="let audio of audioList; index as i;" (click)="testimonialPlay(audio.filename, i)">
       <ion-icon name="play" item-start></ion-icon>
-      <h2>Gravação de áudio #{{ testimonial.id }}</h2>
-      <p>{{ testimonial.date }}</p>
+      <h2>{{ audio.filename }}</h2>
+      <p>{{ audio.filename }}</p>
     </button>
   </ion-list>
   <ion-fab right bottom *ngSwitchCase="'testimonials'">
-    <button ion-fab color="primary"><ion-icon name="mic"></ion-icon></button>
+    <button ion-fab color="primary" (click)="testimonialStartRecord()" *ngIf="!recording"><ion-icon name="mic"></ion-icon></button>
+    <button ion-fab color="primary" (click)="testimonialStopRecord()" *ngIf="recording"><ion-icon name="mic-off"></ion-icon></button>
   </ion-fab>
   <ion-list *ngSwitchCase="'signature'">
     <div *ngIf="drawn == 1" ><img [src]="signatureImage" *ngIf="signatureImage" /></div>
