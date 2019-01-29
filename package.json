@@ -27,7 +27,7 @@
     "@ionic-native/file": "^4.20.0",
     "@ionic-native/file-opener": "^4.20.0",
     "@ionic-native/file-transfer": "^4.20.0",
-    "@ionic-native/geolocation": "^4.20.0",
+    "@ionic-native/geolocation": "^4.18.0",
     "@ionic-native/google-maps": "^4.20.0",
     "@ionic-native/in-app-browser": "^4.18.0",
     "@ionic-native/media": "^4.18.0",
@@ -82,6 +82,7 @@
       "cordova-plugin-file": {},
       "cordova-plugin-file-opener2": {},
       "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-media": {},
       "cordova-plugin-googlemaps": {
         "API_KEY_FOR_ANDROID": "AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug",
         "API_KEY_FOR_IOS": "AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug",

@@ -35,7 +35,7 @@ export class LoginPage {
   }
 
   login() {
-    return this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
+    this.http.post("https://sgs-backend.herokuapp.com/api/auth/login", {
       "email": this.email,
       "password": this.password
     })
@@ -48,22 +48,12 @@ export class LoginPage {
         console.log(error);
         const toast = this.toastCtrl.create({
           position: 'top',
-          message: 'Check your facts fool',
+          message: 'Email ou password errados',
           duration: 3000,
           // cssClass : 'normalToast'
         });
         toast.present();
       });
-
-
-
-
-    // let postData = { 
-    //   // "email": this.email,
-    //   // "location": [this.latitude, this.longitude]
-    // }
-    // // console.log(JSON.parse(JSON.stringify('login')));
-
   }
 
     setSession(authResult) {
@@ -113,6 +103,11 @@ export class LoginPage {
       ]
     });
     forgot.present();
+  }
+
+  register() {
+    this.navCtrl.push('UserRegisterPage');
+    this.navCtrl.setRoot('UserRegisterPage');
   }
 
   ionViewDidLoad() {
