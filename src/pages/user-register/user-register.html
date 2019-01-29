@@ -4,35 +4,48 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+      </button>
+    </ion-buttons>
+    <ion-title>Novo utilizador</ion-title>
+  </ion-navbar>
+</ion-header>
 
-<ion-content>
-  <div class="splash-bg"></div>
+<ion-content padding scroll="false">
+  <!--<div class="splash-bg"></div>
   <div class="splash-info">
-    <div class="splash-logo"></div>
-    <form (ngSubmit) = editUser()>
+    <div class="splash-logo"></div> photo?-->
+  <div class="container">
+    <form [formGroup]="user">
     <ion-list>
       <ion-item>
-        <ion-label>Nome</ion-label>
+        <ion-label floating>Nome</ion-label>
+        <ion-input type="text" formControlName="name"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" formControlName="email"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" formControlName="password" > </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Repetir password</ion-label>
+        <ion-input type="password" formControlName="confirmPassword"> </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Afiliação</ion-label>
         <ion-input type="text"> </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Afiliação</ion-label>
-        <ion-input type="text"> </ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Password</ion-label>
-        <ion-input type="text"> </ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Repetir password</ion-label>
-        <ion-input type="text"> </ion-input>
-      </ion-item>
-      <ion-item>
-        <div padding-top>
-          <button ion-button type="submit" full>Registar</button>
-        </div>
+          <button ion-button type="submit" full [disabled]="!user.valid" (click)="createUser()">Registar</button>
       </ion-item>
     </ion-list>
   </form>
+  <h6 *ngIf="this.badLog" style="color:red" > <small> Check your facts fool </small></h6>
   </div>    
 </ion-content>

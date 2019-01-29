@@ -1,29 +1,8 @@
-@import '../../theme/variables.scss';
-
 page-user-register  {
-  .splash-bg {
-    position: relative;
-    background: linear-gradient(
-        rgba(20, 101, 170, 0.7), 
-        rgba(20, 101, 170, 0.7)
-      ), url("../assets/imgs/psp.jpg") no-repeat transparent;
-    background-position: center;
-    background-size: cover;
-    height: 30%;
-    z-index: 1;
-  }
-  .splash-info {
-    position: relative;
-    z-index: 2;
-    margin-top: -64px;
-    text-align: center;
-  }
-  .splash-logo {
-    margin: auto;
-    background: url("../assets/imgs/newphoto.png");
-    background-size: 100%;
-    width: 128px;
-    height: 128px;
+  .container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
   }
 }
 
