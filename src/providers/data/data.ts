@@ -11,10 +11,10 @@ export class Data {
     }
 
     filterItems(searchTerm, list){
-      if(searchTerm != "") {
+      if(searchTerm && searchTerm != "") {
         this.items = list;
         return this.items.filter((item) => {
-            return item.register.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+            return (item.register.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.brand.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
         });     
       }
       else {
