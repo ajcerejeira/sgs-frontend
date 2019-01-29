@@ -1,17 +1,16 @@
-import { Component, NgZone } from "@angular/core";
-import { IonicPage, NavController, ViewController, App } from "ionic-angular";
-import { Geolocation } from "@ionic-native/geolocation";
+import { Component, NgZone } from '@angular/core';
+import { IonicPage, NavController, ViewController, App } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
 import {
   Geocoder,
   GoogleMaps,
   GoogleMap,
   GoogleMapOptions,
-  Environment,
   BaseArrayClass,
   GeocoderResult,
-  GoogleMapsEvent
-} from "@ionic-native/google-maps";
-import { Http } from "@angular/http";
+  GoogleMapsEvent,
+} from '@ionic-native/google-maps';
+import { Http } from '@angular/http';
 
 declare var google: any;
 
@@ -24,12 +23,12 @@ declare var google: any;
 
 @IonicPage()
 @Component({
-  selector: "page-accident-create",
-  templateUrl: "accident-create.html"
+  selector: 'page-accident-create',
+  templateUrl: 'accident-create.html',
 })
 export class AccidentCreatePage {
   map: GoogleMap;
-  address: string = "Aqui estará a morada";
+  address: string = 'Aqui estará a morada';
   position: Position;
   markers: any;
   autocomplete: any;
@@ -44,10 +43,10 @@ export class AccidentCreatePage {
     public viewCtrl: ViewController,
     public geolocation: Geolocation,
     public http: Http,
-    public navCtrl: NavController
+    public navCtrl: NavController,
   ) {
-    this.geocoder = new google.maps.Geocoder;
-    let elem = document.createElement("div")
+    this.geocoder = new google.maps.Geocoder();
+    let elem = document.createElement('div');
     this.GooglePlaces = new google.maps.places.PlacesService(elem);
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
     this.autocomplete = { input: '' };
@@ -73,28 +72,28 @@ export class AccidentCreatePage {
       camera: {
         target: {
           lat: this.position.coords.latitude,
-          lng: this.position.coords.longitude
+          lng: this.position.coords.longitude,
         },
-        zoom: 15
-      }
+        zoom: 15,
+      },
     };
     this.latitude = this.position.coords.latitude;
     this.longitude = this.position.coords.longitude;
-    this.map = GoogleMaps.create("map_canvas", mapOptions);
+    this.map = GoogleMaps.create('map_canvas', mapOptions);
     this.map.one(GoogleMapsEvent.MAP_READY).then(async () => {
-      const geocoderRes = Geocoder.geocode({
+      Geocoder.geocode({
         position: [
           {
             lat: this.position.coords.latitude,
-            lng: this.position.coords.longitude
+            lng: this.position.coords.longitude,
           },
-        ]
+        ],
       }).then((mvcArray: BaseArrayClass<GeocoderResult[]>) => {
         mvcArray.one('finish').then(() => {
           console.log('finish', mvcArray.getArray());
-        })
+        });
       });
-    })
+    });
   }
 
   updateSearchResults() {
@@ -102,26 +101,28 @@ export class AccidentCreatePage {
       this.autocompleteItems = [];
       return;
     }
-    this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
+    this.GoogleAutocomplete.getPlacePredictions(
+      { input: this.autocomplete.input },
       (predictions, status) => {
         this.autocompleteItems = [];
         if (predictions) {
           this.zone.run(() => {
-            predictions.forEach((prediction) => {
+            predictions.forEach(prediction => {
               this.autocompleteItems.push(prediction);
             });
           });
         }
-      });
+      },
+    );
   }
 
   selectSearchResult(item) {
     this.autocompleteItems = [];
-    this.geocoder.geocode({ 'placeId': item.place_id }, (results, status) => {
+    this.geocoder.geocode({ placeId: item.place_id }, (results, status) => {
       if (status === 'OK' && results[0]) {
         var location = {
           lat: results[0].geometry.location.lat(),
-          lng: results[0].geometry.location.lng()
+          lng: results[0].geometry.location.lng(),
         };
         //console.log(results[0].geometry.location.lat())
         this.latitude = location.lat;
@@ -129,24 +130,28 @@ export class AccidentCreatePage {
         this.map.setCameraTarget(location);
         this.map.clear();
         this.map.addMarker({
-          position: location
+          position: location,
         });
       }
-    })
+    });
   }
 
   createAccident() {
     let postData = {
-      "date": this.myDate,
-      "position": [this.latitude, this.longitude]
-    }
+      date: this.myDate,
+      position: [this.latitude, this.longitude],
+    };
 
-    this.http.post("https://sgs-backend.herokuapp.com/api/accidents", postData)
-      .subscribe(data => {
-        console.log(data['_body']);
-      }, error => {
-        console.log(error);
-      });
+    this.http
+      .post('https://sgs-backend.herokuapp.com/api/accidents', postData)
+      .subscribe(
+        data => {
+          console.log(data['_body']);
+        },
+        error => {
+          console.log(error);
+        },
+      );
 
     this.viewCtrl.dismiss();
     this.navCtrl.push('AccidentListPage');

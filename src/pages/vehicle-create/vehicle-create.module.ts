@@ -3,11 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { VehicleCreatePage } from './vehicle-create';
 
 @NgModule({
-  declarations: [
-    VehicleCreatePage,
-  ],
-  imports: [
-    IonicPageModule.forChild(VehicleCreatePage),
-  ],
+  declarations: [VehicleCreatePage],
+  imports: [IonicPageModule.forChild(VehicleCreatePage)],
 })
 export class VehicleCreatePageModule {}

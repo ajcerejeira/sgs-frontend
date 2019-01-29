@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the PinModulerComponent component.
@@ -10,7 +10,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'pin-moduler',
-  templateUrl: 'pin-moduler.html'
+  templateUrl: 'pin-moduler.html',
 })
 export class PinModulerComponent {
   public rotation;
@@ -19,10 +19,7 @@ export class PinModulerComponent {
   public color: string;
   public number: any;
 
-  constructor(
-    public navParams: NavParams,
-  )
-  {
+  constructor(public navParams: NavParams) {
     this.typePin = this.navParams.data.pinType;
     this.color = this.navParams.data.color;
   }

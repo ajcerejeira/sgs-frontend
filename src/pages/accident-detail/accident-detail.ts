@@ -11,7 +11,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-accident-detail',
-  templateUrl: 'accident-detail.html'
+  templateUrl: 'accident-detail.html',
 })
 export class AccidentDetailPage {
   accidentInfoRoot = 'AccidentInfoPage';
@@ -22,13 +22,9 @@ export class AccidentDetailPage {
   nactors: number;
   id: number;
 
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams
-    ) {
-      this.id = navParams.get('id');
-      this.nvehicles = navParams.get('vehicles').length;
-      this.nactors = navParams.get('actors').length;
-    }
-
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.id = navParams.get('id');
+    this.nvehicles = navParams.get('vehicles').length;
+    this.nactors = navParams.get('actors').length;
+  }
 }

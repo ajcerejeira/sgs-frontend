@@ -1,8 +1,17 @@
-import { Component, NgZone, ViewChild } from "@angular/core";
-import { IonicPage, NavController, ViewController, NavParams, AlertController, App, Select, PopoverController } from "ionic-angular";
-import { Geolocation } from "@ionic-native/geolocation";
-import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler'
-import { Http } from "@angular/http";
+import { Component, NgZone, ViewChild } from '@angular/core';
+import {
+  IonicPage,
+  NavController,
+  ViewController,
+  NavParams,
+  AlertController,
+  App,
+  Select,
+  PopoverController,
+} from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
+import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler';
+import { Http } from '@angular/http';
 import {
   GoogleMaps,
   GoogleMap,
@@ -15,8 +24,8 @@ import {
   Spherical,
   Polygon,
   BaseArrayClass,
-  LatLng
-} from "@ionic-native/google-maps";
+  LatLng,
+} from '@ionic-native/google-maps';
 
 declare var google: any;
 
@@ -45,7 +54,7 @@ export class SketchPage {
     public http: Http,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
   ) {
     this.id = this.navParams.data;
   }
@@ -56,12 +65,18 @@ export class SketchPage {
   markerList: any = [];
 
   ionViewDidLoad() {
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
-      this.vehicles = res.vehicles;
-      //console.log(this.vehicles);
-    }, error => {
-      console.log(error);
-    });
+    this.http
+      .get('https://sgs-backend.herokuapp.com/api/accidents/' + this.id)
+      .map(res => res.json())
+      .subscribe(
+        res => {
+          this.vehicles = res.vehicles;
+          //console.log(this.vehicles);
+        },
+        error => {
+          console.log(error);
+        },
+      );
     this.loadMap();
   }
 
@@ -76,16 +91,16 @@ export class SketchPage {
         icon = {
           url: '../assets/imgs/croquiItens/signs/stop.png',
           scaledSize: {
-            width: 200
-          }
+            width: 200,
+          },
         };
         break;
       case 'Semáforo':
         icon = {
           url: '../assets/imgs/croquiItens/signs/traffic-light.png',
           scaledSize: {
-            width: 200
-          }
+            width: 200,
+          },
         };
         break;
       case 'Sinal proibido':
@@ -122,11 +137,11 @@ export class SketchPage {
         break;
     };
 
-    let position = { lat: this.latitude, lng: this.longitude }
+    let position = { lat: this.latitude, lng: this.longitude };
     let marker = {
       position: position,
       draggable: true,
-      icon: icon
+      icon: icon,
     };
     this.map.addMarkerSync(marker);
     this.markerList.push(marker);
@@ -136,7 +151,8 @@ export class SketchPage {
   confirmDelete() {
     const prompt = this.alertCtrl.create({
       title: 'Limpar mapa?',
-      message: 'Esta ação é irreversível. Toda a informação presente neste croqui será apagada.',
+      message:
+        'Esta ação é irreversível. Toda a informação presente neste croqui será apagada.',
       buttons: [
         {
           text: 'Cancelar',
@@ -146,9 +162,9 @@ export class SketchPage {
           text: 'Eliminar',
           handler: () => {
             this.map.clear();
-          }
+          },
         },
-      ]
+      ],
     });
     prompt.present();
   }
@@ -161,7 +177,7 @@ export class SketchPage {
     this.vehicles.forEach(v => {
       if (v.meta.register === licensePlate) {
         let path = '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg';
-        console.log("COR que envio: " + v.meta.color)
+        console.log('COR que envio: ' + v.meta.color);
         this.choosePin(path, v.meta.color, '$event');
       }
     });
@@ -196,15 +212,13 @@ export class SketchPage {
   }
 
   loadOverlay() {
-    let bounds: ILatLng[] = [
-      { "lat": this.latitude, "lng": this.longitude }
-    ];
+    let bounds: ILatLng[] = [{ lat: this.latitude, lng: this.longitude }];
 
     let groundOverlay: GroundOverlay = this.map.addGroundOverlaySync({
-      'url': 'assets/imgs/mercedes-1.jpg',
-      'bounds': bounds,
-      'opacity': 0.5,
-      'clickable': true  // default = false
+      url: 'assets/imgs/mercedes-1.jpg',
+      bounds: bounds,
+      opacity: 0.5,
+      clickable: true, // default = false
     });
 
     // Catch the GROUND_OVERLAY_CLICK event
@@ -214,9 +228,9 @@ export class SketchPage {
   }
 
   loadRadiusCircle() {
-    this.map.clear()
-    let center: ILatLng = { "lat": this.latitude, "lng": this.longitude };
-    let radius = 150;  // radius (meter)
+    this.map.clear();
+    let center: ILatLng = { lat: this.latitude, lng: this.longitude };
+    let radius = 150; // radius (meter)
 
     // Calculate the positions
     let positions: ILatLng[] = [0, 90, 180, 270].map((degree: number) => {
@@ -229,33 +243,48 @@ export class SketchPage {
     });
 
     let circle: Circle = this.map.addCircleSync({
-      'center': center,
-      'radius': radius,
-      'strokeColor': '#AA00FF',
-      'strokeWidth': 5,
-      'fillColor': '#00880055'
+      center: center,
+      radius: radius,
+      strokeColor: '#AA00FF',
+      strokeWidth: 5,
+      fillColor: '#00880055',
     });
 
     marker.on('position_changed').subscribe((params: any) => {
       let newValue: ILatLng = <ILatLng>params[1];
-      let newRadius: number = Spherical.computeDistanceBetween(center, newValue);
+      let newRadius: number = Spherical.computeDistanceBetween(
+        center,
+        newValue,
+      );
       circle.setRadius(newRadius);
     });
   }
 
   loadPolygons() {
     this.map.clear();
-    this.polygonPoints = []
-    this.polygonPoints.push({ lat: this.latitude + 0.0005000, lng: this.longitude + 0.0005000 });
-    this.polygonPoints.push({ lat: this.latitude + 0.0005000, lng: this.longitude - 0.0005000 });
-    this.polygonPoints.push({ lat: this.latitude - 0.0005000, lng: this.longitude - 0.0005000 });
-    this.polygonPoints.push({ lat: this.latitude - 0.0005000, lng: this.longitude + 0.0005000 });
+    this.polygonPoints = [];
+    this.polygonPoints.push({
+      lat: this.latitude + 0.0005,
+      lng: this.longitude + 0.0005,
+    });
+    this.polygonPoints.push({
+      lat: this.latitude + 0.0005,
+      lng: this.longitude - 0.0005,
+    });
+    this.polygonPoints.push({
+      lat: this.latitude - 0.0005,
+      lng: this.longitude - 0.0005,
+    });
+    this.polygonPoints.push({
+      lat: this.latitude - 0.0005,
+      lng: this.longitude + 0.0005,
+    });
 
     let polygon: Polygon = this.map.addPolygonSync({
-      'points': this.polygonPoints,
-      'strokeColor': '#AA00FF',
-      'fillColor': '#00FFAA',
-      'strokeWidth': 10
+      points: this.polygonPoints,
+      strokeColor: '#AA00FF',
+      fillColor: '#00FFAA',
+      strokeWidth: 10,
     });
 
     let points: BaseArrayClass<ILatLng> = polygon.getPoints();
@@ -263,9 +292,9 @@ export class SketchPage {
     points.forEach((latLng: ILatLng, idx: number) => {
       let marker: Marker = this.map.addMarkerSync({
         draggable: true,
-        position: latLng
+        position: latLng,
       });
-      marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe((params) => {
+      marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
         let position: LatLng = params[0];
         points.setAt(idx, position);
       });
@@ -274,9 +303,12 @@ export class SketchPage {
 
   //POPOVER
   presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PinModulerComponent, { pinType: this.chosenPin, color: this.color });
+    let popover = this.popoverCtrl.create(PinModulerComponent, {
+      pinType: this.chosenPin,
+      color: this.color,
+    });
     popover.present({
-      ev: myEvent
+      ev: myEvent,
     });
   }
 

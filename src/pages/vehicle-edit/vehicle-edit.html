@@ -34,7 +34,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Marca</ion-label>
-        <ion-input [(ngModel)]="brand" type="text" formControlName="brand"> {{brand.value}}</ion-input>
+        <ion-input [(ngModel)]="make" type="text" formControlName="make"> {{make.value}}</ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Modelo</ion-label>
@@ -45,8 +45,20 @@
         <ion-input [(ngModel)]="year" type="text" formControlName="year"> {{year.value}}</ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Marca</ion-label>
-        <ion-input [(ngModel)]="color" type="text" formControlName="color"> {{color.value}}</ion-input>
+        <ion-label>Cor</ion-label>
+        <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+          <ion-option value="#ffff00">Amarelo</ion-option>
+          <ion-option value="#0000ff">Azul</ion-option>
+          <ion-option value="#ffffff">Branco</ion-option>
+          <ion-option value="#000000">Preto</ion-option>
+          <ion-option value="#a52a2a">Castanho</ion-option>
+          <ion-option value="#bebebe">Cinza</ion-option>
+          <ion-option value="#ffa500">Laranja</ion-option>
+          <ion-option value="#a020f0">Roxo</ion-option>
+          <ion-option value="#ffff00">Rosa</ion-option>
+          <ion-option value="#00ff00">Verde</ion-option>
+          <ion-option value="#ff0000">Vermelho</ion-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>Apólice</ion-label>
@@ -58,7 +70,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Data de Validade do Seguro</ion-label>
-        <ion-input [(ngModel)]="expiresIn" type="text" formControlName="expiresIn"> {{expiresIn.value}}</ion-input>
+        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate">{{expirationDate.value}}</ion-datetime>
       </ion-item>
       <button ion-button type="submit" [disabled]="!vehicleEdited.valid">Submit</button>
     </form>
