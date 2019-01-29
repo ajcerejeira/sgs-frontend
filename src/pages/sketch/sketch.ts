@@ -1,12 +1,24 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, NgZone, ViewChild } from "@angular/core";
+import { IonicPage, NavController, ViewController, NavParams, AlertController, App, Select, PopoverController } from "ionic-angular";
+import { Geolocation } from "@ionic-native/geolocation";
+import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler'
+import { Http } from "@angular/http";
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapOptions,
+  GoogleMapsEvent,
+  GroundOverlay,
+  ILatLng,
+  Circle,
+  Marker,
+  Spherical,
+  Polygon,
+  BaseArrayClass,
+  LatLng
+} from "@ionic-native/google-maps";
 
-/**
- * Generated class for the SketchPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+declare var google: any;
 
 @IonicPage()
 @Component({
@@ -14,12 +26,296 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'sketch.html',
 })
 export class SketchPage {
+  map: GoogleMap;
+  position: Position;
+  id: string;
+  chosenPin: string;
+  color: string;
+  signs: any = ["STOP", "Semáforo"];
+  vehicles: any;
+  @ViewChild('vehicleSelect') vehicleRef: Select;
+  @ViewChild('signSelect') signRef: Select;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public zone: NgZone,
+    public app: App,
+    public viewCtrl: ViewController,
+    public geolocation: Geolocation,
+    public http: Http,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public popoverCtrl: PopoverController
+  ) {
+    this.id = this.navParams.data;
   }
+
+  latitude: any;
+  longitude: any;
+  polygonPoints: ILatLng[] = [];
+  markerList: any = [];
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SketchPage');
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
+      this.vehicles = res.vehicles;
+      //console.log(this.vehicles);
+    }, error => {
+      console.log(error);
+    });
+    this.loadMap();
   }
 
+  popupSigns() {
+    this.signRef.open();
+  }
+
+  onOkSign(chosenSign) {
+    var icon;
+    switch (chosenSign) {
+      case 'STOP':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/stop.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+      case 'Semáforo':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/traffic-light.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+    };
+
+    let position = { lat: this.latitude, lng: this.longitude }
+    let marker = {
+      position: position,
+      draggable: true,
+      icon: icon
+    };
+    this.map.addMarkerSync(marker);
+    this.markerList.push(marker);
+    console.log("array: " +this.markerList)
+  }
+
+  confirmDelete() {
+    const prompt = this.alertCtrl.create({
+      title: 'Limpar mapa?',
+      message: 'Esta ação é irreversível. Toda a informação presente neste croqui será apagada.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.map.clear();
+          }
+        },
+      ]
+    });
+    prompt.present();
+  }
+
+  popupVehicles() {
+    this.vehicleRef.open();
+  }
+
+  onOkVehicle(licensePlate) {
+    this.vehicles.forEach(v => {
+      if (v.meta.register === licensePlate) {
+        let path = '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg';
+        console.log("COR que envio: " + v.meta.color)
+        this.choosePin(path, v.meta.color, '$event');
+      }
+    });
+  }
+
+  async loadMap() {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
+      // Get position and address
+      this.position = res.position;
+      this.vehicles = res.vehicles;
+
+      let mapOptions: GoogleMapOptions = {
+        camera: {
+          target: {
+            lat: this.position[0],
+            lng: this.position[1]
+          },
+          zoom: 18
+        }
+      };
+      this.latitude = this.position[0]
+      this.longitude = this.position[1]
+      this.map = GoogleMaps.create("map_canvas", mapOptions);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  loadOverlay() {
+    let bounds: ILatLng[] = [
+      { "lat": this.latitude, "lng": this.longitude }
+    ];
+
+    let groundOverlay: GroundOverlay = this.map.addGroundOverlaySync({
+      'url': 'assets/imgs/mercedes-1.jpg',
+      'bounds': bounds,
+      'opacity': 0.5,
+      'clickable': true  // default = false
+    });
+
+    // Catch the GROUND_OVERLAY_CLICK event
+    groundOverlay.on(GoogleMapsEvent.GROUND_OVERLAY_CLICK).subscribe(() => {
+      groundOverlay.setImage('assets/imgs/mercedes-1.jpg');
+    });
+  }
+
+  loadRadiusCircle() {
+    this.map.clear()
+    let center: ILatLng = { "lat": this.latitude, "lng": this.longitude };
+    let radius = 150;  // radius (meter)
+
+    // Calculate the positions
+    let positions: ILatLng[] = [0, 90, 180, 270].map((degree: number) => {
+      return Spherical.computeOffset(center, radius, degree);
+    });
+
+    let marker: Marker = this.map.addMarkerSync({
+      position: positions[0],
+      draggable: true,
+    });
+
+    let circle: Circle = this.map.addCircleSync({
+      'center': center,
+      'radius': radius,
+      'strokeColor': '#AA00FF',
+      'strokeWidth': 5,
+      'fillColor': '#00880055'
+    });
+
+    marker.on('position_changed').subscribe((params: any) => {
+      let newValue: ILatLng = <ILatLng>params[1];
+      let newRadius: number = Spherical.computeDistanceBetween(center, newValue);
+      circle.setRadius(newRadius);
+    });
+  }
+
+  loadPolygons() {
+    this.map.clear();
+    this.polygonPoints = []
+    this.polygonPoints.push({ lat: this.latitude + 0.0005000, lng: this.longitude + 0.0005000 });
+    this.polygonPoints.push({ lat: this.latitude + 0.0005000, lng: this.longitude - 0.0005000 });
+    this.polygonPoints.push({ lat: this.latitude - 0.0005000, lng: this.longitude - 0.0005000 });
+    this.polygonPoints.push({ lat: this.latitude - 0.0005000, lng: this.longitude + 0.0005000 });
+
+    let polygon: Polygon = this.map.addPolygonSync({
+      'points': this.polygonPoints,
+      'strokeColor': '#AA00FF',
+      'fillColor': '#00FFAA',
+      'strokeWidth': 10
+    });
+
+    let points: BaseArrayClass<ILatLng> = polygon.getPoints();
+
+    points.forEach((latLng: ILatLng, idx: number) => {
+      let marker: Marker = this.map.addMarkerSync({
+        draggable: true,
+        position: latLng
+      });
+      marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe((params) => {
+        let position: LatLng = params[0];
+        points.setAt(idx, position);
+      });
+    });
+  }
+
+  //POPOVER
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PinModulerComponent, { pinType: this.chosenPin, color: this.color });
+    popover.present({
+      ev: myEvent
+    });
+  }
+
+  choosePin(pinType, color, myEvent) {
+    this.chosenPin = pinType;
+    this.color = color;
+    this.presentPopover(myEvent);
+  }
+
+  //MARKER
+  loadMarker() {
+    let pontos: BaseArrayClass<any> = new BaseArrayClass<any>([
+      {
+        position: { lat: this.latitude, lng: this.longitude },
+        iconData: "http://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/24/Number-2-icon.png"
+      }
+    ]);
+
+    pontos.forEach((data: any) => {
+      data.disableAutoPan = true;
+      let marker: Marker = this.map.addMarkerSync(data);
+      marker.setIcon(marker.get('iconData'));
+    });
+  }
+
+  //zoom listener
+  // zoomListener() {
+  //   this.map.clear();
+  //   var pixelSizeAtZoom0 = 2; //the size of the icon at zoom level 0
+  //   var maxPixelSize = 250; //restricts the maximum size of the icon, otherwise the browser will choke at higher zoom levels trying to scale an image to millions of pixels
+
+  //   var zoom = this.map.getCameraZoom();
+  //   console.log("ZOOM:" + zoom)
+  //   var relativePixelSize = (pixelSizeAtZoom0 * Math.pow(2, zoom)); // use 2 to the power of current zoom to calculate relative pixel size.  Base of exponent is 2 because relative size should double every time you zoom in
+
+  //   if (relativePixelSize > maxPixelSize) //restrict the maximum size of the icon
+  //     relativePixelSize = maxPixelSize;
+
+  //   console.log("MAX: " + maxPixelSize)
+  //   console.log("RELATIVO: " + relativePixelSize)
+  //   this.markerList.forEach((data: any) => {
+  //     data.disableAutoPan = true;
+  //     let marker: Marker = this.map.addMarkerSync(data);
+
+  //     console.log(JSON.stringify(data))
+  //     //change the size of the icon
+  //     marker.setIcon({
+  //       url: data.icon.url, //marker's same icon graphic
+  //       size: new google.maps.Size(relativePixelSize, relativePixelSize) //changes the scale
+  //     });
+  //   });
+  // }
+
+  zoomListener() {
+    this.map.clear();
+    var proportion: number;
+    var icon;
+    var zoom = this.map.getCameraZoom();
+    console.log("ZOOM:" + zoom)
+    
+    proportion = 1/(18/zoom);
+
+    this.markerList.forEach((data: any) => {
+      data.disableAutoPan = true;
+      if(zoom>=15) 
+        icon = data.icon.url
+      else 
+        icon = '../assets/imgs/croquiItens/signs/crash.png'
+      
+      let marker: Marker = this.map.addMarkerSync(data);
+
+      //change the size of the icon
+      marker.setIcon({
+        url: icon //marker's same icon graphic
+        //size: new google.maps.Size(proportion*data.icon.size.width, proportion*data.icon.size.height) //changes the scale
+      });
+    });
+  }
 }
