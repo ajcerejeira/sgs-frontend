@@ -63,6 +63,7 @@ export class ActorListPage {
   }
 
   ionViewDidLoad() {
+    console.log("ID ACIDENTE È: "+ this.navParams.data)
     console.log('ionViewDidLoad ActorListPage');
   }
 
@@ -71,7 +72,7 @@ export class ActorListPage {
   }
 
   addActor() {
-    //this.navCtrl.push('ActorCreatePage');
+    this.navCtrl.push('ActorCreatePage', {id: this.navParams.data});
   }
 
 }

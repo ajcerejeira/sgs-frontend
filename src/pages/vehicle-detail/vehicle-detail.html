@@ -5,14 +5,19 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+  
   <ion-navbar color="primary">
     <ion-title>Veículo</ion-title>
     <ion-buttons end [ngSwitch]="vehiclePage">
       <button ion-button icon-only (click)="confirmDelete(vehicle)" *ngSwitchCase="'info'">
         <ion-icon name="trash"></ion-icon>
       </button>
+      <button ion-button icon-only (click)="sendDamages()" *ngSwitchCase="'damages'">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
+
   <ion-toolbar>
     <ion-segment [(ngModel)]="vehiclePage">
       <ion-segment-button value="info">
@@ -93,14 +98,7 @@
   <div *ngSwitchCase="'damages'">
     <ion-grid>
       <ion-row justify-content-center>
-        <ion-col
-          col-3
-          col-sm-2
-          col-md-1
-          no-padding
-          style="margin-right: 4px;"
-          (click)="toggleDamage(0)"
-        >
+        <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-right: 4px;" (click)="toggleDamage(0)">
           <img src="assets/imgs/car-topview/top-left.png" />
           <div [ngClass]="damages[0] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
@@ -108,27 +106,13 @@
           <img src="assets/imgs/car-topview/top-center.png" />
           <div [ngClass]="damages[1] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
-        <ion-col
-          col-3
-          col-sm-2
-          col-md-1
-          no-padding
-          style="margin-left: 4px;"
-          (click)="toggleDamage(2)"
-        >
+        <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-left: 4px;" (click)="toggleDamage(2)">
           <img src="assets/imgs/car-topview/top-right.png" />
           <div [ngClass]="damages[2] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
-        <ion-col
-          col-3
-          col-sm-2
-          col-md-1
-          no-padding
-          style="margin-right: 4px;"
-          (click)="toggleDamage(3)"
-        >
+        <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-right: 4px;" (click)="toggleDamage(3)">
           <img src="assets/imgs/car-topview/middle-left.png" />
           <div [ngClass]="damages[3] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
@@ -136,27 +120,13 @@
           <img src="assets/imgs/car-topview/middle-center.png" />
           <div [ngClass]="damages[4] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
-        <ion-col
-          col-3
-          col-sm-2
-          col-md-1
-          no-padding
-          style="margin-left: 4px;"
-          (click)="toggleDamage(5)"
-        >
+        <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-left: 4px;" (click)="toggleDamage(5)">
           <img src="assets/imgs/car-topview/middle-right.png" />
           <div [ngClass]="damages[5] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
-        <ion-col
-          col-3
-          col-sm-2
-          col-md-1
-          no-padding
-          style="margin-right: 4px;"
-          (click)="toggleDamage(6)"
-        >
+        <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-right: 4px;" (click)="toggleDamage(6)">
           <img src="assets/imgs/car-topview/bottom-left.png" />
           <div [ngClass]="damages[6] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
@@ -164,14 +134,7 @@
           <img src="assets/imgs/car-topview/bottom-center.png" />
           <div [ngClass]="damages[7] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
-        <ion-col
-          col-3
-          col-sm-2
-          col-md-1
-          no-padding
-          style="margin-left: 4px;"
-          (click)="toggleDamage(8)"
-        >
+        <ion-col col-3 col-sm-2 col-md-1 no-padding style="margin-left: 4px;" (click)="toggleDamage(8)">
           <img src="assets/imgs/car-topview/bottom-right.png" />
           <div [ngClass]="damages[8] ? 'overlay-on' : 'overlay-off'"></div>
         </ion-col>
