@@ -11,9 +11,9 @@
     </button>
     <ion-title>Croqui digital</ion-title>
     <ion-buttons end>
-        <button ion-button icon-only (click)="zoomListener()">
-            <ion-icon name="refresh"></ion-icon>
-          </button>
+      <button ion-button icon-only (click)="zoomListener()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="confirmDelete()">
         <ion-icon name="trash"></ion-icon>
       </button>
@@ -30,12 +30,12 @@
 </ion-item>
 
 <ion-item>
-    <ion-label>Sinal de trânsito</ion-label>
-    <ion-select [(ngModel)]="chosenSign" (ngModelChange)="onOkSign(chosenSign)" #signSelect>
-      <!-- <ion-option *ngFor="let v of vehicles; let i=index;" [selected]="i === 0"> -->
-      <ion-option *ngFor="let s of signs">{{s}}</ion-option>
-    </ion-select>
-  </ion-item>
+  <ion-label>Sinal de trânsito</ion-label>
+  <ion-select [(ngModel)]="chosenSign" (ngModelChange)="onOkSign(chosenSign)" #signSelect>
+    <!-- <ion-option *ngFor="let v of vehicles; let i=index;" [selected]="i === 0"> -->
+    <ion-option *ngFor="let s of signs">{{s}}</ion-option>
+  </ion-select>
+</ion-item>
 
 <ion-content>
   <div class="container">
@@ -50,9 +50,6 @@
         </button>
         <button ion-fab>
           <ion-icon name="person" (click)="choosePin('body',$event)"></ion-icon>
-        </button>
-        <button ion-fab>
-          <ion-icon name="eye" (click)="loadMarker()"></ion-icon>
         </button>
         <button ion-fab>
           <ion-icon name="warning" (click)="popupSigns()"></ion-icon>

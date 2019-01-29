@@ -31,7 +31,7 @@ export class SketchPage {
   id: string;
   chosenPin: string;
   color: string;
-  signs: any = ["STOP", "Semáforo"];
+  signs: any = ["Sinal STOP", "Semáforo", "Sinal proibido", "Sentido único", "Cedência passagem", "Passadeira"];
   vehicles: any;
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('signSelect') signRef: Select;
@@ -72,7 +72,7 @@ export class SketchPage {
   onOkSign(chosenSign) {
     var icon;
     switch (chosenSign) {
-      case 'STOP':
+      case 'Sinal STOP':
         icon = {
           url: '../assets/imgs/croquiItens/signs/stop.png',
           scaledSize: {
@@ -88,6 +88,38 @@ export class SketchPage {
           }
         };
         break;
+      case 'Sinal proibido':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/forbidden-sign.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+      case 'Sentido único':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/one-way.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+      case 'Cedência passagem':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/yield.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
+      case 'Passadeira':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/crosswalk.png',
+          scaledSize: {
+            width: 200
+          }
+        };
+        break;
     };
 
     let position = { lat: this.latitude, lng: this.longitude }
@@ -98,7 +130,7 @@ export class SketchPage {
     };
     this.map.addMarkerSync(marker);
     this.markerList.push(marker);
-    console.log("array: " +this.markerList)
+    console.log("array: " + this.markerList)
   }
 
   confirmDelete() {
@@ -153,6 +185,11 @@ export class SketchPage {
       this.latitude = this.position[0]
       this.longitude = this.position[1]
       this.map = GoogleMaps.create("map_canvas", mapOptions);
+
+      // Catch all camera events
+      // this.map.addEventListener(GoogleMapsEvent.CAMERA_MOVE_END).subscribe(() => {
+      //   this.zoomListener();
+      // });
     }, error => {
       console.log(error);
     });
@@ -249,72 +286,28 @@ export class SketchPage {
     this.presentPopover(myEvent);
   }
 
-  //MARKER
-  loadMarker() {
-    let pontos: BaseArrayClass<any> = new BaseArrayClass<any>([
-      {
-        position: { lat: this.latitude, lng: this.longitude },
-        iconData: "http://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/24/Number-2-icon.png"
-      }
-    ]);
-
-    pontos.forEach((data: any) => {
-      data.disableAutoPan = true;
-      let marker: Marker = this.map.addMarkerSync(data);
-      marker.setIcon(marker.get('iconData'));
-    });
-  }
-
-  //zoom listener
-  // zoomListener() {
-  //   this.map.clear();
-  //   var pixelSizeAtZoom0 = 2; //the size of the icon at zoom level 0
-  //   var maxPixelSize = 250; //restricts the maximum size of the icon, otherwise the browser will choke at higher zoom levels trying to scale an image to millions of pixels
-
-  //   var zoom = this.map.getCameraZoom();
-  //   console.log("ZOOM:" + zoom)
-  //   var relativePixelSize = (pixelSizeAtZoom0 * Math.pow(2, zoom)); // use 2 to the power of current zoom to calculate relative pixel size.  Base of exponent is 2 because relative size should double every time you zoom in
-
-  //   if (relativePixelSize > maxPixelSize) //restrict the maximum size of the icon
-  //     relativePixelSize = maxPixelSize;
-
-  //   console.log("MAX: " + maxPixelSize)
-  //   console.log("RELATIVO: " + relativePixelSize)
-  //   this.markerList.forEach((data: any) => {
-  //     data.disableAutoPan = true;
-  //     let marker: Marker = this.map.addMarkerSync(data);
-
-  //     console.log(JSON.stringify(data))
-  //     //change the size of the icon
-  //     marker.setIcon({
-  //       url: data.icon.url, //marker's same icon graphic
-  //       size: new google.maps.Size(relativePixelSize, relativePixelSize) //changes the scale
-  //     });
-  //   });
-  // }
-
   zoomListener() {
     this.map.clear();
     var proportion: number;
     var icon;
     var zoom = this.map.getCameraZoom();
     console.log("ZOOM:" + zoom)
-    
-    proportion = 1/(18/zoom);
+
+    proportion = 1 / (18 / zoom);
 
     this.markerList.forEach((data: any) => {
       data.disableAutoPan = true;
-      if(zoom>=15) 
+      if (zoom >= 15)
         icon = data.icon.url
-      else 
+      else
         icon = '../assets/imgs/croquiItens/signs/crash.png'
-      
+
       let marker: Marker = this.map.addMarkerSync(data);
 
       //change the size of the icon
       marker.setIcon({
-        url: icon //marker's same icon graphic
-        //size: new google.maps.Size(proportion*data.icon.size.width, proportion*data.icon.size.height) //changes the scale
+        url: icon, //marker's same icon graphic
+        size: new google.maps.Size(proportion * data.icon.size.width, proportion * data.icon.size.height) //changes the scale
       });
     });
   }
