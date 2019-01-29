@@ -2,17 +2,10 @@ import { Component, NgZone } from "@angular/core";
 import { IonicPage, NavController, ViewController, NavParams, App } from "ionic-angular";
 import { Geolocation } from "@ionic-native/geolocation";
 import {
-  Geocoder,
   GoogleMaps,
   GoogleMap,
-  GoogleMapOptions,
-  Environment,
-  BaseArrayClass,
-  GeocoderResult,
-  GoogleMapsEvent
-} from "@ionic-native/google-maps";
+  GoogleMapOptions} from "@ionic-native/google-maps";
 import { Http } from "@angular/http";
-import { Camera } from "@ionic-native/camera";
 
 declare var google: any;
 
@@ -30,7 +23,6 @@ declare var google: any;
 })
 export class AccidentEditPage {
   map: GoogleMap;
-  address: string = "Aqui estará a morada";
   position: Position;
   markers: any;
   autocomplete: any;
@@ -71,9 +63,9 @@ export class AccidentEditPage {
   }
 
   async loadMap() {
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.id).map(res => res.json()).subscribe(res => {
       // Get position and address
-      this.position = res.location;
+      this.position = res.position;
       this.accidentDate = res.date;
 
       let mapOptions: GoogleMapOptions = {
@@ -103,7 +95,7 @@ export class AccidentEditPage {
       return;
     }
     this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions, status) => {
+      (predictions) => {
         this.autocompleteItems = [];
         if (predictions) {
           this.zone.run(() => {
@@ -138,7 +130,7 @@ export class AccidentEditPage {
   updateAccident() {
     let postData = {
       "date": this.accidentDate,
-      "location": [this.latitude, this.longitude]
+      "position": [this.latitude, this.longitude]
     }
 
     this.http.put("https://sgs-backend.herokuapp.com/api/accidents/"+this.id, postData)

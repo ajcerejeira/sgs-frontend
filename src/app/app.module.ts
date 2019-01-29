@@ -8,15 +8,17 @@ import { HttpModule } from '@angular/http';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Media } from '@ionic-native/media';
 import { File } from '@ionic-native/file';
-
-import { MyApp } from './app.component';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps} from "@ionic-native/google-maps";
+import { PinModulerComponent } from '../components/pin-moduler/pin-moduler';
 import { Data } from '../providers/data/data';
+import { MyApp } from './app.component';
 
 @NgModule({
   declarations: [
     MyApp,
+    PinModulerComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +28,7 @@ import { Data } from '../providers/data/data';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    PinModulerComponent
   ],
   providers: [
     Camera,
@@ -36,8 +39,9 @@ import { Data } from '../providers/data/data';
     GoogleMaps,
     Media,
     File,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Data
+    Data,
+    InAppBrowser,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}
