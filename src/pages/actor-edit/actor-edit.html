@@ -114,7 +114,13 @@
     </ion-list-header>
     <ion-item>
         <ion-label>Tipo de Identificação</ion-label>
-        <ion-input [(ngModel)]="identityDocumentType"  type="text"> {{identityDocumentType}}</ion-input>
+        <ion-select [(ngModel)]="identityDocumentType"  okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="IdentityDocument">Cartão de Cidadão</ion-option>
+            <ion-option value="Passport">Passaporte</ion-option>
+            <ion-option value="DriverLicense">Carta de Condução</ion-option>
+            
+            {{identityDocumentType}}
+          </ion-select>
     </ion-item>
     <ion-item>
         <ion-label>Nº de Identificação</ion-label>
