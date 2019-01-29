@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -32,25 +32,26 @@ export class ActorCreatePage {
   public birth: any;
   public expires: any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder, public http: Http, public toastCtrl: ToastController) {
     this.formGroup = this.formBuilder.group({
       name: [null, Validators.required],
-      birth: [null, Validators.required],
-      phone: [null, []],
+      birth: [null, []],
+      phone: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      nacionality: [null, Validators.required],
+      nationality: [null, Validators.required],
       naturality: [null, Validators.required],
       locality: [null, Validators.required],
       zipcode: [null, Validators.required],
       address: [null, Validators.required],
-      doorNumber: [null, [Validators.required, Validators.required]],
+      doorNumber: [null, Validators.required],
+      idType: [null, []],
       idNumber: [null, Validators.required],
       parentage: [null, Validators.required],
       emitedBy: [null, Validators.required],
-      expires: [null, Validators.required],
+      expires: [null, []],
       alcoholTest: [null, Validators.required],
       vehicle: [null, Validators.required],
-      injury:  [null, Validators.required],
+      injury:  [null, []],
       role: [null, Validators.required],
 
     });
@@ -77,16 +78,17 @@ export class ActorCreatePage {
     var actor = {
 
       name: this.formGroup.value["name"],
-      birth: birthD, // falta do lado do html
+      birth: birthD, 
       phone: this.formGroup.value["phone"],
       email: this.formGroup.value["email"],
-      nacionality: this.formGroup.value["nacionality"],
+      nationality: this.formGroup.value["nationality"],
       naturality: this.formGroup.value["naturality"],
       locality: this.formGroup.value["locality"],
       zipcode: this.formGroup.value["zipcode"],
       address: this.formGroup.value["address"],
       doorNumber: this.formGroup.value["doorNumber"],
       accident: this.id,
+      idType: this.formGroup.value["idType"],
       idNumber: this.formGroup.value["idNumber"],
       parentage: [this.formGroup.value["parentage"]],
       emitedBy: this.formGroup.value["emitedBy"],
@@ -100,8 +102,12 @@ export class ActorCreatePage {
     this.http.post(this.url, actor)
       .subscribe(data => {
         console.log(data['_body']);
+        const toast = this.toastCtrl.create({position: 'top', message: "Interveniente criado com sucesso!", duration: 3000 });
+        toast.present();
       }, error => {
         console.log(error);
+        const toast = this.toastCtrl.create({position: 'top', message: "Erro ao criar interveniente!", duration: 3000 });
+        toast.present();
       });
       this.navCtrl.push('ActorDetailPage');
   }
