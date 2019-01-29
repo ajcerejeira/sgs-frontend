@@ -1,4 +1,8 @@
 import { Component, ViewChild } from "@angular/core";
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+import { Http } from "@angular/http";
+import { Media, MediaObject } from "@ionic-native/media";
+import { File } from "@ionic-native/file";
 import {
   IonicPage,
   NavController,
@@ -8,9 +12,6 @@ import {
   Platform,
   ToastController
 } from "ionic-angular";
-import { Media, MediaObject } from "@ionic-native/media";
-import { File } from "@ionic-native/file";
-import { SignaturePad } from "angular2-signaturepad/signature-pad";
 /**
  * Generated class for the ActorDetailPage page.
  *
@@ -34,6 +35,38 @@ export class ActorDetailPage {
   };
   public signatureImage: string;
   public drawn = false;
+
+  accidentId : any;
+  actorPage: string = "info"; // Default segment to load
+  actor : any
+  vehicle : any
+  register : string
+  make : string
+  model : string
+  idv : any
+  year: string
+  month: string
+  day: string
+  id : any  
+  identityDocumentType: string;
+  identityDocumentNumber: string;
+  identityDocumentExpirationDate: string;
+  identityDocumentEmitedBy: string;
+  name: string;
+  birth: string;
+  email: string;
+  phone: string;
+  nationality: string;
+  naturality: string;
+  parentage: string[];
+  locality: string;
+  zipcode: string;
+  address: string;
+  doorNumber: string;
+  role: string; 
+  wounds: string;
+  alcoholTest: number
+
   public width = 340;
   public height = 200;
 
@@ -42,35 +75,73 @@ export class ActorDetailPage {
   filePath: string;
   fileName: string;
   audio: MediaObject;
-  
-  audioList: any[] = [
-    {
-      audio: "bla bla bla",
-      filename: "bla bla bla",
-    }
-  ];
-
-  // Segment data
-  actorPage: string = "info"; 
+  audioList: any[] = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public modalController: ModalController,
+    public modalController:ModalController,
     public alertCtrl: AlertController,
+    public http: Http,
     public toastCtrl: ToastController,
     public media: Media,
     public file: File,
     public platform: Platform,
-  ) {}
+  ) {
+    this.accidentId = this.navParams.get('accident');
+  }
 
   canvasResize() {
     let canvas = document.querySelector("canvas");
   }
 
   ionViewDidLoad() {
+    console.log("Intervin :" + JSON.stringify(this.navParams))
+    this.actor = this.navParams.get('actor')
+    this.identityDocumentType = this.actor.person.identityDocumentType;
+      this.identityDocumentNumber = this.actor.person.identityDocumentNumber;
+      this.identityDocumentExpirationDate = this.actor.person.identityDocumentExpirationDate;
+      this.identityDocumentEmitedBy = this.actor.person.identityDocumentEmitedBy;
+      this.name = this.actor.person.name;
+      this.year = this.actor.person.birth.substring(0, 4);
+      this.month = this.actor.person.birth.substring(4, 7);
+      this.day = this.actor.person.birth.substring(8, 10);
+      this.birth = this.day.concat(this.month)
+      this.birth = this.birth.concat("-")
+      this.birth = this.birth.concat(this.year)
+      this.email = this.actor.person.email;
+      this.phone = this.actor.person.phone;
+      this.nationality = this.actor.person.nationality;
+      this.naturality = this.actor.person.naturality;
+      this.parentage = this.actor.person.parentage;
+      this.locality = this.actor.person.locality;
+      this.zipcode = this.actor.person.zipcode;
+      this.address = this.actor.person.address;
+      this.doorNumber = this.actor.person.doorNumber;
+      this.role = this.actor.role; 
+      this.wounds = this.actor.wounds;
+      this.alcoholTest = this.actor.alcoholTest; 
+
+    /*if(this.actor.vehicle!=null){
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"vehicles/").map(res => res.json()).subscribe(res => {
+      
+
+       
+
+      this.vehicle=res;
+      this.idv = this.vehicle.id
+      this.register = this.vehicle.register
+      this.make = this.vehicle.make
+      this.model = this.vehicle.model
+        console.log(this.actor);
+        console.log(this.vehicle);
+        console.log(this.vehicle.register);
+      }, error => {
+        console.log(error);
+      });
+    }*/
     console.log("ionViewDidLoad ActorDetailPage");
-    this.canvasResize();
+    
   }
 
   ionViewWillEnter() {
@@ -88,7 +159,14 @@ export class ActorDetailPage {
           role: "cancel"
         },
         {
-          text: "Eliminar"
+          text: "Eliminar",
+          handler: () => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"/actors/"+this.actor.id).subscribe(res => {
+              this.navCtrl.push('ActorListPage',{accident : this.accidentId});
+            }, error => {
+              console.log(error);
+            });
+          }
         }
       ]
     });
@@ -99,6 +177,19 @@ export class ActorDetailPage {
     if (localStorage.getItem("testimonialList")) {
       this.audioList = JSON.parse(localStorage.getItem("testimonialt"));
       console.log(this.audioList);
+    }
+  }
+
+  openSignature(){
+    //let modal = this.modalController.create('ActorSignaturePage');
+    //modal.present();
+    if(this.drawn) {this.signatureImage = null; this.drawn = false;}
+    else{
+      if(this.signaturePad.isEmpty() == false){
+        this.drawn = true;
+        this.signatureImage = this.signaturePad.toDataURL();
+        this.signaturePad.clear();
+      }
     }
   }
 
@@ -176,13 +267,15 @@ export class ActorDetailPage {
   }
 
   actorEdit() {
-    const prompt = this.alertCtrl.create({
-      title: "Modal para edição das informações gerais do interveniente",
-      buttons: ["Ok"]
-    });
-    prompt.present();
+    let modal = this.modalController.create('ActorEditPage', { data: this.actor, accident: this.accidentId });
+    modal.onDidDismiss(data => { });
+    modal.present();
   }
-
+  
+  vehicleDetail(vehicle) {
+    this.navCtrl.push('VehicleDetailPage', vehicle);
+  }
+  
   removeItem(i){
     console.log(this.audioList[i]);
     let name = this.audioList[i].audio;

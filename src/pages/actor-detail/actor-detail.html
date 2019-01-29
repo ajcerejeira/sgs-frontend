@@ -33,7 +33,6 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [ngSwitch]="actorPage">
-
  <ion-list *ngSwitchCase="'testimonials'">
   <ion-item-sliding *ngFor="let audio of audioList; index as i;">
 
@@ -54,6 +53,59 @@
   </ion-item-sliding>
    
   </ion-list> 
+    <ion-list *ngSwitchCase="'info'">
+        <ion-list-header color="light">
+              Dados do Acidente
+        </ion-list-header>
+    
+        <ion-item>Tipo: <ion-note item-end >{{ role }}</ion-note></ion-item>
+        <ion-item>Ferimentos: <ion-note item-end>{{ wounds }}</ion-note></ion-item>
+        <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
+        <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
+            <h2>{{ register }} </h2>
+            <p>{{ make }} {{ model }}</p>
+        </button>
+        
+    
+        <ion-list-header color="light">
+          Dados Pessoias
+        </ion-list-header>
+        
+        <ion-item>Nome: <ion-note item-end>{{ name }}</ion-note></ion-item>
+        <ion-item>Data de Nascimento: <ion-note item-end>{{ birth }}</ion-note></ion-item>
+        <ion-item>Contacto: <ion-note item-end>{{ phone }}</ion-note></ion-item>
+        <ion-item>Email: <ion-note item-end>{{ email }}</ion-note></ion-item>
+        <ion-item>Nacionalidade: <ion-note item-end>{{ nationality }}</ion-note></ion-item>
+        <ion-item>Naturalidade: <ion-note item-end>{{ naturality }}</ion-note></ion-item>
+        <ion-item *ngFor="let parent of parentage">Filiação: <ion-note item-end>{{ parent }}</ion-note></ion-item>
+        <ion-list-header color="light">
+            Localização
+        </ion-list-header>
+        <ion-item>Localidade: <ion-note item-end>{{ locality }}</ion-note></ion-item>
+        <ion-item>Código-Postal: <ion-note item-end>{{ zipcode }}</ion-note></ion-item>
+        <ion-item>Morada: <ion-note item-end>{{ address }}</ion-note></ion-item>
+        <ion-item>Nº de Porta: <ion-note item-end>{{ doorNumber }}</ion-note></ion-item>
+        <ion-list-header color="light">
+            Identificação
+        </ion-list-header>
+        <ion-item>Tipo de Identificação: <ion-note item-end>{{ identityDocumentType }}</ion-note></ion-item>
+        <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note></ion-item>
+        <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDate }}</ion-note></ion-item>
+        <ion-item>Emitido por: <ion-note item-end>{{ identityDocumentEmitedBy }}</ion-note></ion-item>
+        <ion-item> <ion-note item-end></ion-note></ion-item>
+      </ion-list>
+  <ion-fab right bottom *ngSwitchCase="'info'">
+    <button ion-fab color="primary" (click)="actorEdit()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-list *ngSwitchCase="'testimonials'">
+    <button ion-item *ngFor="let audio of audioList; index as i;" (click)="testimonialPlay(audio.filename, i)">
+      <ion-icon name="play" item-start></ion-icon>
+      <h2>{{ audio.filename }}</h2>
+      <p>{{ audio.filename }}</p>
+    </button>
+  </ion-list>
   <ion-fab right bottom *ngSwitchCase="'testimonials'">
     <button ion-fab color="primary" (click)="testimonialStartRecord()" *ngIf="!recording"><ion-icon name="mic"></ion-icon></button>
     <button ion-fab color="primary" (click)="testimonialStopRecord()" *ngIf="recording"><ion-icon name="mic-off"></ion-icon></button>
@@ -63,7 +115,7 @@
     <div *ngIf="drawn == 0"><signature-pad [options]="signaturePadOptions"  id="signatureCanvas"></signature-pad></div>
   </ion-list>
   <ion-fab right bottom *ngSwitchCase="'signature'">
-    <button ion-fab color="primary" (click)="openSignatureModel()"><ion-icon name="create"></ion-icon></button>
+    <button ion-fab color="primary" (click)="openSignature()"><ion-icon name="create"></ion-icon></button>
   </ion-fab>
   
 </ion-content>

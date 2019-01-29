@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Http } from "@angular/http";
+import 'rxjs/add/operator/map';
+import { directive } from '@angular/core/src/render3/instructions';
+import { ReadVarExpr } from '@angular/compiler';
 
 /**
  * Generated class for the ActorListPage page.
@@ -14,61 +18,79 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'actor-list.html',
 })
 export class ActorListPage {
-  drivers: any[] = [
-    {
-      name: "Afonso Silva",
-      register: "11-23-58",
-      car: "Honda Civic",
-      wounds: "Ferimentos ligeiros",
-    },
-    {
-      name: "Alfredo Gomes",
-      register: "23-XD-2C",
-      car: "Renault Megane",
-      wounds: "Ferimentos médios",
-    }
-  ];
-  passengers: any[] = [
-    {
-      name: "Francisco Costa",
-      register: "11-23-58",
-      car: "Honda Civic",
-      wounds: "Nenhum ferimento",
-    },
-    {
-      name: "João Vieira",
-      register: "23-XD-2C",
-      car: "Renault Megane",
-      wounds: "Ferimentos graves",
-    },
-    {
-      name: "Octávio Maia",
-      register: "11-23-58",
-      car: "Honda Civic",
-      wounds: "Morte",
-    },
-  ];
-  victims: any[] = [
-    {
-      name: "Humberto Vaz",
-      wounds: "Nenhum ferimento",
-    },
-    {
-      name: "João Dias",
-      wounds: "Ferimentos ligeiros",
-    },
-  ];
+  accidentId: any;
+  drivers: any;
+  passengers: any;
+  witnesses: any;
+  pedestrians: any;
+  others: any;
+  actor : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public http: Http
+    ) {
+      this.drivers = []
+      this.passengers = []
+      this.witnesses = []
+      this.pedestrians = []
+      this.others = []
+    
   }
 
   ionViewDidLoad() {
-    console.log("ID ACIDENTE È: "+ this.navParams.data)
-    console.log('ionViewDidLoad ActorListPage');
+    if(this.navParams.get('accident'))
+      this.accidentId = this.navParams.get('accident'); 
+    else 
+      this.accidentId = this.navParams.data
+
+    //console.log("Intervenientes do acidente: " + this.accidentId);
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+ this.accidentId).map(res => res.json()).subscribe(res => {
+      //console.log(JSON.stringify(res))  
+      var actors = res.actors;
+      var vehicles = res.vehicles;
+      //console.log(JSON.stringify(actors))
+      //console.log(JSON.stringify(vehicles))
+        for (var i = 0; i < actors.length; i++){
+          
+          if (actors[i].role === "Driver" ){ 
+            for (var j = 0; j < vehicles.length; j++){
+              if(vehicles[j].id == actors[i].vehicle){
+                actors[i].register = vehicles[j].register;
+                actors[i].make = vehicles[j].make;
+                actors[i].model = vehicles[j].model;
+                break;
+              }
+           }
+            //console.log(JSON.stringify(actors[i]));
+            this.drivers.push(actors[i]);}
+          if (actors[i].role === "Passenger" ){
+            for (var j = 0; j < vehicles.length; j++){
+              if(vehicles[j].id == actors[i].vehicle){
+                actors[i].register = vehicles[j].register;
+                actors[i].make = vehicles[j].make;
+                actors[i].model = vehicles[j].model;
+                break;
+              }
+            } 
+            this.passengers.push(actors[i]);}
+          if (actors[i].role === "Pedestrian" ){ this.pedestrians.push(actors[i]);}
+          if (actors[i].role === "Witness" ){ this.witnesses.push(actors[i]);}
+          if (actors[i].role === "Other" ){ this.others.push(actors[i]);}
+        }
+
+      }, error => {
+        console.log(error);
+      });
   }
 
-  actorDetail() {
-    this.navCtrl.push('ActorDetailPage');
+  actorDetail(actor) {
+    this.navCtrl.push('ActorDetailPage', {
+      actor: actor,
+      accident: this.accidentId
+    });
+  
   }
 
   addActor() {
