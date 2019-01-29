@@ -43,23 +43,23 @@
       Geral
     </ion-list-header>
     <ion-item>
-      Matrícula <ion-note item-end>{{ vehicle.register }}</ion-note>
+      Matrícula <ion-note item-end>{{ vehicle.meta.register }}</ion-note>
     </ion-item>
     <ion-item>
-      Fabricante <ion-note item-end>{{ vehicle.brand }}</ion-note>
+      Fabricante <ion-note item-end>{{ vehicle.meta.make }}</ion-note>
     </ion-item>
     <ion-item>
-      Modelo <ion-note item-end>{{ vehicle.model }}</ion-note>
+      Modelo <ion-note item-end>{{ vehicle.meta.model }}</ion-note>
     </ion-item>
     <ion-list-header color="light">
       <ion-icon name="umbrella"></ion-icon>
       Seguro
     </ion-list-header>
     <ion-item>
-      Apólice <ion-note item-end>{{ vehicle.policy }}</ion-note>
+      Apólice <ion-note item-end>{{ vehicle.meta.policy }}</ion-note>
     </ion-item>
     <ion-item>
-      Seguradora <ion-note item-end>{{ vehicle.insurance }}</ion-note>
+      Seguradora <ion-note item-end>{{ vehicle.meta.insurance }}</ion-note>
     </ion-item>
     <ion-list-header color="light">
       <ion-icon name="person"></ion-icon>

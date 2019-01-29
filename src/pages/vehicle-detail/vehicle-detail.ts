@@ -24,14 +24,10 @@ import { Http } from "@angular/http";
   templateUrl: "vehicle-detail.html"
 })
 export class VehicleDetailPage {
+  idAccident: number;
   vehicle: any;
+  vehicleId: any;
   topLeft: boolean = false;
-  // register: string;
-  // brand: string;
-  // model: string;
-  // year: number;
-  // insurance: string;
-  // policy: string;
   driver: any = {
     name: "Afonso Silva",
     wounds: "Ferimentos leves",
@@ -77,7 +73,8 @@ export class VehicleDetailPage {
     public alertCtrl: AlertController,
     private camera: Camera,
     public http: Http,
-  ) {
+  ) 
+  {
     this.vehicle = {
       id: this.navParams.get('id'),
       register: this.navParams.get('register'),
@@ -85,9 +82,9 @@ export class VehicleDetailPage {
       brand: this.navParams.get('brand'),
       policy: this.navParams.get('policy'),
       insurance: this.navParams.get('insurance'),
-      year: this.navParams.get('year'),
+      year: this.navParams.get('year')
+    }
   }
-}
 
   ionViewDidLoad() {
     console.log("VEICULO: "+ this.vehicle.id)
@@ -106,7 +103,7 @@ export class VehicleDetailPage {
         {
           text: 'Eliminar',
           handler: () => {
-            this.http.delete("https://sgs-backend.herokuapp.com/api/vehicles/"+this.vehicle.id).subscribe(res => {
+            this.http.delete("https://sgs-backend.herokuapp.com/api/accidents/"+this.idAccident+"/vehicles/"+this.vehicleId).subscribe(res => {
               this.navCtrl.push('VehicleListPage');
             }, error => {
               console.log(error);
@@ -141,15 +138,7 @@ export class VehicleDetailPage {
   }
 
   vehicleEdit() {
-    // var vehicle = {
-    //   register: this.register,
-    //   model: this.model,
-    //   brand: this.brand,
-    //   policy: this.policy,
-    //   insurance: this.insurance,
-    //   year: this.year
-    // };
-    let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle });
+    let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle, idAccident: this.idAccident});
     modal.onDidDismiss(data => { });
     modal.present();
   }

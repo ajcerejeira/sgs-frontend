@@ -20,7 +20,7 @@ export class AccidentDetailPage {
   sketchRoot = 'SketchPage';
   nvehicles: number;
   nactors: number;
-  id : number;
+  id: number;
 
   constructor(
     public navCtrl: NavController,
@@ -28,7 +28,7 @@ export class AccidentDetailPage {
     ) {
       this.id = navParams.get('id');
       this.nvehicles = navParams.get('vehicles').length;
-      //this.nactors = navParams.get('actors').length;
+      this.nactors = navParams.get('actors').length;
     }
 
 }

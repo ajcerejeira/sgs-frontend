@@ -138,7 +138,7 @@ export class AccidentCreatePage {
   createAccident() {
     let postData = {
       "date": this.myDate,
-      "location": [this.latitude, this.longitude]
+      "position": [this.latitude, this.longitude]
     }
 
     this.http.post("https://sgs-backend.herokuapp.com/api/accidents", postData)
