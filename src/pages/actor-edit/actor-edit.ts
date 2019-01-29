@@ -225,9 +225,6 @@ export class ActorEditPage {
         },
       );
     this.viewCtrl.dismiss();
-    this.navCtrl.push('ActorDetailPage', {
-      actor: editActor,
-      accident: this.accident,
-    });
+    
   }
 }

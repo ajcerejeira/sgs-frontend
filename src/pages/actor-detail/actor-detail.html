@@ -38,8 +38,18 @@
               Dados do Acidente
         </ion-list-header>
     
-        <ion-item>Tipo: <ion-note item-end >{{ role }}</ion-note></ion-item>
-        <ion-item>Ferimentos: <ion-note item-end>{{ wounds }}</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Driver'">Tipo: <ion-note item-end >Condutor</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Passenger'">Tipo: <ion-note item-end >Passageiro</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Pedestrian'">Tipo: <ion-note item-end >Peão</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Witness'">Tipo: <ion-note item-end >Testemunha</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Other'">Tipo: <ion-note item-end >Outro</ion-note></ion-item>
+
+        <ion-item *ngIf="wounds == 'None'">Ferimentos: <ion-note item-end>Nenhuns</ion-note></ion-item>
+        <ion-item *ngIf="wounds == 'Light'">Ferimentos: <ion-note item-end>Leves</ion-note></ion-item>
+        <ion-item *ngIf="wounds == 'Severe'">Ferimentos: <ion-note item-end>Graves</ion-note></ion-item>
+        <ion-item *ngIf="wounds == 'Dead'">Ferimentos: <ion-note item-end>Morto</ion-note></ion-item>
+
+
         <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
         <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
             <h2>{{ register }} </h2>
@@ -52,7 +62,7 @@
         </ion-list-header>
         
         <ion-item>Nome: <ion-note item-end>{{ name }}</ion-note></ion-item>
-        <ion-item>Data de Nascimento: <ion-note item-end>{{ birth }}</ion-note></ion-item>
+        <ion-item>Data de Nascimento: <ion-note item-end>{{ birthAux }}</ion-note></ion-item>
         <ion-item>Contacto: <ion-note item-end>{{ phone }}</ion-note></ion-item>
         <ion-item>Email: <ion-note item-end>{{ email }}</ion-note></ion-item>
         <ion-item>Nacionalidade: <ion-note item-end>{{ nationality }}</ion-note></ion-item>
@@ -68,9 +78,12 @@
         <ion-list-header color="light">
             Identificação
         </ion-list-header>
-        <ion-item>Tipo de Identificação: <ion-note item-end>{{ identityDocumentType }}</ion-note></ion-item>
+        <ion-item *ngIf="identityDocumentType == 'IdentityDocument'">Tipo de Identificação: <ion-note item-end>BI/CC</ion-note></ion-item>
+        <ion-item *ngIf="identityDocumentType == 'Passport'">Tipo de Identificação: <ion-note item-end>Passaporte</ion-note></ion-item>
+        <ion-item *ngIf="identityDocumentType == 'DriverLicense'">Tipo de Identificação: <ion-note item-end>Carta de Condução</ion-note></ion-item>
+
         <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note></ion-item>
-        <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDate }}</ion-note></ion-item>
+        <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDateAux }}</ion-note></ion-item>
         <ion-item>Emitido por: <ion-note item-end>{{ identityDocumentEmitedBy }}</ion-note></ion-item>
         <ion-item> <ion-note item-end></ion-note></ion-item>
       </ion-list>

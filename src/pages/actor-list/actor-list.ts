@@ -98,8 +98,8 @@ export class ActorListPage {
 
   actorDetail(actor) {
     this.navCtrl.push('ActorDetailPage', {
-      actor: actor,
       accident: this.accidentId,
+      actorId: actor.id
     });
   }
 

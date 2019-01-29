@@ -55,13 +55,15 @@ export class ActorDetailPage {
   month: string;
   day: string;
 
-  id: any;
+  actorId: any;
   identityDocumentType: string;
   identityDocumentNumber: string;
   identityDocumentExpirationDate: string;
+  identityDocumentExpirationDateAux: string;
   identityDocumentEmitedBy: string;
   name: string;
   birth: string;
+  birthAux:string;
   email: string;
   phone: string;
   nationality: string;
@@ -93,11 +95,14 @@ export class ActorDetailPage {
     public platform: Platform,
     public http: Http,
   ) {
-    this.accidentId = this.navParams.get('accident');
+    
   }
 
   ionViewDidLoad() {
-    console.log('Intervin :' + JSON.stringify(this.navParams));
+    console.log('Intervin: ' + JSON.stringify(this.navParams));
+    this.accidentId = this.navParams.get('accident');
+    this.actorId = this.navParams.get('actorId');
+    /*
     this.actor = this.navParams.get('actor');
     this.identityDocumentType = this.actor.person.identityDocumentType;
     this.identityDocumentNumber = this.actor.person.identityDocumentNumber;
@@ -122,25 +127,58 @@ export class ActorDetailPage {
     this.role = this.actor.role;
     this.wounds = this.actor.wounds;
     this.alcoholTest = this.actor.alcoholTest;
-
-    /*if(this.actor.vehicle!=null){
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"vehicles/").map(res => res.json()).subscribe(res => {
-      
+*/
+    //if(this.actor.vehicle!=null){
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"/actors/"+this.actorId).map(res => res.json()).subscribe(res => {
+    this.identityDocumentType = res.person.identityDocumentType;
+    this.identityDocumentNumber = res.person.identityDocumentNumber;
+    this.identityDocumentExpirationDate = res.person.identityDocumentExpirationDate;
+    if(res.person.identityDocumentExpirationDate){
+    this.year = res.person.identityDocumentExpirationDate.substring(0, 4);
+    this.month = res.person.identityDocumentExpirationDate.substring(4, 7);
+    this.day = res.person.identityDocumentExpirationDate.substring(8, 10);
+    this.identityDocumentExpirationDateAux = this.day.concat(this.month);
+    this.identityDocumentExpirationDateAux = this.identityDocumentExpirationDateAux.concat('-');
+    this.identityDocumentExpirationDateAux = this.identityDocumentExpirationDateAux.concat(this.year);
+    }
+    this.identityDocumentEmitedBy = res.person.identityDocumentEmitedBy;
+    if(this.birth){
+    this.name = res.person.name;
+    this.year = res.person.birth.substring(0, 4);
+    this.month = res.person.birth.substring(4, 7);
+    this.day = res.person.birth.substring(8, 10);
+    this.birthAux = this.day.concat(this.month);
+    this.birthAux = this.birthAux.concat('-');
+    this.birthAux = this.birthAux.concat(this.year);
+    }
+    this.birth = res.person.birth;
+    this.email = res.person.email;
+    this.phone = res.person.phone;
+    this.nationality = res.person.nationality;
+    this.naturality = res.person.naturality;
+    this.parentage = res.person.parentage;
+    this.locality = res.person.locality;
+    this.zipcode = res.person.zipcode;
+    this.address = res.person.address;
+    this.doorNumber = res.person.doorNumber;
+    this.role = res.role;
+    this.wounds = res.wounds;
+    this.alcoholTest = res.alcoholTest;
 
        
 
-      this.vehicle=res;
+      /*this.vehicle=res;
       this.idv = this.vehicle.id
       this.register = this.vehicle.register
       this.make = this.vehicle.make
       this.model = this.vehicle.model
         console.log(this.actor);
         console.log(this.vehicle);
-        console.log(this.vehicle.register);
+        console.log(this.vehicle.register);*/
       }, error => {
         console.log(error);
       });
-    }*/
+    //}
     console.log('ionViewDidLoad ActorDetailPage');
   }
 
@@ -166,7 +204,7 @@ export class ActorDetailPage {
                 'https://sgs-backend.herokuapp.com/api/accidents/' +
                   this.accidentId +
                   '/actors/' +
-                  this.actor.id,
+                  this.actorId,
               )
               .subscribe(
                 res => {
@@ -288,11 +326,42 @@ export class ActorDetailPage {
   }
 
   actorEdit() {
+    let person = {
+      identityDocumentType: this.identityDocumentType,
+      identityDocumentNumber: this.identityDocumentNumber,
+      identityDocumentExpirationDate: this.identityDocumentExpirationDate, //.toISOString(),
+      identityDocumentEmitedBy: this.identityDocumentEmitedBy,
+      name: this.name,
+      birth: this.birth,
+      email: this.email,
+      phone: this.phone,
+      nationality: this.nationality,
+      naturality: this.naturality,
+      parentage: this.parentage,
+      locality: this.locality,
+      zipcode: this.zipcode,
+      address: this.address,
+      doorNumber: this.doorNumber,
+    };
+    let actor = {
+      person: person,
+      id: this.actorId,
+      role: this.role,
+      wounds: this.wounds,
+      alcoholTest: this.alcoholTest,
+      //"vehicle": this.vehicle,
+      //"accident": this.accident
+    };
     let modal = this.modalController.create('ActorEditPage', {
-      data: this.actor,
+      data: actor,
       accident: this.accidentId,
     });
-    modal.onDidDismiss(data => {});
+    modal.onDidDismiss(data => {
+      this.navCtrl.push('ActorListPage', {
+        accident: this.accidentId,
+        //actorId: this.id,
+      });
+    });
     modal.present();
   }
   vehicleDetail(vehicle) {
