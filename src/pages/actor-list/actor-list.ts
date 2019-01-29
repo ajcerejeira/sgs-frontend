@@ -48,10 +48,10 @@ export class ActorListPage {
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+ this.accidentId).map(res => res.json()).subscribe(res => {
       var actors = res.actors;
       var vehicles = res.vehicles;
+      //console.log(JSON.stringify(vehicles))
         for (var i = 0; i < actors.length; i++){
           
           if (actors[i].role === "driver" ){ 
-              
             for (var j = 0; j < vehicles.length; j++){
               if(vehicles[j].id == actors[i].vehicle){
                 actors[i].register = vehicles[j].register;

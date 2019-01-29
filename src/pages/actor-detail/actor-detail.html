@@ -37,9 +37,13 @@
               Dados do Acidente
         </ion-list-header>
     
-        <ion-item>Tipo: <ion-note item-end>{{ role }}</ion-note></ion-item>
+        <ion-item>Tipo: <ion-note item-end >{{ role }}</ion-note></ion-item>
         <ion-item>Ferimentos: <ion-note item-end>{{ injury }}</ion-note></ion-item>
-        <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g</ion-note></ion-item>
+        <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
+        <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
+            <h2>{{ register }} </h2>
+            <p>{{ make }} {{ model }}</p>
+        </button>
         
     
         <ion-list-header color="light">

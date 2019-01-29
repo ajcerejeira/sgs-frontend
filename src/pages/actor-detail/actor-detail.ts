@@ -34,6 +34,11 @@ export class ActorDetailPage {
   
   actorPage: string = "info"; // Default segment to load
   actor : any
+  vehicle : any
+register : string
+make : string
+model : string
+idv : any
 
 id : any  
 idType: string;
@@ -81,27 +86,44 @@ alcoholTest: number
 
   ionViewDidLoad() {
     console.log("Intervin :" + JSON.stringify(this.navParams))
-    this.actor = this.navParams.get('actor') 
-
+    this.actor = this.navParams.get('actor')
     this.idType = this.actor.idType;
-    this.idNumber = this.actor.idNumber;
-    this.expires = this.actor.expires;
-    this.emitedBy = this.actor.emitedBy;
-    this.name = this.actor.name;
-    this.birth = this.actor.birth;
-    this.email = this.actor.email;
-    this.phone = this.actor.phone;
-    this.nacionality = this.actor.nacionality;
-    this.naturality = this.actor.naturality;
-    this.parentage = this.actor.parentage;
-    this.locality = this.actor.locality;
-    this.zipcode = this.actor.zipcode;
-    this.address = this.actor.address;
-    this.doorNumber = this.actor.doorNumber;
-    this.role = this.actor.role; 
-    this.injury = this.actor.injury;
-    this.alcoholTest = this.actor.alcoholTest;
-    
+      this.idNumber = this.actor.idNumber;
+      this.expires = this.actor.expires;
+      this.emitedBy = this.actor.emitedBy;
+      this.name = this.actor.name;
+      this.birth = this.actor.birth;
+      this.email = this.actor.email;
+      this.phone = this.actor.phone;
+      this.nacionality = this.actor.nacionality;
+      this.naturality = this.actor.naturality;
+      this.parentage = this.actor.parentage;
+      this.locality = this.actor.locality;
+      this.zipcode = this.actor.zipcode;
+      this.address = this.actor.address;
+      this.doorNumber = this.actor.doorNumber;
+      this.role = this.actor.role; 
+      this.injury = this.actor.injury;
+      this.alcoholTest = this.actor.alcoholTest; 
+
+    if(this.actor.vehicle!=null){
+    this.http.get("https://sgs-backend.herokuapp.com/api/vehicles/"+this.actor.vehicle).map(res => res.json()).subscribe(res => {
+      
+
+       
+
+      this.vehicle=res;
+      this.idv = this.vehicle.id
+      this.register = this.vehicle.register
+      this.make = this.vehicle.make
+      this.model = this.vehicle.model
+        console.log(this.actor);
+        console.log(this.vehicle);
+        console.log(this.vehicle.register);
+      }, error => {
+        console.log(error);
+      });
+    }
     console.log("ionViewDidLoad ActorDetailPage");
     
   }
@@ -153,5 +175,8 @@ alcoholTest: number
     let modal = this.modalController.create('ActorEditPage', { data: this.actor });
     modal.onDidDismiss(data => { });
     modal.present();
+  }
+  vehicleDetail(vehicle) {
+    this.navCtrl.push('VehicleDetailPage', vehicle);
   }
 }
