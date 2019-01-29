@@ -5,6 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+
   <ion-navbar color="primary">
     <ion-title>Interveniente</ion-title>
     <ion-buttons end [ngSwitch]="actorPage">
@@ -13,6 +14,7 @@
       </button>
     </ion-buttons>
   </ion-navbar>
+  
   <ion-toolbar>
     <ion-segment [(ngModel)]="actorPage">
       <ion-segment-button value="info">
@@ -30,20 +32,28 @@
     </ion-segment>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [ngSwitch]="actorPage">
-  <ion-fab right bottom *ngSwitchCase="'info'">
-    <button ion-fab color="primary" (click)="actorEdit()">
-      <ion-icon name="create"></ion-icon>
-    </button>
-  </ion-fab>
-  <ion-list *ngSwitchCase="'testimonials'">
-    <button ion-item *ngFor="let audio of audioList; index as i;" (click)="testimonialPlay(audio.filename, i)">
-      <ion-icon name="play" item-start></ion-icon>
-      <h2>{{ audio.filename }}</h2>
-      <p>{{ audio.filename }}</p>
-    </button>
-  </ion-list>
+
+ <ion-list *ngSwitchCase="'testimonials'">
+  <ion-item-sliding *ngFor="let audio of audioList; index as i;">
+
+      <ion-item>
+          <button ion-item *ngFor="let audio of audioList; index as i;" (click)="testimonialPlay(audio.filename, i)">
+              <ion-icon name="play" item-start></ion-icon>
+              <h2>{{ audio.filename }}</h2>
+              <p>{{ audio.filename }}</p>
+          </button>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="danger" (click)="removeItem(i)">
+          <ion-icon name="trash"></ion-icon>
+          Eliminar
+        </button>
+      </ion-item-options>
+  
+  </ion-item-sliding>
+   
+  </ion-list> 
   <ion-fab right bottom *ngSwitchCase="'testimonials'">
     <button ion-fab color="primary" (click)="testimonialStartRecord()" *ngIf="!recording"><ion-icon name="mic"></ion-icon></button>
     <button ion-fab color="primary" (click)="testimonialStopRecord()" *ngIf="recording"><ion-icon name="mic-off"></ion-icon></button>
