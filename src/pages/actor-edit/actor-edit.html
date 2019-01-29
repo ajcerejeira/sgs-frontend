@@ -1,0 +1,135 @@
+<!--
+  Generated template for the ActorEditPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar color="primary">
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <ion-icon name="close" ></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>Editar Interveniente</ion-title>
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content padding>
+  
+    <ion-list>
+      <ion-list-header color="light">
+          Dados do Acidente
+    </ion-list-header>
+
+
+    <ion-item>
+      <ion-label>Tipo de Interveniente:</ion-label>
+      <ion-select [(ngModel)]="role"  okText="Selecionar" cancelText="Cancelar">
+          <ion-option value="Driver">Condutor</ion-option>
+          <ion-option value="Passenger">Passageiro</ion-option>
+          <ion-option value="Pedestrian">Peão</ion-option>
+          <ion-option value="Witness">Testemunha</ion-option>
+          <ion-option value="Other">Outro</ion-option>
+          {{role}}
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Ferimentos:</ion-label>
+        <ion-select [(ngModel)]="wounds"  okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="None">Nenhuns</ion-option>
+            <ion-option value="Light">Leves</ion-option>
+            <ion-option value="Severe">Graves</ion-option>
+            <ion-option value="Dead">Morto</ion-option>
+            {{wounds}}
+          </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>Teste de Alcoolemia:</ion-label>
+        <ion-input [(ngModel)]="alcoholTest"  type="number" > {{alcoholTest}</ion-input>
+      </ion-item>
+    
+
+    <ion-list-header color="light">
+      Dados Pessoias
+    </ion-list-header>
+    
+    <ion-item>
+      <ion-label>Nome</ion-label>
+      <ion-input [(ngModel)]="name"  type="text" > {{name}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Data de Nascimento:</ion-label>
+        <ion-datetime [(ngModel)]="birth" displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY"  > {{birth}}</ion-datetime>
+      </ion-item>
+    <ion-item>
+        <ion-label>Contacto</ion-label>
+        <ion-input [(ngModel)]="phone"  type="text" > {{phone}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Email:</ion-label>
+        <ion-input [(ngModel)]="email"  type="text" > {{email}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Nacionalidade:</ion-label>
+        <ion-input [(ngModel)]="nationality"  type="text" > {{nationality}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Naturalidade:</ion-label>
+        <ion-input [(ngModel)]="naturality"  type="text" > {{naturality}}</ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Filiação:</ion-label>
+        <ion-input [(ngModel)]="parentage1"  type="text" > {{parentage1}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Filiação:</ion-label>
+        <ion-input [(ngModel)]="parentage2"  type="text" > {{parentage2}}</ion-input>
+    </ion-item>
+    <!--<ion-item *ngFor="let parent of parentage">Filiação: <ion-note item-end>{{ parent }}</ion-note></ion-item>-->
+    <ion-list-header color="light">
+        Localização
+    </ion-list-header>
+    <ion-item>
+        <ion-label>Localidade</ion-label>
+        <ion-input [(ngModel)]="locality"  type="text" > {{locality}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Código-Postal</ion-label>
+        <ion-input [(ngModel)]="zipcode"  type="text" > {{zipcode}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Morada</ion-label>
+        <ion-input [(ngModel)]="address"  type="text" > {{address}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Nº de Porta</ion-label>
+        <ion-input [(ngModel)]="doorNumber"  type="text" > {{doorNumber}}</ion-input>
+    </ion-item>
+    <ion-list-header color="light">
+        Identificação
+    </ion-list-header>
+    <ion-item>
+        <ion-label>Tipo de Identificação</ion-label>
+        <ion-input [(ngModel)]="identityDocumentType"  type="text"> {{identityDocumentType}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Nº de Identificação</ion-label>
+        <ion-input [(ngModel)]="identityDocumentNumber"  type="text"> {{identityDocumentNumber}}</ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Data de Validade:</ion-label>
+        <ion-datetime [(ngModel)]="identityDocumentExpirationDate" displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" min="1900-01-01" max="2050-12-31" > {{identityDocumentExpirationDate}}</ion-datetime>
+      </ion-item>
+    <ion-item>
+        <ion-label>Emitido por:</ion-label>
+        <ion-input [(ngModel)]="identityDocumentEmitedBy"  type="text"> {{identityDocumentEmitedBy}}</ion-input>
+    </ion-item>
+      <ion-item> <ion-note item-end></ion-note></ion-item>
+    </ion-list>
+    <button ion-button type="submit" (click)="saveChanges()">Submit</button>
+  
+  </ion-content>

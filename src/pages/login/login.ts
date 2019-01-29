@@ -48,7 +48,7 @@ export class LoginPage {
         console.log(error);
         const toast = this.toastCtrl.create({
           position: 'top',
-          message: 'Check your facts fool',
+          message: 'Email ou password errados',
           duration: 3000,
           // cssClass : 'normalToast'
         });
@@ -113,6 +113,11 @@ export class LoginPage {
       ]
     });
     forgot.present();
+  }
+
+  register() {
+    this.navCtrl.push('UserRegisterPage');
+    this.navCtrl.setRoot('UserRegisterPage');
   }
 
   ionViewDidLoad() {
