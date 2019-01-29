@@ -93,9 +93,6 @@ export class ActorDetailPage {
 
   canvasResize() {
     let canvas = document.querySelector("canvas");
-    //this.signaturePad.set('minWidth', 1);
-    //this.signaturePad.set('canvasWidth', canvas.offsetWidth);
-    //this.signaturePad.set('canvasHeight', canvas.offsetHeight);
   }
 
   ionViewDidLoad() {
@@ -257,8 +254,6 @@ export class ActorDetailPage {
   }
 
   openSignatureModel() {
-    //let modal = this.modalController.create('ActorSignaturePage');
-    //modal.present();
     if (this.drawn) {
       this.signatureImage = null;
       this.drawn = false;
@@ -276,7 +271,16 @@ export class ActorDetailPage {
     modal.onDidDismiss(data => { });
     modal.present();
   }
+  
   vehicleDetail(vehicle) {
     this.navCtrl.push('VehicleDetailPage', vehicle);
+  }
+  
+  removeItem(i){
+    console.log(this.audioList[i]);
+    let name = this.audioList[i].audio;
+    this.audioList.splice(i,1);
+    const toast = this.toastCtrl.create({ message: 'Gravação "'+name+'" eliminada com sucesso!', duration: 3000 });
+    toast.present();
   }
 }

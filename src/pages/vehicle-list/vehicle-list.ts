@@ -42,6 +42,8 @@ export class VehicleListPage {
       }, error => {
         console.log(error);
       });
+      //this.navCtrl.push('ActorCreatePage',{vehicles: this.vehicles});
+
   }
 
   vehicleCreate() {

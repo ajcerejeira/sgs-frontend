@@ -65,7 +65,7 @@ export class VehicleDetailPage {
     "assets/imgs/mercedes-4.jpg"
   ];
   vehiclePage: string = "info"; // Default segment to load
-
+  public url : string = "http://sgs-backend.herokuapp.com/api/vehicles/";
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
@@ -73,13 +73,21 @@ export class VehicleDetailPage {
     public alertCtrl: AlertController,
     private camera: Camera,
     public http: Http,
-  ) {
-    this.vehicle = this.navParams.get('vehicle');
-    this.vehicleId = this.navParams.get('vehicle').id;
-    this.idAccident = this.navParams.get('idAccident');
+  ) 
+  {
+    this.vehicle = {
+      id: this.navParams.get('id'),
+      register: this.navParams.get('register'),
+      model:this.navParams.get('model'),
+      brand: this.navParams.get('brand'),
+      policy: this.navParams.get('policy'),
+      insurance: this.navParams.get('insurance'),
+      year: this.navParams.get('year')
+    }
   }
 
   ionViewDidLoad() {
+    console.log("VEICULO: "+ this.vehicle.id)
     console.log("ionViewDidLoad VehicleDetailPage");
   }
 
@@ -105,6 +113,28 @@ export class VehicleDetailPage {
       ]
     });
     prompt.present();
+  }
+
+
+  sendDamages(){
+    let array=[]
+    for(let i = 0; i<this.damages.length; i++){
+      if(this.damages[i]===true){
+        array.push(i);
+      }
+    }
+
+    let data={
+      damages: array,
+      accident:1,
+    }
+
+    this.http.put(this.url+this.vehicle.id, data)
+      .subscribe(data => {
+        console.log(data['_body']);
+      }, error => {
+        console.log(error);
+      });
   }
 
   vehicleEdit() {

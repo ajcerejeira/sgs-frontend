@@ -40,9 +40,10 @@ export class ActorListPage {
   }
 
   ionViewDidLoad() {
-    
-    if(this.navParams.get('accident')) this.accidentId = this.navParams.get('accident'); 
-    else this.accidentId = this.navParams.data
+    if(this.navParams.get('accident'))
+      this.accidentId = this.navParams.get('accident'); 
+    else 
+      this.accidentId = this.navParams.data
 
     //console.log("Intervenientes do acidente: " + this.accidentId);
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+ this.accidentId).map(res => res.json()).subscribe(res => {
@@ -93,7 +94,7 @@ export class ActorListPage {
   }
 
   addActor() {
-    this.navCtrl.push('ActorCreatePage');
+    this.navCtrl.push('ActorCreatePage', {id: this.navParams.data});
   }
 
 }
