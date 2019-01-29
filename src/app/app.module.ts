@@ -12,6 +12,7 @@ import { File } from '@ionic-native/file';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps} from "@ionic-native/google-maps";
+import { Data } from '../providers/data/data';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { GoogleMaps} from "@ionic-native/google-maps";
     GoogleMaps,
     Media,
     File,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Data
   ]
 })
 export class AppModule {}
