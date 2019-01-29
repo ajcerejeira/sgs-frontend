@@ -36,58 +36,54 @@ export class VehicleEditPage {
     private formBuilder: FormBuilder,
     public navParams: NavParams,
     public http: Http,
-  ){
-    var cena = this.navParams.get['data'];
-    console.log(cena);
-    debugger;
-    console.log(this.navParams.get['data']);
-    // this.vehicle = this.navParams.get('data');
-    // this.idAccident = this.navParams.get('idAccident');
+  ) {
+    this.vehicle = this.navParams.get('data');
+    this.idAccident = this.navParams.get('idAccident');
 
-    if(this.vehicle.register == null) {
+    if(this.vehicle.meta.register == null) {
       this.register = "";
     } else {
-      this.register = this.vehicle.register;
+      this.register = this.vehicle.meta.register;
     }
-    if(this.vehicle.type == null) {
+    if(this.vehicle.meta.type == null) {
       this.type = "";
     } else {
-      this.type = this.vehicle.type;
+      this.type = this.vehicle.meta.type;
     }
-    if(this.vehicle.make == null) {
+    if(this.vehicle.meta.make == null) {
       this.make = "";
     } else {
-      this.make = this.vehicle.make;
+      this.make = this.vehicle.meta.make;
     }
-    if(this.vehicle.model == null) {
+    if(this.vehicle.meta.model == null) {
       this.model = "";
     } else {
-      this.model = this.vehicle.model;
+      this.model = this.vehicle.meta.model;
     }
-    if(this.vehicle.year == null) {
+    if(this.vehicle.meta.year == null) {
       this.year = 0;
     } else {
-      this.year = this.vehicle.year;
+      this.year = this.vehicle.meta.year;
     }
-    if(this.vehicle.color == null) {
+    if(this.vehicle.meta.color == null) {
       this.color = "";
     } else {
-      this.color = this.vehicle.color;
+      this.color = this.vehicle.meta.color;
     }
-    if(this.vehicle.insurance == null) {
+    if(this.vehicle.meta.insurance == null) {
       this.insurance = "";
     } else {
-      this.insurance = this.vehicle.insurance;
+      this.insurance = this.vehicle.meta.insurance;
     }
-    if(this.vehicle.policy == null) {
+    if(this.vehicle.meta.policy == null) {
       this.policy = "";
     } else {
-      this.policy = this.vehicle.policy;
+      this.policy = this.vehicle.meta.policy;
     }
-    if(this.vehicle.expirationDate == null) {
+    if(this.vehicle.meta.expirationDate == null) {
       this.expirationDate = "";
     } else {
-      this.expirationDate = this.vehicle.expirationDate;
+      this.expirationDate = this.vehicle.meta.expirationDate;
     }
     console.log(this.expirationDate);
     this.vehicleEdited = this.formBuilder.group({
