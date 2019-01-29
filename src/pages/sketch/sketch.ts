@@ -16,7 +16,9 @@ import {
   Spherical,
   Polygon,
   BaseArrayClass,
-  LatLng
+  MarkerCluster,
+  LatLng,
+  HtmlInfoWindow
 } from "@ionic-native/google-maps";
 
 @IonicPage()
@@ -31,6 +33,12 @@ export class SketchPage {
   chosenPin: string;
   color: string;
   vehicles: any;
+
+  
+  register: string =" A marcar";
+  brand: string = "Spot";
+  type: string ="é diferente";
+
   @ViewChild('mySelect') selectRef: Select;
 
   constructor(
@@ -195,6 +203,121 @@ export class SketchPage {
       });
     });
   }
+
+
+
+
+
+loadMapCroqui() {
+    this.map.clear();
+
+    let htmlInfoWindow = new HtmlInfoWindow();
+
+    let frame: HTMLElement = document.createElement('div');
+    frame.innerHTML = [
+
+      // '<h3>Veiculo</h3>',
+      // '<h3>'+this.register+ '</h3>',
+      // '<h3>'+this.brand+ '</h3>',
+      // '<h2>'+this.type+ '</h2>',
+      // '<img src="assets/imgs/hearst_castle.jpg">'
+
+      //NECESSARIO PERCORRER A LISTA DE VEICULOS
+      '</ion-row>',
+        '<ion-icon name="star" item-right></ion-icon>',
+           '<ion-row align-items-center>',
+              '<ion-col col-8>',
+                '<ion-item>',
+                  '<ion-icon name="information-circle" item-start></ion-icon>',
+                  '<h2>' + this.register +'</h2>',
+                  '<p>' + this.brand + '</p>',
+                '</ion-item>',
+              '</ion-col>',
+              '<ion-col col-4>',
+                '<ion-item>',
+                  '<ion-icon name="color-palette" item-start></ion-icon>',
+                  '<div style="background: orange; width: 16px; height: 16px; border: 1px solid rgba(1, 1, 1, .2); float: left; border-radius: 180%;"></div>',
+                '</ion-item>',
+              '</ion-col>',
+            '</ion-row>',
+            '<img src="assets/imgs/hearst_castle.jpg">'
+            // <ion-row>
+            //   <ion-col col-8>
+            //     <ion-item>
+            //       <ion-icon name="car" item-start></ion-icon>
+            //       <h2>{{ vehicle.category }}</h2>
+            //     </ion-item>
+            //   </ion-col>
+            //   <ion-col col-4>
+            //     <ion-item>
+            //       <ion-icon name="people" item-start></ion-icon>
+            //       <p>{{ vehicle.nactors }}</p>
+            //     </ion-item>
+            //   </ion-col>
+            // </ion-row>
+
+
+    ].join("");
+    frame.getElementsByTagName("img")[0].addEventListener("click", () => {
+      htmlInfoWindow.close()//setBackgroundColor('blue');
+    });
+    htmlInfoWindow.setContent(frame, {
+      width: "280px",
+      height: "330px"
+    });
+
+    let marker: Marker = this.map.addMarkerSync({
+      position: {lat: this.latitude, lng: this.longitude},
+      draggable: true,
+      disableAutoPan: true
+    });
+
+    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+      htmlInfoWindow.open(marker);
+    });
+    
+
+  }
+
+
+
+
+
+
+
+  // addCluster(data) {
+  //   let markerCluster: MarkerCluster = this.map.addMarkerClusterSync({
+  //     markers: data,
+  //     icons: [
+  //       {
+  //         min: 3,
+  //         max: 9,
+  //         url: "./assets/markercluster/small.png",
+  //         label: {
+  //           color: "white"
+  //         }
+  //       },
+  //       {
+  //         min: 10,
+  //         url: "./assets/markercluster/large.png",
+  //         label: {
+  //           color: "white"
+  //         }
+  //       }
+  //     ]
+  //   });
+
+  //   markerCluster.on(GoogleMapsEvent.MARKER_CLICK).subscribe((params) => {
+  //     let marker: Marker = params[1];
+  //     marker.setTitle(marker.get("name"));
+  //     marker.setSnippet(marker.get("address"));
+  //     marker.showInfoWindow();
+  //   });
+
+  // }
+
+
+
 
   //POPOVER
   presentPopover(myEvent) {
