@@ -11,7 +11,6 @@ export class Data {
     }
 
     filterItems(searchTerm, list){
-      console.log(list);
       if(searchTerm && searchTerm != "") {
         this.items = list;
         return this.items.filter((item) => {

@@ -3,8 +3,11 @@ page-vehicle-create {
     display: flex;
     flex-flow: column;
     height: 100%;
+    flex: 1 1 auto;
+    margin-top: 0;
   }
   #map_canvas {
+    margin-top: 0;
     flex: 1 1 auto;
   }
 }

@@ -7,12 +7,24 @@
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title>Veículos</ion-title> 
+    <!-- <ion-title>Veículos</ion-title>  -->
+    <!-- <ion-buttons end> -->
+      <!-- <ion-searchbar [(ngModel)]="filterBy" placeholder="Procurar por Matrícula" (ionInput)="searchVehicles()"></ion-searchbar> -->
+      <!-- <ion-searchbar [(ngModel)]="filterBy" showCancelButton (ionInput)="searchVehicles()" placeholder="Procurar por Matrícula" cancelButtonText="true" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
+    </ion-buttons> -->
+    <ion-title *ngIf= "!isSearchBarOpen">
+        Veículos
+        </ion-title>
+        <ion-searchbar [(ngModel)]="filterBy" (ionInput)="searchVehicles()" showCancelButton placeholder="Procurar por Matrícula" cancelButtonText="true" *ngIf= "isSearchBarOpen" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
+      <ion-buttons end>
+        <button ion-button icon-only *ngIf= "!isSearchBarOpen" (click)="isSearchBarOpen=true">
+          <ion-icon name="search"></ion-icon></button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar [(ngModel)]="filterBy" placeholder="Procurar por Matrícula" (ionInput)="searchVehicles()"></ion-searchbar>
+  <!-- <ion-searchbar [(ngModel)]="filterBy" placeholder="Procurar por Matrícula" (ionInput)="searchVehicles()"></ion-searchbar> -->
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-6 col-md-4 col-lg-3 *ngFor="let vehicle of filteredVehicles">
@@ -35,7 +47,8 @@
               <ion-col col-4>
                 <ion-item>
                   <ion-icon name="color-palette" item-start></ion-icon>
-                  <div style="background: orange; width: 16px; height: 16px; border: 1px solid rgba(1, 1, 1, .2); float: left; border-radius: 180%;"></div>
+                  <div [style.background]="vehicle.meta.color" style="width: 16px; height: 16px; border: 1px solid rgba(1, 1, 1, .2); float: left; border-radius: 180%;"></div>
+                  <!-- <div style="background: black; width: 16px; height: 16px; border: 1px solid rgba(1, 1, 1, .2); float: left; border-radius: 180%;"></div> -->
                 </ion-item>
               </ion-col>
             </ion-row>

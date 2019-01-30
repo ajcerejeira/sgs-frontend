@@ -29,16 +29,20 @@ export class VehicleListPage {
     public navParams: NavParams,
     public http: Http,
     public dataService: Data
-  ) {}
+  ) {
+    this.vehiclesList();
+  }
 
   searchVehicles() {
     this.filteredVehicles = this.dataService.filterItems(this.filterBy, this.vehicles);
   }
 
   vehiclesList() {
-    console.log("LISTA VEIC ID: "+ this.navParams.data);
+    // console.log("LISTA VEIC ID: "+ this.navParams.data);
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
         this.vehicles=res.vehicles;
+        this.filteredVehicles = res.vehicles;
+        console.log(res.vehicles);
       }, error => {
         console.log(error);
       });
@@ -52,6 +56,7 @@ export class VehicleListPage {
 
   ionViewDidLoad() {
     this.vehiclesList();
+    // console.log(this.filteredVehicles);
     this.filteredVehicles = this.vehicles;
     console.log('ionViewDidLoad VehicleListPage');
   }
