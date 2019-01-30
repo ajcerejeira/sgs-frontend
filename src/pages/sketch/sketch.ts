@@ -39,7 +39,65 @@ export class SketchPage {
   id: string;
   chosenPin: string;
   color: string;
-  signs: any = ["Sinal STOP", "Semáforo", "Sinal proibido", "Sentido único", "Cedência passagem", "Passadeira"];
+  signs: any = [
+    "Sinal STOP",
+    "Semáforo",
+    "Sinal proibido",
+    "Sentido único",
+    "Cedência passagem",
+    "Passadeira",
+    "Estacionamento",
+    "Estacionamento proibido",
+    "Proibido virar esquerda",
+    "Proibido virar direita",
+    "Rotunda",
+    "Passagem de nível"
+  ];
+
+  signDictionary = {
+    "Sinal STOP": '../assets/imgs/croquiItens/signs/stop.png',
+    "Semáforo": '../assets/imgs/croquiItens/signs/traffic-light.png',
+    "Sinal proibido": '../assets/imgs/croquiItens/signs/forbidden-sign.png',
+    "Sentido único": '../assets/imgs/croquiItens/signs/one-way.png',
+    "Cedência passagem": '../assets/imgs/croquiItens/signs/yield.png',
+    "Passadeira": '../assets/imgs/croquiItens/signs/crosswalk.png',
+    "Estacionamento": '../assets/imgs/croquiItens/signs/parkSign.png',
+    "Estacionamento proibido": '../assets/imgs/croquiItens/signs/noParking.png',
+    "Proibido virar esquerda": '../assets/imgs/croquiItens/signs/noLeftTurn.png',
+    "Proibido virar direita": '../assets/imgs/croquiItens/signs/noRightTurn.png',
+    "Rotunda": '../assets/imgs/croquiItens/signs/roundabout.png',
+    "Passagem de nível": '../assets/imgs/croquiItens/signs/railwayCrossing.png'
+  };
+
+  signTypes = {
+    "Sinal STOP": 'stop',
+    "Semáforo": 'trafficLight',
+    "Sinal proibido": 'forbidden',
+    "Sentido único": 'oneWay',
+    "Cedência passagem": 'yield',
+    "Passadeira": 'crosswalk',
+    "Estacionamento": 'parkSign',
+    "Estacionamento proibido": 'noParkSign',
+    "Proibido virar esquerda": 'noLeftTurn',
+    "Proibido virar direita": 'noRightTurn',
+    "Rotunda": 'roundabout',
+    "Passagem de nível": 'railwayCrossing'
+  };
+
+  signDictionary2: any = [
+    { "Sinal STOP": 'a' },
+    { "Semáforo": 'a' },
+    { "Sinal proibido": 'a' },
+    { "Sentido único": 'a' },
+    { "Cedência passagem": 'a' },
+    { "Passadeira": 'a' },
+    { "Estacionamento": 'a' },
+    { "Estacionamento proibido": 'a' },
+    { "Proibido virar esquerda": 'a' },
+    { "Proibido virar direita": 'a' },
+    { "Rotunda": 'a' },
+    { "Passagem de nível": 'a' }
+  ];
   vehicles: any;
   actors: any;
   actorNames: any;
@@ -107,104 +165,30 @@ export class SketchPage {
 
   onOkSign(chosenSign) {
     var icon, position, marker, backupMarker;
+
     switch (chosenSign) {
-      case 'Sinal STOP':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/stop.png',
-          scaledSize: {
-            width: 200,
-          },
-          type: "stop"
-        };
-
-        position = { lat: this.latitude, lng: this.longitude };
-        marker = {
-          position: position,
-          draggable: true,
-          icon: icon,
-        };
-        backupMarker = this.map.addMarkerSync(marker);
-        this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
-        break;
-      case 'Semáforo':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/traffic-light.png',
-          scaledSize: {
-            width: 200,
-          },
-          type: "trafficLight"
-        };
-
-        position = { lat: this.latitude, lng: this.longitude };
-        marker = {
-          position: position,
-          draggable: true,
-          icon: icon,
-        };
-        backupMarker = this.map.addMarkerSync(marker);
-        this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
-        break;
-      case 'Sinal proibido':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/forbidden-sign.png',
-          scaledSize: {
-            width: 200
-          },
-          type: "forbidden"
-        };
-
-        position = { lat: this.latitude, lng: this.longitude };
-        marker = {
-          position: position,
-          draggable: true,
-          icon: icon,
-        };
-        backupMarker = this.map.addMarkerSync(marker);
-        this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
-        break;
-      case 'Sentido único':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/one-way.png',
-          scaledSize: {
-            width: 200
-          },
-          type: "oneWay"
-        };
-
-        position = { lat: this.latitude, lng: this.longitude };
-        marker = {
-          position: position,
-          draggable: true,
-          icon: icon,
-        };
-        backupMarker = this.map.addMarkerSync(marker);
-        this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
-        break;
-      case 'Cedência passagem':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/yield.png',
-          scaledSize: {
-            width: 200
-          },
-          type: "yield"
-        };
-
-        position = { lat: this.latitude, lng: this.longitude };
-        marker = {
-          position: position,
-          draggable: true,
-          icon: icon,
-        };
-        backupMarker = this.map.addMarkerSync(marker);
-        this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
-        break;
       case 'Passadeira':
         this.onOkCrosswalk();
+        break;
+      default:
+        //console.log(this.signDictionary[chosenSign] + '---' + this.signTypes[chosenSign])
+        icon = {
+          url: this.signDictionary[chosenSign],
+          // scaledSize: {
+          //   width: 200,
+          // },
+          type: this.signTypes[chosenSign]
+        };
+        position = { lat: this.latitude, lng: this.longitude };
+        marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        let backupMarker = this.map.addMarkerSync(marker);
+        this.map.setCameraTarget(backupMarker.getPosition())
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
         break;
     };
   }
@@ -214,14 +198,14 @@ export class SketchPage {
       if (v.meta.register === licensePlate) {
         let path = '../assets/imgs/croquiItens/carroCroqui/carroCroquiHighRes.png';
         console.log('ID QUE ENVIO: ' + v.id);
-        this.choosePin(path, v.meta.color, v.id ,'$event');
+        this.choosePin(path, v.meta.color, v.id, '$event');
       }
     });
   }
 
   onOkCrosswalk() {
     let path = '../assets/imgs/croquiItens/signs/crosswalkHighRes.png';
-    this.choosePin(path, '', '','$event');
+    this.choosePin(path, '', '', '$event');
   }
 
   onOkActor(name) {
@@ -230,13 +214,13 @@ export class SketchPage {
       if (a.person.name == name) {
         let icon = {
           url: '../assets/imgs/croquiItens/signs/actor.png',
-          scaledSize: {
-            width: 200,
-          },
+          // scaledSize: {
+          //   width: 200,
+          // },
           type: "actor",
           idActor: a.id
         };
-    
+
         let position = { lat: this.latitude, lng: this.longitude };
         let marker = {
           position: position,
@@ -244,6 +228,7 @@ export class SketchPage {
           icon: icon,
         };
         let backupMarker = this.map.addMarkerSync(marker);
+        this.map.setCameraTarget(backupMarker.getPosition())
         this.markerList.push(backupMarker);
         console.log("array: " + this.markerList)
       }
@@ -284,14 +269,14 @@ export class SketchPage {
     console.log(img + " | " + color + " | " + degrees + " | " + type)
     var idA, idV;
 
-    console.log("TIPO: "+ type.split(':')[0])
-    if(type.split(':')[0]=='carroCroquiHighRes,'){
+    console.log("TIPO: " + type.split(':')[0])
+    if (type.split(':')[0] == 'carroCroquiHighRes,') {
       idV = parseInt(type.split(':')[1])
-    }else{
+    } else {
       idA = parseInt(type.split(':')[1])
     }
 
-    console.log("idV: "+idV + ' | idA: ' + idA)
+    console.log("idV: " + idV + ' | idA: ' + idA)
 
     let icon = {
       url: img,
@@ -299,10 +284,10 @@ export class SketchPage {
       idVehicle: idV,
       idActor: idA,
       // fillOpacity: 1,
-      rotation: degrees,
-      scaledSize: {
-        width: 200
-      }
+      rotation: degrees//,
+      // scaledSize: {
+      //   width: 200
+      // }
     }
     let position = { lat: this.latitude, lng: this.longitude };
     let marker = {
@@ -311,15 +296,16 @@ export class SketchPage {
       icon: icon
     };
     let backupMarker = this.map.addMarkerSync(marker);
+    this.map.setCameraTarget(backupMarker.getPosition())
     this.markerList.push(backupMarker);
   }
 
   loadVictim() {
     let icon = {
       url: '../assets/imgs/croquiItens/body/body.png',
-      scaledSize: {
-        width: 200
-      },
+      // scaledSize: {
+      //   width: 200
+      // },
       type: "victim"
     }
 
@@ -330,6 +316,7 @@ export class SketchPage {
       icon: icon
     };
     let backupMarker = this.map.addMarkerSync(marker);
+    this.map.setCameraTarget(backupMarker.getPosition())
     this.markerList.push(backupMarker);
   }
 
@@ -337,6 +324,7 @@ export class SketchPage {
     this.map.clear();
     let center: ILatLng = { lat: this.latitude, lng: this.longitude };
     let radius = 150; // radius (meter)
+    this.map.setCameraTarget(center)
 
     // Calculate the positions
     let positions: ILatLng[] = [0, 90, 180, 270].map((degree: number) => {
@@ -368,6 +356,7 @@ export class SketchPage {
 
   loadPolygons() {
     this.map.clear();
+    this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
     this.polygonPoints = [];
     this.polygonPoints.push({
       lat: this.latitude + 0.0005,
@@ -420,7 +409,7 @@ export class SketchPage {
       //console.log("URL: " + data.url) 
       //../assets/imgs/croquiItens/signs/crosswalk138.png
       //console.log("SPLIT:" + data.url.split('/')[5])
-      let type = data.url.split('/')[5].split('.png')+':'+data.customID
+      let type = data.url.split('/')[5].split('.png') + ':' + data.customID
       this.loadCustomMarker(newUrl, data.color, data.angle, type);
     })
   }
@@ -429,7 +418,7 @@ export class SketchPage {
     this.chosenPin = pinType;
     this.color = color;
     this.customID = customID;
-    console.log("choosePin("+ pinType+','+color+','+customID+')')
+    console.log("choosePin(" + pinType + ',' + color + ',' + customID + ')')
     this.presentPopover(myEvent);
   }
 
@@ -493,8 +482,8 @@ export class SketchPage {
       let markerInfo = marker.get('icon');
       console.log("------ITERACAO------\n" + JSON.stringify(markerInfo))
       switch (markerInfo.url) {
-        case '../assets/imgs/croquiItens/signs/crosswalk.png':
-          iconName = 'crosswalk'
+        case '../assets/imgs/croquiItens/body/body.png':
+          iconName = 'victim'
           break;
         case '../assets/imgs/croquiItens/signs/forbidden-sign.png':
           iconName = 'forbidden'
@@ -514,6 +503,26 @@ export class SketchPage {
         case '../assets/imgs/croquiItens/signs/actor.png':
           iconName = 'actor'
           break;
+        //NOVOS
+        case '../assets/imgs/croquiItens/signs/noParking.png':
+          iconName = 'noParking'
+          break;
+        case '../assets/imgs/croquiItens/signs/parkSign.png':
+          iconName = 'parkSign'
+          break;
+        case '../assets/imgs/croquiItens/signs/noRightTurn.png':
+          iconName = 'noRightTurn'
+          break;
+        case '../assets/imgs/croquiItens/signs/noLeftTurn.png':
+          iconName = 'noLeftTurn'
+          break;
+        case '../assets/imgs/croquiItens/signs/roundabout.png':
+          iconName = 'roundabout'
+          break;
+        case '../assets/imgs/croquiItens/signs/railwayCrossing.png':
+          iconName = 'railwayCrossing'
+          break;
+        //END NOVOS
         case `../assets/imgs/croquiItens/carroCroqui/carroCroqui${markerInfo.rotation}.png`:
           iconName = 'car'
           break;
@@ -532,16 +541,16 @@ export class SketchPage {
           idVehicle: markerInfo.idVehicle, //n deve tar a dar
           idActor: markerInfo.idActor, //n deve tar a dar
           type: iconName,
-          rotation: markerInfo.rotation, 
+          rotation: markerInfo.rotation,
           color: markerInfo.fillColor
         }
       }
 
       collection.features.push(currentMarker)
       console.log("------FEATURES-------\n" + JSON.stringify(collection))
-      console.log("ID ACCIDENT: "+ this.id)
+      console.log("ID ACCIDENT: " + this.id)
 
-      this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, {'sketch': collection}).subscribe(
+      this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': collection }).subscribe(
         data => {
           console.log('success');
         },
