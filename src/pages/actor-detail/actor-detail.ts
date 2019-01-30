@@ -141,9 +141,11 @@ export class ActorDetailPage {
     this.role = res.role;
     this.wounds = res.wounds;
     this.alcoholTest = res.alcoholTest;
-    this.idv = res.vehicle.id;
-
-    if(this.idv!=null){ console.log("Entrei no if")
+    
+    
+    
+    if(res.vehicle){
+      this.idv = res.vehicle.id;
       this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accidentId+"/vehicles/"+this.idv)
       .map(resv => resv.json())
       .subscribe(
@@ -160,10 +162,8 @@ export class ActorDetailPage {
         },
       );
 
-      
-      
-        
-    }    
+    }
+    
     
       }, error => {
         console.log(error);
