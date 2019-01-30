@@ -43,6 +43,7 @@ export class VehicleCreatePage {
       policy: [''],
       insurance: [''],
       expirationDate: [''],
+      driver: ['']
     })
     this.drivers = [];
     this.passengers = [];
@@ -68,6 +69,8 @@ export class VehicleCreatePage {
 
   createVehicle(){
     this.viewCtrl.dismiss();
+    var driver = this.vehicle.value['driver'];
+    console.log(driver);
     var new_vehicle = {
       meta: {
         register: this.vehicle.value['register'],
