@@ -130,6 +130,7 @@ export class ActorDetailPage {
 */
     //if(this.actor.vehicle!=null){
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"/actors/"+this.actorId).map(res => res.json()).subscribe(res => {
+    console.log(JSON.stringify(res))
     this.identityDocumentType = res.person.identityDocumentType;
     this.identityDocumentNumber = res.person.identityDocumentNumber;
     this.identityDocumentExpirationDate = res.person.identityDocumentExpirationDate;
@@ -142,8 +143,8 @@ export class ActorDetailPage {
     this.identityDocumentExpirationDateAux = this.identityDocumentExpirationDateAux.concat(this.year);
     }
     this.identityDocumentEmitedBy = res.person.identityDocumentEmitedBy;
-    if(this.birth){
     this.name = res.person.name;
+    if(this.birth){
     this.year = res.person.birth.substring(0, 4);
     this.month = res.person.birth.substring(4, 7);
     this.day = res.person.birth.substring(8, 10);

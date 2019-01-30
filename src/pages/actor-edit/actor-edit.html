@@ -48,12 +48,12 @@
     </ion-item>
     <ion-item>
         <ion-label>Teste de Alcoolemia:</ion-label>
-        <ion-input [(ngModel)]="alcoholTest"  type="number" > {{alcoholTest}</ion-input>
+        <ion-input [(ngModel)]="alcoholTest"  type="number" (ngModelChange)="alcoholTest = convertToNumber($event)" > {{alcoholTest}</ion-input>
       </ion-item>
     
 
     <ion-list-header color="light">
-      Dados Pessoias
+      Dados Pessoais
     </ion-list-header>
     
     <ion-item>

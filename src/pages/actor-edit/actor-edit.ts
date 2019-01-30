@@ -7,6 +7,7 @@ import {
 } from 'ionic-angular';
 import { FormBuilder } from '@angular/forms';
 import { Http } from '@angular/http';
+import { stringify } from '@angular/core/src/render3/util';
 /**
  * Generated class for the ActorEditPage page.
  *
@@ -54,7 +55,7 @@ export class ActorEditPage {
     public formBuilder: FormBuilder,
     public http: Http,
   ) {
-    //console.log(JSON.stringify(this.navParams))
+    console.log(JSON.stringify(this.navParams))
     this.actor = this.navParams.get('data');
     console.log(JSON.stringify(this.actor));
     this.id = this.actor.id;
@@ -166,6 +167,8 @@ export class ActorEditPage {
     console.log('ionViewDidLoad ActorEditPage');
   }
 
+  convertToNumber(event):number {  return +event; }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }
@@ -207,7 +210,7 @@ export class ActorEditPage {
       //"vehicle": this.vehicle,
       //"accident": this.accident
     };
-    console.log('mudei: ' + JSON.stringify(editActor));
+    console.log(editActor.alcoholTest);
     this.http
       .put(
         'https://sgs-backend.herokuapp.com/api/accidents/' +
