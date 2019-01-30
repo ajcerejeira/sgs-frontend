@@ -113,7 +113,9 @@ export class ActorCreatePage {
       role: this.formGroup.value['role'],
       wounds: this.formGroup.value['wounds'],
       alcoholTest: parseFloat(this.formGroup.value['alcoholTest']),
-      id: this.getCarId(this.register),
+      vehicle: {
+        id: this.getCarId(this.register)
+      },
     };
     this.http
       .post(
