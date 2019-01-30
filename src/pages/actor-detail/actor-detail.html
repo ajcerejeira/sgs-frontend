@@ -52,8 +52,9 @@
 
         <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
         <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
-            <h2>{{ register }} </h2>
-            <p>{{ make }} {{ model }}</p>
+          Veiculo:
+          <ion-note item-end><h2>{{ register }} </h2>
+            <p>{{ make }} {{ model }}</p></ion-note>
         </button>
         
     

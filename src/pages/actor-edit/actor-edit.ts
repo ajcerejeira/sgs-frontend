@@ -47,6 +47,14 @@ export class ActorEditPage {
   alcoholTest: number;
   vehicle: number;
   accident: number;
+  idVehicle:number;
+ 
+  alteredVehicle: any;
+  vehicles: any[];
+  register: string;
+  make: string;
+  model: string;
+
 
   constructor(
     public navCtrl: NavController,
@@ -55,9 +63,10 @@ export class ActorEditPage {
     public formBuilder: FormBuilder,
     public http: Http,
   ) {
-    console.log(JSON.stringify(this.navParams))
+    //console.log(JSON.stringify(this.navParams))
     this.actor = this.navParams.get('data');
-    console.log(JSON.stringify(this.actor));
+    //this.vehicle = this.navParams.get('vehicle');
+   
     this.id = this.actor.id;
     if (this.actor.person.identityDocumentType) {
       this.identityDocumentType = this.actor.person.identityDocumentType;
@@ -156,6 +165,7 @@ export class ActorEditPage {
     } else {
       this.alcoholTest = 0;
     }
+    if(this.actor.vehicle)this.idVehicle = this.actor.vehicle
     //if(this.actor.vehicle){
     //this.vehicle = this.actor.vehicle;
     //}else{this.vehicle = 2}
@@ -165,6 +175,28 @@ export class ActorEditPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ActorEditPage');
+    this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accident+"/vehicles/")
+      .map(resv => resv.json())
+      .subscribe(
+        resv => {
+          
+          this.vehicles = resv
+          console.log(this.vehicles)
+          //this.vehicle = resv
+          //this.register = resv.register
+          //this.make = resv.meta.make
+          //this.model = resv.meta.model    
+          
+        },
+        error => {
+          console.log(error);
+        },
+      );
+
+      
+      
+        
+    
   }
 
   convertToNumber(event):number {  return +event; }
@@ -202,15 +234,21 @@ export class ActorEditPage {
       address: this.address,
       doorNumber: this.doorNumber,
     };
+    let vehicle = {
+      id: this.idVehicle
+    }
     let editActor = {
       person: person,
+      vehicle: vehicle,
       role: this.role,
       wounds: this.wounds,
       alcoholTest: this.alcoholTest,
       //"vehicle": this.vehicle,
       //"accident": this.accident
     };
-    console.log(editActor.alcoholTest);
+
+    console.log("ID Veiculo:"+JSON.stringify(editActor.vehicle));
+    console.log("Ator:"+JSON.stringify(editActor));
     this.http
       .put(
         'https://sgs-backend.herokuapp.com/api/accidents/' +

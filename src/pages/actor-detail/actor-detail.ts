@@ -50,7 +50,7 @@ export class ActorDetailPage {
   register: string;
   make: string;
   model: string;
-  idv: any;
+  idv: number;
   year: string;
   month: string;
   day: string;
@@ -102,35 +102,10 @@ export class ActorDetailPage {
     console.log('Intervin: ' + JSON.stringify(this.navParams));
     this.accidentId = this.navParams.get('accident');
     this.actorId = this.navParams.get('actorId');
-    /*
-    this.actor = this.navParams.get('actor');
-    this.identityDocumentType = this.actor.person.identityDocumentType;
-    this.identityDocumentNumber = this.actor.person.identityDocumentNumber;
-    this.identityDocumentExpirationDate = this.actor.person.identityDocumentExpirationDate;
-    this.identityDocumentEmitedBy = this.actor.person.identityDocumentEmitedBy;
-    this.name = this.actor.person.name;
-    this.year = this.actor.person.birth.substring(0, 4);
-    this.month = this.actor.person.birth.substring(4, 7);
-    this.day = this.actor.person.birth.substring(8, 10);
-    this.birth = this.day.concat(this.month);
-    this.birth = this.birth.concat('-');
-    this.birth = this.birth.concat(this.year);
-    this.email = this.actor.person.email;
-    this.phone = this.actor.person.phone;
-    this.nationality = this.actor.person.nationality;
-    this.naturality = this.actor.person.naturality;
-    this.parentage = this.actor.person.parentage;
-    this.locality = this.actor.person.locality;
-    this.zipcode = this.actor.person.zipcode;
-    this.address = this.actor.person.address;
-    this.doorNumber = this.actor.person.doorNumber;
-    this.role = this.actor.role;
-    this.wounds = this.actor.wounds;
-    this.alcoholTest = this.actor.alcoholTest;
-*/
-    //if(this.actor.vehicle!=null){
+    
+    
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.accidentId+"/actors/"+this.actorId).map(res => res.json()).subscribe(res => {
-    console.log(JSON.stringify(res))
+    //console.log(JSON.stringify(res))
     this.identityDocumentType = res.person.identityDocumentType;
     this.identityDocumentNumber = res.person.identityDocumentNumber;
     this.identityDocumentExpirationDate = res.person.identityDocumentExpirationDate;
@@ -144,6 +119,7 @@ export class ActorDetailPage {
     }
     this.identityDocumentEmitedBy = res.person.identityDocumentEmitedBy;
     this.name = res.person.name;
+    this.birth = res.person.birth;
     if(this.birth){
     this.year = res.person.birth.substring(0, 4);
     this.month = res.person.birth.substring(4, 7);
@@ -152,7 +128,7 @@ export class ActorDetailPage {
     this.birthAux = this.birthAux.concat('-');
     this.birthAux = this.birthAux.concat(this.year);
     }
-    this.birth = res.person.birth;
+    
     this.email = res.person.email;
     this.phone = res.person.phone;
     this.nationality = res.person.nationality;
@@ -165,21 +141,35 @@ export class ActorDetailPage {
     this.role = res.role;
     this.wounds = res.wounds;
     this.alcoholTest = res.alcoholTest;
+    this.idv = res.vehicle.id;
 
-       
+    if(this.idv!=null){ console.log("Entrei no if")
+      this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accidentId+"/vehicles/"+this.idv)
+      .map(resv => resv.json())
+      .subscribe(
+        resv => {
+          console.log(resv)
+          this.vehicle = resv
+          this.register = resv.meta.register
+          this.make = resv.meta.make
+          this.model = resv.meta.model    
+          
+        },
+        error => {
+          console.log(error);
+        },
+      );
 
-      /*this.vehicle=res;
-      this.idv = this.vehicle.id
-      this.register = this.vehicle.register
-      this.make = this.vehicle.make
-      this.model = this.vehicle.model
-        console.log(this.actor);
-        console.log(this.vehicle);
-        console.log(this.vehicle.register);*/
+      
+      
+        
+    }    
+    
       }, error => {
         console.log(error);
       });
-    //}
+      console.log(this.idv)   
+    
     console.log('ionViewDidLoad ActorDetailPage');
   }
 
@@ -350,12 +340,14 @@ export class ActorDetailPage {
       role: this.role,
       wounds: this.wounds,
       alcoholTest: this.alcoholTest,
-      //"vehicle": this.vehicle,
+      vehicle: this.idv,
       //"accident": this.accident
     };
+    
     let modal = this.modalController.create('ActorEditPage', {
       data: actor,
       accident: this.accidentId,
+      
     });
     modal.onDidDismiss(data => {
       this.navCtrl.push('ActorListPage', {
@@ -366,7 +358,9 @@ export class ActorDetailPage {
     modal.present();
   }
   vehicleDetail(vehicle) {
-    this.navCtrl.push('VehicleDetailPage', vehicle);
+    this.navCtrl.push('VehicleDetailPage', {
+      vehicle, 
+      idAccident: this.accidentId});
   }
 
   removeItem(i) {
