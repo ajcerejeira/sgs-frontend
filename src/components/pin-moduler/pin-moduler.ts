@@ -18,6 +18,7 @@ export class PinModulerComponent {
   public typePin: string;
   public color: string;
   public number: any = 0;
+  public customID: any;
 
   constructor(
     public navParams: NavParams,
@@ -25,13 +26,15 @@ export class PinModulerComponent {
   ){
     this.typePin = this.navParams.data.pinType;
     this.color = this.navParams.data.color;
+    this.customID = this.navParams.data.customID;
   }
 
   goBack() {
     var data={
       "url" : this.typePin,
       "color": this.color,
-      "angle": this.number
+      "angle": this.number,
+      "customID": this.customID
     }
     this.viewCtrl.dismiss(data);
   }

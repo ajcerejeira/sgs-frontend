@@ -43,6 +43,7 @@ export class SketchPage {
   vehicles: any;
   actors: any;
   actorNames: any;
+  customID: any;
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('actorSelect') actorRef: Select;
   @ViewChild('signSelect') signRef: Select;
@@ -212,15 +213,15 @@ export class SketchPage {
     this.vehicles.forEach(v => {
       if (v.meta.register === licensePlate) {
         let path = '../assets/imgs/croquiItens/carroCroqui/carroCroquiHighRes.png';
-        console.log('COR que envio: ' + v.meta.color);
-        this.choosePin(path, v.meta.color, '$event');
+        console.log('ID QUE ENVIO: ' + v.id);
+        this.choosePin(path, v.meta.color, v.id ,'$event');
       }
     });
   }
 
   onOkCrosswalk() {
     let path = '../assets/imgs/croquiItens/signs/crosswalkHighRes.png';
-    this.choosePin(path, '', '$event');
+    this.choosePin(path, '', '','$event');
   }
 
   onOkActor(name) {
@@ -232,7 +233,8 @@ export class SketchPage {
           scaledSize: {
             width: 200,
           },
-          type: "actor"
+          type: "actor",
+          idActor: a.id
         };
     
         let position = { lat: this.latitude, lng: this.longitude };
@@ -278,17 +280,29 @@ export class SketchPage {
     });
   }
 
-  loadCustomMarker(img, color, degrees) {
-    console.log(img + " | " + color + " | " + degrees)
+  loadCustomMarker(img, color, degrees, type) {
+    console.log(img + " | " + color + " | " + degrees + " | " + type)
+    var idA, idV;
+
+    console.log("TIPO: "+ type.split(':')[0])
+    if(type.split(':')[0]=='carroCroquiHighRes,'){
+      idV = parseInt(type.split(':')[1])
+    }else{
+      idA = parseInt(type.split(':')[1])
+    }
+
+    console.log("idV: "+idV + ' | idA: ' + idA)
+
     let icon = {
-      url: img, //acho que vou usar  id em vez de 01 para atribuir IDs aos markers
+      url: img,
       fillColor: color,
-      fillOpacity: 1,
+      idVehicle: idV,
+      idActor: idA,
+      // fillOpacity: 1,
       rotation: degrees,
       scaledSize: {
         width: 200
-      },
-      type: "Car"
+      }
     }
     let position = { lat: this.latitude, lng: this.longitude };
     let marker = {
@@ -302,11 +316,11 @@ export class SketchPage {
 
   loadVictim() {
     let icon = {
-      url: '../assets/imgs/croquiItens/body/body.png', //acho que vou usar  id em vez de 01 para atribuir IDs aos markers
+      url: '../assets/imgs/croquiItens/body/body.png',
       scaledSize: {
         width: 200
       },
-      type: "Victim"
+      type: "victim"
     }
 
     let position = { lat: this.latitude, lng: this.longitude };
@@ -395,7 +409,7 @@ export class SketchPage {
 
   //POPOVER
   presentPopover(myEvent) {
-    let data = { pinType: this.chosenPin, color: this.color };
+    let data = { pinType: this.chosenPin, color: this.color, customID: this.customID };
     let popover = this.popoverCtrl.create(PinModulerComponent, data);
     popover.present({
       ev: myEvent,
@@ -403,13 +417,19 @@ export class SketchPage {
     popover.onDidDismiss(data => {
       //console.log("cenas:"+JSON.stringify(data))
       let newUrl = data.url.split('HighRes.png')[0] + data.angle + '.png'
-      this.loadCustomMarker(newUrl, data.color, data.angle);
+      //console.log("URL: " + data.url) 
+      //../assets/imgs/croquiItens/signs/crosswalk138.png
+      //console.log("SPLIT:" + data.url.split('/')[5])
+      let type = data.url.split('/')[5].split('.png')+':'+data.customID
+      this.loadCustomMarker(newUrl, data.color, data.angle, type);
     })
   }
 
-  choosePin(pinType, color, myEvent) {
+  choosePin(pinType, color, customID, myEvent) {
     this.chosenPin = pinType;
     this.color = color;
+    this.customID = customID;
+    console.log("choosePin("+ pinType+','+color+','+customID+')')
     this.presentPopover(myEvent);
   }
 
@@ -497,7 +517,7 @@ export class SketchPage {
         case `../assets/imgs/croquiItens/carroCroqui/carroCroqui${markerInfo.rotation}.png`:
           iconName = 'car'
           break;
-        case `../assets/imgs/croquiItens/carroCroqui/crosswalk${markerInfo.rotation}.png`:
+        case `../assets/imgs/croquiItens/signs/crosswalk${markerInfo.rotation}.png`:
           iconName = 'crosswalk'
           break;
       }
@@ -519,11 +539,11 @@ export class SketchPage {
 
       collection.features.push(currentMarker)
       console.log("------FEATURES-------\n" + JSON.stringify(collection))
-
       console.log("ID ACCIDENT: "+ this.id)
+
       this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, {'sketch': collection}).subscribe(
         data => {
-          console.log(data['_body']);
+          console.log('success');
         },
         error => {
           console.log(error);
