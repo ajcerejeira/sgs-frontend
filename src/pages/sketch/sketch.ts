@@ -17,7 +17,6 @@ import {
   GoogleMap,
   GoogleMapOptions,
   GoogleMapsEvent,
-  GroundOverlay,
   ILatLng,
   Circle,
   Marker,
@@ -42,7 +41,10 @@ export class SketchPage {
   color: string;
   signs: any = ["Sinal STOP", "Semáforo", "Sinal proibido", "Sentido único", "Cedência passagem", "Passadeira"];
   vehicles: any;
+  actors: any;
+  actorNames: any;
   @ViewChild('vehicleSelect') vehicleRef: Select;
+  @ViewChild('actorSelect') actorRef: Select;
   @ViewChild('signSelect') signRef: Select;
 
   constructor(
@@ -62,90 +64,11 @@ export class SketchPage {
   latitude: any;
   longitude: any;
   polygonPoints: ILatLng[] = [];
-  markerList: any = [];
+  markerList: Marker[] = [];
+  geoJSON: any;
 
   ionViewDidLoad() {
-    this.http
-      .get('https://sgs-backend.herokuapp.com/api/accidents/' + this.id)
-      .map(res => res.json())
-      .subscribe(
-        res => {
-          this.vehicles = res.vehicles;
-          //console.log(this.vehicles);
-        },
-        error => {
-          console.log(error);
-        },
-      );
     this.loadMap();
-  }
-
-  popupSigns() {
-    this.signRef.open();
-  }
-
-  onOkSign(chosenSign) {
-    var icon;
-    switch (chosenSign) {
-      case 'Sinal STOP':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/stop.png',
-          scaledSize: {
-            width: 200,
-          },
-        };
-        break;
-      case 'Semáforo':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/traffic-light.png',
-          scaledSize: {
-            width: 200,
-          },
-        };
-        break;
-      case 'Sinal proibido':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/forbidden-sign.png',
-          scaledSize: {
-            width: 200
-          }
-        };
-        break;
-      case 'Sentido único':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/one-way.png',
-          scaledSize: {
-            width: 200
-          }
-        };
-        break;
-      case 'Cedência passagem':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/yield.png',
-          scaledSize: {
-            width: 200
-          }
-        };
-        break;
-      case 'Passadeira':
-        icon = {
-          url: '../assets/imgs/croquiItens/signs/crosswalk.png',
-          scaledSize: {
-            width: 200
-          }
-        };
-        break;
-    };
-
-    let position = { lat: this.latitude, lng: this.longitude };
-    let marker = {
-      position: position,
-      draggable: true,
-      icon: icon,
-    };
-    this.map.addMarkerSync(marker);
-    this.markerList.push(marker);
-    console.log("array: " + this.markerList)
   }
 
   confirmDelete() {
@@ -173,12 +96,154 @@ export class SketchPage {
     this.vehicleRef.open();
   }
 
+  popupSigns() {
+    this.signRef.open();
+  }
+
+  popupActors() {
+    this.actorRef.open();
+  }
+
+  onOkSign(chosenSign) {
+    var icon, position, marker, backupMarker;
+    switch (chosenSign) {
+      case 'Sinal STOP':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/stop.png',
+          scaledSize: {
+            width: 200,
+          },
+          type: "stop"
+        };
+
+        position = { lat: this.latitude, lng: this.longitude };
+        marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        backupMarker = this.map.addMarkerSync(marker);
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
+        break;
+      case 'Semáforo':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/traffic-light.png',
+          scaledSize: {
+            width: 200,
+          },
+          type: "trafficLight"
+        };
+
+        position = { lat: this.latitude, lng: this.longitude };
+        marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        backupMarker = this.map.addMarkerSync(marker);
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
+        break;
+      case 'Sinal proibido':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/forbidden-sign.png',
+          scaledSize: {
+            width: 200
+          },
+          type: "forbidden"
+        };
+
+        position = { lat: this.latitude, lng: this.longitude };
+        marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        backupMarker = this.map.addMarkerSync(marker);
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
+        break;
+      case 'Sentido único':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/one-way.png',
+          scaledSize: {
+            width: 200
+          },
+          type: "oneWay"
+        };
+
+        position = { lat: this.latitude, lng: this.longitude };
+        marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        backupMarker = this.map.addMarkerSync(marker);
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
+        break;
+      case 'Cedência passagem':
+        icon = {
+          url: '../assets/imgs/croquiItens/signs/yield.png',
+          scaledSize: {
+            width: 200
+          },
+          type: "yield"
+        };
+
+        position = { lat: this.latitude, lng: this.longitude };
+        marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        backupMarker = this.map.addMarkerSync(marker);
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
+        break;
+      case 'Passadeira':
+        this.onOkCrosswalk();
+        break;
+    };
+  }
+
   onOkVehicle(licensePlate) {
     this.vehicles.forEach(v => {
       if (v.meta.register === licensePlate) {
-        let path = '../assets/imgs/croquiItens/carroCroqui/carroCroqui.svg';
+        let path = '../assets/imgs/croquiItens/carroCroqui/carroCroquiHighRes.png';
         console.log('COR que envio: ' + v.meta.color);
         this.choosePin(path, v.meta.color, '$event');
+      }
+    });
+  }
+
+  onOkCrosswalk() {
+    let path = '../assets/imgs/croquiItens/signs/crosswalkHighRes.png';
+    this.choosePin(path, '', '$event');
+  }
+
+  onOkActor(name) {
+    this.actors.forEach(a => {
+      //console.log("A: " + a.person.name + " B: "+name)
+      if (a.person.name == name) {
+        let icon = {
+          url: '../assets/imgs/croquiItens/signs/actor.png',
+          scaledSize: {
+            width: 200,
+          },
+          type: "actor"
+        };
+    
+        let position = { lat: this.latitude, lng: this.longitude };
+        let marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        let backupMarker = this.map.addMarkerSync(marker);
+        this.markerList.push(backupMarker);
+        console.log("array: " + this.markerList)
       }
     });
   }
@@ -188,6 +253,8 @@ export class SketchPage {
       // Get position and address
       this.position = res.position;
       this.vehicles = res.vehicles;
+      this.actors = res.actors; //? res.actors.map(actor => actor.person.name) : [];
+      this.actorNames = res.actors ? res.actors.map(actor => actor.person.name) : [];
 
       let mapOptions: GoogleMapOptions = {
         camera: {
@@ -211,20 +278,45 @@ export class SketchPage {
     });
   }
 
-  loadOverlay() {
-    let bounds: ILatLng[] = [{ lat: this.latitude, lng: this.longitude }];
+  loadCustomMarker(img, color, degrees) {
+    console.log(img + " | " + color + " | " + degrees)
+    let icon = {
+      url: img, //acho que vou usar  id em vez de 01 para atribuir IDs aos markers
+      fillColor: color,
+      fillOpacity: 1,
+      rotation: degrees,
+      scaledSize: {
+        width: 200
+      },
+      type: "Car"
+    }
+    let position = { lat: this.latitude, lng: this.longitude };
+    let marker = {
+      position: position,
+      draggable: true,
+      icon: icon
+    };
+    let backupMarker = this.map.addMarkerSync(marker);
+    this.markerList.push(backupMarker);
+  }
 
-    let groundOverlay: GroundOverlay = this.map.addGroundOverlaySync({
-      url: 'assets/imgs/mercedes-1.jpg',
-      bounds: bounds,
-      opacity: 0.5,
-      clickable: true, // default = false
-    });
+  loadVictim() {
+    let icon = {
+      url: '../assets/imgs/croquiItens/body/body.png', //acho que vou usar  id em vez de 01 para atribuir IDs aos markers
+      scaledSize: {
+        width: 200
+      },
+      type: "Victim"
+    }
 
-    // Catch the GROUND_OVERLAY_CLICK event
-    groundOverlay.on(GoogleMapsEvent.GROUND_OVERLAY_CLICK).subscribe(() => {
-      groundOverlay.setImage('assets/imgs/mercedes-1.jpg');
-    });
+    let position = { lat: this.latitude, lng: this.longitude };
+    let marker = {
+      position: position,
+      draggable: true,
+      icon: icon
+    };
+    let backupMarker = this.map.addMarkerSync(marker);
+    this.markerList.push(backupMarker);
   }
 
   loadRadiusCircle() {
@@ -303,13 +395,16 @@ export class SketchPage {
 
   //POPOVER
   presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PinModulerComponent, {
-      pinType: this.chosenPin,
-      color: this.color,
-    });
+    let data = { pinType: this.chosenPin, color: this.color };
+    let popover = this.popoverCtrl.create(PinModulerComponent, data);
     popover.present({
       ev: myEvent,
     });
+    popover.onDidDismiss(data => {
+      //console.log("cenas:"+JSON.stringify(data))
+      let newUrl = data.url.split('HighRes.png')[0] + data.angle + '.png'
+      this.loadCustomMarker(newUrl, data.color, data.angle);
+    })
   }
 
   choosePin(pinType, color, myEvent) {
@@ -318,18 +413,26 @@ export class SketchPage {
     this.presentPopover(myEvent);
   }
 
+  undoLast() {
+    console.log("before:" + this.markerList.length)
+    this.markerList = this.markerList.splice(this.markerList.length - 1, 1);
+    console.log("after:" + this.markerList.length)
+
+    console.log("SECOND")
+    this.markerList.forEach((data: Marker) => {
+      console.log(data)
+    })
+  }
+
   zoomListener() {
     this.map.clear();
     var proportion: number;
     var icon;
-    var zoom = this.map.getCameraZoom();
-    console.log("ZOOM:" + zoom)
-
-    proportion = 1 / (18 / zoom);
+    proportion = 1 / (18 / this.map.getCameraZoom());
 
     this.markerList.forEach((data: any) => {
       data.disableAutoPan = true;
-      if (zoom >= 15)
+      if (this.map.getCameraZoom() >= 15)
         icon = data.icon.url
       else
         icon = '../assets/imgs/croquiItens/signs/crash.png'
@@ -341,6 +444,91 @@ export class SketchPage {
         url: icon, //marker's same icon graphic
         size: new google.maps.Size(proportion * data.icon.size.width, proportion * data.icon.size.height) //changes the scale
       });
+    });
+  }
+
+  // {
+  //   "type": "Feature",
+  //   "geometry": {
+  //     "type": "Polygon/Point",
+  //     "coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0] ]
+  //   },
+  //   "properties": {
+  //      "idVehicle": x,
+  //      "idActor": x,
+  //      "type": "StopSignal/TrafficLight/.../car/bike/truck",
+  //      "rotation": x,
+  //      "color": x,
+  //   }
+  // }
+
+  saveSketch() {
+    var iconName;
+    let collection = {
+      "type": "FeatureCollection",
+      "features": []
+    }
+
+    this.markerList.forEach((marker: Marker) => {
+      let markerInfo = marker.get('icon');
+      console.log("------ITERACAO------\n" + JSON.stringify(markerInfo))
+      switch (markerInfo.url) {
+        case '../assets/imgs/croquiItens/signs/crosswalk.png':
+          iconName = 'crosswalk'
+          break;
+        case '../assets/imgs/croquiItens/signs/forbidden-sign.png':
+          iconName = 'forbidden'
+          break;
+        case '../assets/imgs/croquiItens/signs/one-way.png':
+          iconName = 'oneWay'
+          break;
+        case '../assets/imgs/croquiItens/signs/stop.png':
+          iconName = 'stop'
+          break;
+        case '../assets/imgs/croquiItens/signs/traffic-light.png':
+          iconName = 'trafficLight'
+          break;
+        case '../assets/imgs/croquiItens/signs/yield.png':
+          iconName = 'yield'
+          break;
+        case '../assets/imgs/croquiItens/signs/actor.png':
+          iconName = 'actor'
+          break;
+        case `../assets/imgs/croquiItens/carroCroqui/carroCroqui${markerInfo.rotation}.png`:
+          iconName = 'car'
+          break;
+        case `../assets/imgs/croquiItens/carroCroqui/crosswalk${markerInfo.rotation}.png`:
+          iconName = 'crosswalk'
+          break;
+      }
+
+      let currentMarker = {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [marker.getPosition().lat, marker.getPosition().lng]
+        },
+        properties: {
+          idVehicle: markerInfo.idVehicle, //n deve tar a dar
+          idActor: markerInfo.idActor, //n deve tar a dar
+          type: iconName,
+          rotation: markerInfo.rotation, 
+          color: markerInfo.fillColor
+        }
+      }
+
+      collection.features.push(currentMarker)
+      console.log("------FEATURES-------\n" + JSON.stringify(collection))
+
+      console.log("ID ACCIDENT: "+ this.id)
+      this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, {'sketch': collection}).subscribe(
+        data => {
+          console.log(data['_body']);
+        },
+        error => {
+          console.log(error);
+        },
+      );
     });
   }
 }

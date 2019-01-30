@@ -11,8 +11,14 @@
     </button>
     <ion-title>Croqui digital</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="zoomListener()">
+      <!-- <button ion-button icon-only (click)="zoomListener()">
         <ion-icon name="refresh"></ion-icon>
+      </button> -->
+      <!-- <button ion-button icon-only (click)="undoLast()">
+        <ion-icon name="undo"></ion-icon>
+      </button> -->
+      <button ion-button icon-only (click)="saveSketch()">
+        <ion-icon name="checkbox"></ion-icon>
       </button>
       <button ion-button icon-only (click)="confirmDelete()">
         <ion-icon name="trash"></ion-icon>
@@ -28,6 +34,14 @@
     <ion-option *ngFor="let v of vehicles">{{v.meta.register}}</ion-option>
   </ion-select>
 </ion-item>
+
+<ion-item>
+    <ion-label>Intervenientes</ion-label>
+    <ion-select [(ngModel)]="chosenActor" (ngModelChange)="onOkActor(chosenActor)" #actorSelect>
+      <!-- <ion-option *ngFor="let v of vehicles; let i=index;" [selected]="i === 0"> -->
+      <ion-option *ngFor="let a of actorNames">{{a}}</ion-option>
+    </ion-select>
+  </ion-item>
 
 <ion-item>
   <ion-label>Sinal de trânsito</ion-label>
@@ -49,7 +63,10 @@
           <ion-icon name="car"></ion-icon>
         </button>
         <button ion-fab>
-          <ion-icon name="person" (click)="choosePin('body',$event)"></ion-icon>
+          <ion-icon name="people" (click)="popupActors()"></ion-icon>
+        </button>
+        <button ion-fab>
+          <ion-icon class="skull" (click)="loadVictim()"></ion-icon>
         </button>
         <button ion-fab>
           <ion-icon name="warning" (click)="popupSigns()"></ion-icon>
@@ -58,7 +75,7 @@
           <ion-icon name="pin" (click)="loadPolygons()"></ion-icon>
         </button>
         <button ion-fab>
-          <ion-icon name="radio-button-on" (click)="loadRadiusCircle()"></ion-icon>
+          <ion-icon name="radio-button-off" (click)="loadRadiusCircle()"></ion-icon>
         </button>
       </ion-fab-list>
     </ion-fab>
