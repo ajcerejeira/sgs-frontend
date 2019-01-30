@@ -99,7 +99,7 @@ export class ActorDetailPage {
   }
 
   ionViewDidLoad() {
-    console.log('Intervin: ' + JSON.stringify(this.navParams));
+    //console.log('Intervin: ' + JSON.stringify(this.navParams));
     this.accidentId = this.navParams.get('accident');
     this.actorId = this.navParams.get('actorId');
     
@@ -150,7 +150,7 @@ export class ActorDetailPage {
       .map(resv => resv.json())
       .subscribe(
         resv => {
-          console.log(resv)
+          //console.log(resv)
           this.vehicle = resv
           this.register = resv.meta.register
           this.make = resv.meta.make
@@ -168,7 +168,7 @@ export class ActorDetailPage {
       }, error => {
         console.log(error);
       });
-      console.log(this.idv)   
+      //console.log(this.idv)   
     
     console.log('ionViewDidLoad ActorDetailPage');
   }
@@ -217,7 +217,7 @@ export class ActorDetailPage {
   testimonialList() {
     if (localStorage.getItem('testimonialList')) {
       this.audioList = JSON.parse(localStorage.getItem('testimonialt'));
-      console.log(this.audioList);
+      //console.log(this.audioList);
     }
   }
 
@@ -364,7 +364,7 @@ export class ActorDetailPage {
   }
 
   removeItem(i) {
-    console.log(this.audioList[i]);
+    //console.log(this.audioList[i]);
     let name = this.audioList[i].audio;
     this.audioList.splice(i, 1);
     const toast = this.toastCtrl.create({

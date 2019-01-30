@@ -35,14 +35,15 @@
 <ion-content [ngSwitch]="actorPage">
     <ion-list *ngSwitchCase="'info'">
         <ion-list-header color="light">
+            <ion-icon name="car"></ion-icon>
               Dados do Acidente
         </ion-list-header>
     
-        <ion-item *ngIf="role == 'Driver'">Tipo: <ion-note item-end >Condutor</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Passenger'">Tipo: <ion-note item-end >Passageiro</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Pedestrian'">Tipo: <ion-note item-end >Peão</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Witness'">Tipo: <ion-note item-end >Testemunha</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Other'">Tipo: <ion-note item-end >Outro</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Driver'">Tipo de Interveniente: <ion-note item-end >Condutor</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Passenger'">Tipo de Interveniente: <ion-note item-end >Passageiro</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Pedestrian'">Tipo de Interveniente: <ion-note item-end >Peão</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Witness'">Tipo de Interveniente: <ion-note item-end >Testemunha</ion-note></ion-item>
+        <ion-item *ngIf="role == 'Other'">Tipo de Interveniente: <ion-note item-end >Outro</ion-note></ion-item>
 
         <ion-item *ngIf="wounds == 'None'">Ferimentos: <ion-note item-end>Nenhuns</ion-note></ion-item>
         <ion-item *ngIf="wounds == 'Light'">Ferimentos: <ion-note item-end>Leves</ion-note></ion-item>
@@ -52,13 +53,14 @@
 
         <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
         <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
-          Veiculo:
+          Veículo:
           <ion-note item-end><h2>{{ register }} </h2>
             <p>{{ make }} {{ model }}</p></ion-note>
         </button>
         
     
         <ion-list-header color="light">
+          <ion-icon name="person"></ion-icon>
           Dados Pessoais
         </ion-list-header>
         
@@ -70,6 +72,7 @@
         <ion-item>Naturalidade: <ion-note item-end>{{ naturality }}</ion-note></ion-item>
         <ion-item *ngFor="let parent of parentage">Filiação: <ion-note item-end>{{ parent }}</ion-note></ion-item>
         <ion-list-header color="light">
+            <ion-icon name="locate"></ion-icon>
             Localização
         </ion-list-header>
         <ion-item>Localidade: <ion-note item-end>{{ locality }}</ion-note></ion-item>
@@ -77,11 +80,12 @@
         <ion-item>Morada: <ion-note item-end>{{ address }}</ion-note></ion-item>
         <ion-item>Nº de Porta: <ion-note item-end>{{ doorNumber }}</ion-note></ion-item>
         <ion-list-header color="light">
+            <ion-icon name="clipboard"></ion-icon>
             Identificação
         </ion-list-header>
-        <ion-item *ngIf="identityDocumentType == 'IdentityDocument'">Tipo de Identificação: <ion-note item-end>BI/CC</ion-note></ion-item>
-        <ion-item *ngIf="identityDocumentType == 'Passport'">Tipo de Identificação: <ion-note item-end>Passaporte</ion-note></ion-item>
-        <ion-item *ngIf="identityDocumentType == 'DriverLicense'">Tipo de Identificação: <ion-note item-end>Carta de Condução</ion-note></ion-item>
+        <ion-item *ngIf="identityDocumentType == 'IdentityDocument'">Documento de Identificação: <ion-note item-end>BI/CC</ion-note></ion-item>
+        <ion-item *ngIf="identityDocumentType == 'Passport'">Documento de Identificação: <ion-note item-end>Passaporte</ion-note></ion-item>
+        <ion-item *ngIf="identityDocumentType == 'DriverLicense'">Documento de Identificação: <ion-note item-end>Carta de Condução</ion-note></ion-item>
 
         <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note></ion-item>
         <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDateAux }}</ion-note></ion-item>
