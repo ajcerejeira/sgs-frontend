@@ -78,7 +78,9 @@
         </ion-list-header>
         <ion-item>
           <ion-label floating> Nome </ion-label>
-          <ion-input type="text" formControlName="policy"></ion-input>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
+            <ion-option *ngFor="let d of drivers">{{d.person.name}}</ion-option>
+          </ion-select>
         </ion-item>
         <ion-list-header color="light">
           <ion-icon name="people"></ion-icon>
@@ -86,7 +88,9 @@
         </ion-list-header>
         <ion-item>
           <ion-label floating> Nome </ion-label>
-          <ion-input type="text" formControlName="policy"></ion-input>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
+            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
+          </ion-select>
         </ion-item>
         <div padding-top>
           <button ion-button color="primary" type="submit" full> Criar Veículo </button>
