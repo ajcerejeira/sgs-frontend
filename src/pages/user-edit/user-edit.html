@@ -23,22 +23,22 @@
         <ion-list>
             <ion-item>
               <ion-label floating>Nome</ion-label>
-              <ion-input [(ngModel)]="name" type="text" formControlName="name">  </ion-input>
+              <ion-input [(ngModel)]="name" type="text" formControlName="name"> {{ name }} </ion-input>
             </ion-item>
             <ion-item>
-              <ion-label floating>Password</ion-label>
-              <ion-input type="password" formControlName="password" > </ion-input>
+              <ion-label floating>Password atual</ion-label>
+              <ion-input [(ngModel)]="oldpassword" type="password" formControlName="oldpassword"> </ion-input>
             </ion-item>
             <ion-item>
-              <ion-label floating>Repetir password</ion-label>
-              <ion-input type="password" formControlName="newPassword"> </ion-input>
+              <ion-label floating>Nova password</ion-label>
+              <ion-input [(ngModel)]="newPassword" type="password" formControlName="newPassword" > </ion-input>
             </ion-item>
             <ion-item>
               <ion-label floating>Afiliação</ion-label>
               <ion-input type="text"> </ion-input>
             </ion-item>
             <ion-item>
-                <button ion-button type="submit" full>Editar</button>
+                <button ion-button type="submit" full (click)="validate()">Editar</button>
             </ion-item>
           </ion-list>
     </form>
