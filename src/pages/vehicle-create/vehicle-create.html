@@ -72,8 +72,24 @@
           <ion-label floating>Data de Validade</ion-label>
           <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate"></ion-datetime>
         </ion-item>
+        <ion-list-header color="light">
+          <ion-icon name="person"></ion-icon>
+          Condutor
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Nome </ion-label>
+          <ion-input type="text" formControlName="policy"></ion-input>
+        </ion-item>
+        <ion-list-header color="light">
+          <ion-icon name="people"></ion-icon>
+          Passageiros
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Nome </ion-label>
+          <ion-input type="text" formControlName="policy"></ion-input>
+        </ion-item>
         <div padding-top>
-          <button ion-button color="primary" type="submit" full> Editar Veículo </button>
+          <button ion-button color="primary" type="submit" full> Criar Veículo </button>
         </div>
       </ion-list>
     </form>

@@ -19,6 +19,7 @@ import { Data } from '../../providers/data/data';
 })
 export class VehicleListPage {
   vehicles: any;
+  actors: any;
   vehicleToDelete: string;
   filteredVehicles: any;
   filterBy: string = "";
@@ -42,14 +43,14 @@ export class VehicleListPage {
     this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
         this.vehicles=res.vehicles;
         this.filteredVehicles = res.vehicles;
-        console.log(res.vehicles);
+        this.actors = res.actors;
       }, error => {
         console.log(error);
       });
   }
 
   vehicleCreate() {
-    let modal = this.modalCtrl.create('VehicleCreatePage', {id: this.navParams.data});
+    let modal = this.modalCtrl.create('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
     modal.onDidDismiss(data => { });
     modal.present();
   }
@@ -64,7 +65,8 @@ export class VehicleListPage {
   vehicleDetail(vehicle) {
     var data = {
       vehicle: vehicle,
-      idAccident: this.navParams.data
+      idAccident: this.navParams.data,
+      actors: this.actors
     }
     this.navCtrl.push('VehicleDetailPage', data);
   }

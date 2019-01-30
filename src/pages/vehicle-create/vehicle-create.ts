@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { IonicPage, ViewController, App, NavParams, NavController } from "ionic-angular";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http } from "@angular/http"
+import { l } from "@angular/core/src/render3";
 // import { NULL_EXPR } from "@angular/compiler/src/output/output_ast";
 // import {ColorPickerService} from 'angular2-color-picker';
 
@@ -18,8 +19,10 @@ import { Http } from "@angular/http"
   templateUrl: "vehicle-create.html"
 })
 export class VehicleCreatePage {
-  private vehicle : FormGroup;
-  private idAccident: number;
+  vehicle : FormGroup;
+  idAccident: number;
+  drivers: any;
+  passengers: any;
 
   constructor(
     public navCtrl: NavController,
@@ -41,10 +44,24 @@ export class VehicleCreatePage {
       insurance: [''],
       expirationDate: [''],
     })
+    this.drivers = [];
+    this.passengers = [];
     this.idAccident = this.navParams.get('id');
-    // console.log("ID_ACC: " + this.idAccident);
-    ;}
-
+    if(this.navParams.get('actors').length > 0) { 
+      let actorList = this.navParams.get('actors')
+      actorList.forEach(actor => {
+        let new_actor = actor;
+        console.log(new_actor);
+        if (new_actor.role === 'Driver' && !new_actor.vehicle ) {
+          this.drivers.push(new_actor);
+        }
+        if (new_actor.role === 'Passenger' && !new_actor.vehicle ) {
+          this.passengers.push(new_actor);
+        }
+      });
+    };
+  }
+  
   dismiss() {
     this.viewCtrl.dismiss();
   }
@@ -64,6 +81,8 @@ export class VehicleCreatePage {
         expirationDate: this.vehicle.value['expirationDate']
       },
       damages: [],
+      driver: {},
+      passengers: []
     };
 
     // this.vehicles.push(new_vehicle);
@@ -73,6 +92,6 @@ export class VehicleCreatePage {
       }, error => {
         console.log(error);
       });
-    this.navCtrl.push('VehicleListPage');
+    this.navCtrl.push('VehicleListPage', this.idAccident);
   }
 }

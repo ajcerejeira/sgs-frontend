@@ -28,42 +28,7 @@ export class VehicleDetailPage {
   vehicle: any;
   vehicleId: any;
   topLeft: boolean = false;
-  driver: any = {
-    name: "Afonso Silva",
-    wounds: "Ferimentos leves",
-  };
-  passengers: any[] = [
-    {
-      name: "Francisco Costa",
-      wounds: "Nenhum ferimento",
-    },
-    {
-      name: "João Vieira",
-      wounds: "Ferimentos graves",
-    },
-  ];
-  damages: boolean[] = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-  photos: string[] = [
-    "assets/imgs/seat-1.jpg",
-    "assets/imgs/seat-2.jpg",
-    "assets/imgs/seat-3.jpg",
-    "assets/imgs/renault-1.jpg",
-    "assets/imgs/renault-2.jpg",
-    "assets/imgs/mercedes-1.jpg",
-    "assets/imgs/mercedes-2.jpg",
-    "assets/imgs/mercedes-3.jpg",
-    "assets/imgs/mercedes-4.jpg"
-  ];
+  actors: any;
   vehiclePage: string = "info"; // Default segment to load
 
   constructor(
@@ -77,6 +42,7 @@ export class VehicleDetailPage {
     this.vehicle = this.navParams.get('vehicle');
     this.vehicleId = this.navParams.get('vehicle').id;
     this.idAccident = this.navParams.get('idAccident');
+    this.actors = this.navParams.get('actors');
   }
 
   ionViewDidLoad() {
@@ -113,37 +79,37 @@ export class VehicleDetailPage {
     modal.present();
   }
 
-  openCamera() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-    };
+  // openCamera() {
+  //   const options: CameraOptions = {
+  //     quality: 100,
+  //     destinationType: this.camera.DestinationType.DATA_URL,
+  //     encodingType: this.camera.EncodingType.JPEG,
+  //     mediaType: this.camera.MediaType.PICTURE,
+  //   };
 
-    this.camera.getPicture(options).then(
-      (imageData: string) => {
-        let imageSrc = '';
-        // If the returned image is a file simply add it to SRCs,
-        // otherwise it is a BASE64 coded picture
-        if (imageData.startsWith("file://")) {
-          const imageSrc = imageData;
-          this.photos.push(imageSrc);
-          console.log(imageSrc);
-        } else {
-          const imageSrc = "data:image/jpeg;base64," + imageData;
-          this.photos.push(imageSrc);
-          console.log(imageSrc);
-        }
-      },
-      err => {
-        console.error(err);
-        // Handle error
-      }
-    );
-  }
+  //   this.camera.getPicture(options).then(
+  //     (imageData: string) => {
+  //       let imageSrc = '';
+  //       // If the returned image is a file simply add it to SRCs,
+  //       // otherwise it is a BASE64 coded picture
+  //       if (imageData.startsWith("file://")) {
+  //         const imageSrc = imageData;
+  //         this.photos.push(imageSrc);
+  //         console.log(imageSrc);
+  //       } else {
+  //         const imageSrc = "data:image/jpeg;base64," + imageData;
+  //         this.photos.push(imageSrc);
+  //         console.log(imageSrc);
+  //       }
+  //     },
+  //     err => {
+  //       console.error(err);
+  //       // Handle error
+  //     }
+  //   );
+  // }
 
-  toggleDamage(index: number) {
-    this.damages[index] = !this.damages[index];
-  }
+  // toggleDamage(index: number) {
+  //   this.damages[index] = !this.damages[index];
+  // }
 }
