@@ -181,11 +181,7 @@ export class ActorEditPage {
         resv => {
           
           this.vehicles = resv
-          console.log(this.vehicles)
-          //this.vehicle = resv
-          //this.register = resv.register
-          //this.make = resv.meta.make
-          //this.model = resv.meta.model    
+              
           
         },
         error => {
@@ -247,8 +243,6 @@ export class ActorEditPage {
       //"accident": this.accident
     };
 
-    console.log("ID Veiculo:"+JSON.stringify(editActor.vehicle));
-    console.log("Ator:"+JSON.stringify(editActor));
     this.http
       .put(
         'https://sgs-backend.herokuapp.com/api/accidents/' +

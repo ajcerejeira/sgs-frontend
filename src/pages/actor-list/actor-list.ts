@@ -37,8 +37,6 @@ export class ActorListPage {
   }
 
   ionViewDidLoad() {
-    console.log('ID ACIDENTE È: ' + this.navParams.data);
-    console.log('ionViewDidLoad ActorListPage');
 
     if (this.navParams.get('accident'))
       this.accidentId = this.navParams.get('accident');
