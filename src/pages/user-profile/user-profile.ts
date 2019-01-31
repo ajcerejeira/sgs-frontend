@@ -7,7 +7,6 @@ import {
   ToastController,
   ModalController,
 } from 'ionic-angular';
-import { Http, Headers } from '@angular/http';
 
 /**
  * Generated class for the UserProfilePage page.
@@ -36,65 +35,15 @@ export class UserProfilePage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public http: Http,
     public modalController: ModalController,
   ) {
-    this.name = this.navParams.get('name');
-    this.idUser = this.navParams.get('idUser');
-    console.log(this.idUser);
   }
 
   async auth() {
-    let headers = new Headers();
-    headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
-    const res = await this.http.get('https://sgs-backend.herokuapp.com/api/users/me', { headers }).toPromise();
-    const data = res.json();
-    this.idUser = data.id;
-    this.email = data.email;
-    this.name = data.name; 
-    this.avatar = `https://sgs-backend.herokuapp.com/api/users/${this.idUser}/avatar`;
-    
-    
-    /*
-    this.http
-      .get('https://sgs-backend.herokuapp.com/api/users/me', {
-        headers: headers,
-      })
-      .to
-      .map(res => res.json())
-      .subscribe(
-        res => {
-          // console.log(JSON.stringify(data));
-          // console.log(localStorage.getItem('token'));
-          console.log(JSON.stringify(res.name));
-          this.name = res.name;
-          console.log(this.name);
-          this.email = res.email;
-        },
-        // .subscribe(data => {
-        //   console.log(data);
-        //   // console.log(JSON.stringify(data));
-        //   // console.log(localStorage.getItem('token'));
-        //   console.log(JSON.stringify(res['_body'].name));
-        //   this.name= data['_body'].name;
-        //   console.log(this.name);
-        //   this.email= data['_body'].email;
-        // },
-        error => {
-          console.log(error);
-          const toast = this.toastCtrl.create({
-            position: 'top',
-            message: 'Not Autorized',
-            duration: 3000,
-            // cssClass : 'normalToast'
-          });
-          toast.present();
-        },
-      );*/
-  }
-
-  getSession() {
-    return localStorage.getItem('id_token');
+    this.idUser = parseInt(localStorage.getItem('userId'));
+    this.email = localStorage.getItem('email');
+    this.name = localStorage.getItem('name');
+    this.avatar = localStorage.getItem('avatar'); 
   }
 
   ionViewDidLoad() {
@@ -102,12 +51,7 @@ export class UserProfilePage {
   }
 
   profileEdit() {
-    let modal = this.modalController.create('UserEditPage', {
-      data: this.email,
-      user: this.idUser,
-    });
-    modal.onDidDismiss(data => {});
+    const modal = this.modalController.create('UserEditPage');
     modal.present();
-    console.log(this.email);
   }
 }

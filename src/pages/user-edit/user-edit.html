@@ -16,7 +16,49 @@
   </ion-navbar>
 </ion-header>
 
-
+<ion-content scroll="false">
+  <div class="splash-bg"></div>
+  <div class="splash-info" margin-bottom>
+    <img
+      src="{{ avatar }}"
+      ion-avatar
+      style="margin: auto; width: 200px; height: 200px; border-radius: 50%; vertical-align: middle;"
+    />
+    <label for="avatar" class="filePickerLabel">Alterar foto de perfil</label>
+    <input type="file" id="avatar" name="avatar" class="filePicker">
+  </div>
+  <div class="container">
+    <ion-list no-margin>
+      <ion-item>
+        <ion-label floating>Nome</ion-label>
+        <ion-input
+          type="text"
+          name="name"
+          id="name"
+          [ngModel]="name"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" name="password" id="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Confirmação da password</ion-label>
+        <ion-input
+          type="password"
+          name="password"
+          id="passwordConfirm"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-footer>
+  <button ion-button color="primary" type="submit" full>
+    Atualizar perfil
+  </button>
+</ion-footer>
+<!--
 <ion-content padding scroll="false">
   <div class="container">
     <form [formGroup]="userEdited" (ngSubmit)=editUser()>
@@ -44,4 +86,4 @@
     </form>
   </div>
 
-</ion-content>
+</ion-content>-->

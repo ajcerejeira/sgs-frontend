@@ -1,7 +1,54 @@
 page-user-edit {
-    .container {
-        display: flex;
-        flex-flow: column;
-        height: 100%;
-      }
+  .splash-info {
+    position: relative;
+    z-index: 2;
+    margin-top: -64px;
+    text-align: center;
+  }
+  .splash-logo {
+    margin: auto;
+    // background: url("../assets/imgs/avatar.png");
+    background-size: 100%;
+    width: 128px;
+    height: 128px;
+  }
+
+  .splash-bg {
+    position: relative;
+    background: linear-gradient(
+        rgba(20, 101, 170, 0.7),
+        rgba(20, 101, 170, 0.7)
+      ),
+      url('../assets/imgs/psp.jpg') no-repeat transparent;
+    background-position: center;
+    background-size: cover;
+    height: 30%;
+    z-index: 1;
+  }
+
+  .filePicker {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  .filePickerLabel {
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    background-color: #1465AA;
+    margin: 0.4rem 0.2rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.1em;
+    text-align: center;
+    line-height: 2.5;
+    border-radius: 3%;
+    overflow: hidden;
+    height: 3rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    width: 200px;
+    text-transform: uppercase;
+  }
+
 }

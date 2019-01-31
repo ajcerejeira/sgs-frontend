@@ -21,6 +21,28 @@ import { Http } from '@angular/http';
   templateUrl: 'user-edit.html',
 })
 export class UserEditPage {
+  private idUser: number;
+  private email: string;
+  private name: string;
+  private avatar: string;
+
+  constructor(public viewCtrl: ViewController, public navCtrl: NavController) {}
+
+  ionViewDidLoad() {
+    this.idUser = parseInt(localStorage.getItem('userId'));
+    this.email = localStorage.getItem('email');
+    this.name = localStorage.getItem('name');
+    this.avatar = localStorage.getItem('avatar'); 
+    console.log('ionViewDidLoad UserEditPage');
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
+}
+
+/*
+export class UserEditPage {
   private userEdited: FormGroup;
   private user: any;
   name: string;
@@ -128,4 +150,4 @@ export class UserEditPage {
         toast.present();
       }
   }
-}
+}*/
