@@ -84,7 +84,6 @@ export class UserEditPage {
         this.newName = data.name;
         localStorage.setItem('name', data.name);
       }
-      //console.log(data);
       this.dismiss();
     } catch(err) {
       console.error(err);
