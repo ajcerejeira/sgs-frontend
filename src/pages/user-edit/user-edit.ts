@@ -7,7 +7,7 @@ import {
   ToastController,
 } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 /**
  * Generated class for the UserEditPage page.
  *
@@ -25,19 +25,69 @@ export class UserEditPage {
   private email: string;
   private name: string;
   private avatar: string;
+  public newName: string;
+  public newPassword: string;
+  public newAvatarFile: File;
+  public newAvatarImg: string;
+  public newAvatar:  string;
 
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController) {}
+  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public http: Http) {}
 
   ionViewDidLoad() {
     this.idUser = parseInt(localStorage.getItem('userId'));
     this.email = localStorage.getItem('email');
     this.name = localStorage.getItem('name');
-    this.avatar = localStorage.getItem('avatar'); 
+    this.avatar = localStorage.getItem('avatar');
+    this.newAvatarImg = this.avatar;
+    console.log(this.newAvatarImg);
     console.log('ionViewDidLoad UserEditPage');
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  onFileChange(event: any) {
+    let reader = new FileReader();
+   
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+    
+      reader.onload = () => {
+        this.newAvatarImg = reader.result.toString();
+        this.newAvatarFile = (file as File);
+        //console.log(reader.result);
+        //this.formGroup.patchValue({
+        // file: reader.result
+        //});
+        
+        // need to run CD since file load runs outside of zone
+        //this.cd.markForCheck();
+      };
+    }
+  }
+
+  async saveChanges() {
+    console.log(this.newName);
+    console.log(this.newPassword);
+    console.log(this.newAvatarFile);
+
+    const newData = new FormData();
+    newData.append('avatar', this.newAvatarFile, this.newAvatarFile.name);
+    try {
+      const res = await this.http.put(`https://sgs-backend.herokuapp.com/api/users/${this.idUser}`,
+                                      newData).toPromise();
+      const data = res.json();
+      if (data) {
+        this.name = data.name;
+        this.newName = data.name;
+        localStorage.setItem('name', data.name);
+      }
+      this.dismiss();
+    } catch(err) {
+      console.error(err);
+    }
   }
 }
 

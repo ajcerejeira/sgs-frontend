@@ -23,7 +23,7 @@ export class MyApp {
 
   email: string = '';
   name: string = '';
-  userId: string = '';
+  userId: number = 0;
   avatar: string = '';
 
   constructor(
@@ -32,6 +32,7 @@ export class MyApp {
     public splashScreen: SplashScreen,
   ) {
     this.initializeApp();
+    this.userId = parseInt(localStorage.getItem('userId'));
     this.email = localStorage.getItem('email');
     this.name = localStorage.getItem('name');
     this.avatar = localStorage.getItem('avatar');
