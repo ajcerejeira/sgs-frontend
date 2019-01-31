@@ -77,31 +77,38 @@ export class SketchPage {
     "Cedência passagem": 'yield',
     "Passadeira": 'crosswalk',
     "Estacionamento": 'parkSign',
-    "Estacionamento proibido": 'noParkSign',
+    "Estacionamento proibido": 'noPark',
     "Proibido virar esquerda": 'noLeftTurn',
     "Proibido virar direita": 'noRightTurn',
     "Rotunda": 'roundabout',
     "Passagem de nível": 'railwayCrossing'
   };
 
-  signDictionary2: any = [
-    { "Sinal STOP": 'a' },
-    { "Semáforo": 'a' },
-    { "Sinal proibido": 'a' },
-    { "Sentido único": 'a' },
-    { "Cedência passagem": 'a' },
-    { "Passadeira": 'a' },
-    { "Estacionamento": 'a' },
-    { "Estacionamento proibido": 'a' },
-    { "Proibido virar esquerda": 'a' },
-    { "Proibido virar direita": 'a' },
-    { "Rotunda": 'a' },
-    { "Passagem de nível": 'a' }
-  ];
+  signTypesInverted = {
+    'stop': "Sinal STOP",
+    'trafficLight': "Semáforo",
+    'forbidden': "Sinal proibido",
+    'oneWay': "Sentido único",
+    'yield': "Cedência passagem",
+    'crosswalk': "Passadeira",
+    'parkSign': "Estacionamento",
+    'noPark': "Estacionamento proibido",
+    'noLeftTurn': "Proibido virar esquerda",
+    'noRightTurn': "Proibido virar direita",
+    'roundabout': "Rotunda",
+    'railwayCrossing': "Passagem de nível"
+  };
+
   vehicles: any;
   actors: any;
   actorNames: any;
   customID: any;
+  geoJSON: any = [];
+  latitude: any;
+  longitude: any;
+  polygonPoints: ILatLng[] = [];
+  markerList: Marker[] = [];
+
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('actorSelect') actorRef: Select;
   @ViewChild('signSelect') signRef: Select;
@@ -119,13 +126,6 @@ export class SketchPage {
   ) {
     this.id = this.navParams.data;
   }
-
-  latitude: any;
-  longitude: any;
-  polygonPoints: ILatLng[] = [];
-  markerList: Marker[] = [];
-  geoJSON: any;
-
   ionViewDidLoad() {
     this.loadMap();
   }
@@ -144,6 +144,17 @@ export class SketchPage {
           text: 'Eliminar',
           handler: () => {
             this.map.clear();
+            this.polygonPoints = []
+            this.markerList = []
+            console.log("ID ACC:" + this.id)
+            this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': '' }).subscribe(
+              data => {
+                console.log('deleted with success');
+              },
+              error => {
+                console.log(error);
+              },
+            );
           },
         },
       ],
@@ -164,23 +175,21 @@ export class SketchPage {
   }
 
   onOkSign(chosenSign) {
-    var icon, position, marker, backupMarker;
-
     switch (chosenSign) {
       case 'Passadeira':
         this.onOkCrosswalk();
         break;
       default:
         //console.log(this.signDictionary[chosenSign] + '---' + this.signTypes[chosenSign])
-        icon = {
+        let icon = {
           url: this.signDictionary[chosenSign],
           // scaledSize: {
           //   width: 200,
           // },
           type: this.signTypes[chosenSign]
         };
-        position = { lat: this.latitude, lng: this.longitude };
-        marker = {
+        let position = { lat: this.latitude, lng: this.longitude };
+        let marker = {
           position: position,
           draggable: true,
           icon: icon,
@@ -240,6 +249,7 @@ export class SketchPage {
       // Get position and address
       this.position = res.position;
       this.vehicles = res.vehicles;
+      this.geoJSON = res.sketch;
       this.actors = res.actors; //? res.actors.map(actor => actor.person.name) : [];
       this.actorNames = res.actors ? res.actors.map(actor => actor.person.name) : [];
 
@@ -255,6 +265,11 @@ export class SketchPage {
       this.latitude = this.position[0]
       this.longitude = this.position[1]
       this.map = GoogleMaps.create("map_canvas", mapOptions);
+
+      if (this.geoJSON != '' && this.geoJSON != {} && this.geoJSON != [])
+        this.loadSketch()
+      else
+        console.log("SKETCH VAZIO!")
 
       // Catch all camera events
       // this.map.addEventListener(GoogleMapsEvent.CAMERA_MOVE_END).subscribe(() => {
@@ -321,7 +336,7 @@ export class SketchPage {
   }
 
   loadRadiusCircle() {
-    this.map.clear();
+    //this.map.clear();
     let center: ILatLng = { lat: this.latitude, lng: this.longitude };
     let radius = 150; // radius (meter)
     this.map.setCameraTarget(center)
@@ -355,24 +370,23 @@ export class SketchPage {
   }
 
   loadPolygons() {
-    this.map.clear();
     this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
     this.polygonPoints = [];
     this.polygonPoints.push({
       lat: this.latitude + 0.0005,
-      lng: this.longitude + 0.0005,
+      lng: this.longitude + 0.00075,
     });
     this.polygonPoints.push({
       lat: this.latitude + 0.0005,
-      lng: this.longitude - 0.0005,
+      lng: this.longitude - 0.00075,
     });
     this.polygonPoints.push({
       lat: this.latitude - 0.0005,
-      lng: this.longitude - 0.0005,
+      lng: this.longitude - 0.00075,
     });
     this.polygonPoints.push({
       lat: this.latitude - 0.0005,
-      lng: this.longitude + 0.0005,
+      lng: this.longitude + 0.00075,
     });
 
     let polygon: Polygon = this.map.addPolygonSync({
@@ -392,6 +406,37 @@ export class SketchPage {
       marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
         let position: LatLng = params[0];
         points.setAt(idx, position);
+        this.polygonPoints = points.getArray();
+      });
+    });
+  }
+
+  loadSavedPolygon(polyPoints) {
+    let positions: ILatLng[] = [];
+    polyPoints.forEach(latLng => {
+      positions.push({lat: latLng[0], lng: latLng[1]});
+    });
+
+    this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
+    this.polygonPoints = positions;
+    let polygon: Polygon = this.map.addPolygonSync({
+      points: this.polygonPoints,
+      strokeColor: '#AA00FF',
+      fillColor: '#00FFAA',
+      strokeWidth: 10,
+    });
+
+    let points: BaseArrayClass<ILatLng> = polygon.getPoints();
+
+    points.forEach((latLng: ILatLng, idx: number) => {
+      let marker: Marker = this.map.addMarkerSync({
+        draggable: true,
+        position: latLng,
+      });
+      marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
+        let position: LatLng = params[0];
+        points.setAt(idx, position);
+        this.polygonPoints = points.getArray();
       });
     });
   }
@@ -471,6 +516,51 @@ export class SketchPage {
   //   }
   // }
 
+  loadSketch() {
+    this.map.clear();
+    this.geoJSON.features.forEach(element => {
+      console.log(element)
+      let imgURL
+
+      if (element.properties.type != 'polygon') {
+        if (element.properties.type == 'car')
+          imgURL = '../assets/imgs/croquiItens/carroCroqui/carroCroqui' + element.properties.rotation + '.png'
+        else if (element.properties.type == 'crosswalk')
+          imgURL = '../assets/imgs/croquiItens/signs/crosswalk' + element.properties.rotation + '.png'
+        else if (element.properties.type == 'victim')
+          imgURL = '../assets/imgs/croquiItens/body/body.png'
+        else if (element.properties.type == 'actor')
+          imgURL = '../assets/imgs/croquiItens/signs/actor.png'
+        else
+          imgURL = this.signDictionary[this.signTypesInverted[element.properties.type]];
+
+        let icon = {
+          url: imgURL,
+          type: this.signTypesInverted[element.properties.type]
+        };
+
+        let position = {
+          lat: element.geometry.coordinates[0],
+          lng: element.geometry.coordinates[1]
+        };
+
+        let marker = {
+          position: position,
+          draggable: true,
+          icon: icon,
+        };
+        this.map.addMarkerSync(marker);
+        let cameraMoveTo = { lat: this.latitude, lng: this.longitude };
+        this.map.setCameraTarget(cameraMoveTo)
+        //this.markerList.push(backupMarker);
+      } else {
+        console.log("!!!! DEVE SER POLIGONO !!!!")
+        console.log(JSON.stringify(element.geometry.coordinates))
+        this.loadSavedPolygon(element.geometry.coordinates)
+      }
+    });
+  }
+
   saveSketch() {
     var iconName;
     let collection = {
@@ -505,7 +595,7 @@ export class SketchPage {
           break;
         //NOVOS
         case '../assets/imgs/croquiItens/signs/noParking.png':
-          iconName = 'noParking'
+          iconName = 'noPark'
           break;
         case '../assets/imgs/croquiItens/signs/parkSign.png':
           iconName = 'parkSign'
@@ -538,8 +628,8 @@ export class SketchPage {
           coordinates: [marker.getPosition().lat, marker.getPosition().lng]
         },
         properties: {
-          idVehicle: markerInfo.idVehicle, //n deve tar a dar
-          idActor: markerInfo.idActor, //n deve tar a dar
+          idVehicle: markerInfo.idVehicle,
+          idActor: markerInfo.idActor,
           type: iconName,
           rotation: markerInfo.rotation,
           color: markerInfo.fillColor
@@ -547,17 +637,45 @@ export class SketchPage {
       }
 
       collection.features.push(currentMarker)
-      console.log("------FEATURES-------\n" + JSON.stringify(collection))
-      console.log("ID ACCIDENT: " + this.id)
-
-      this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': collection }).subscribe(
-        data => {
-          console.log('success');
-        },
-        error => {
-          console.log(error);
-        },
-      );
+      // console.log("------FEATURES-------\n" + JSON.stringify(collection))
+      // console.log("ID ACCIDENT: " + this.id)
     });
+
+    console.log("debug:" + JSON.stringify(this.polygonPoints))
+
+    //"coordinates":[56.162939,10.203921]
+    //[56.16324388471613,10.204071652013681,56.16302398503276,10.20347408961868,56.162575520655444,10.203573603764085,56.16281437229321,10.204038229174785]
+    if (this.polygonPoints.length > 0) {
+      let polygonCoords = []
+      this.polygonPoints.forEach((point: ILatLng) => {
+        polygonCoords.push([point.lat, point.lng])
+      });
+
+      console.log("HA POLIGONO")
+      let currentMarker = {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: polygonCoords
+        },
+        properties: {
+          type: "polygon"
+        }
+      }
+      collection.features.push(currentMarker)
+    } else {
+      console.log("NAO HA POLIGONO")
+    }
+
+    console.log("\n\n FIM \n\n" + JSON.stringify(collection))
+
+    this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': collection }).subscribe(
+      data => {
+        console.log('success');
+      },
+      error => {
+        console.log(error);
+      },
+    );
   }
 }

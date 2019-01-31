@@ -17,8 +17,11 @@
       <!-- <button ion-button icon-only (click)="undoLast()">
         <ion-icon name="undo"></ion-icon>
       </button> -->
+      <!-- <button ion-button icon-only (click)="loadSketch()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button> -->
       <button ion-button icon-only (click)="saveSketch()">
-        <ion-icon name="checkbox"></ion-icon>
+        <ion-icon name="checkmark-circle"></ion-icon>
       </button>
       <button ion-button icon-only (click)="confirmDelete()">
         <ion-icon name="trash"></ion-icon>
@@ -62,20 +65,20 @@
         <button ion-fab (click)="popupVehicles()">
           <ion-icon name="car"></ion-icon>
         </button>
-        <button ion-fab>
-          <ion-icon name="people" (click)="popupActors()"></ion-icon>
+        <button ion-fab (click)="popupActors()">
+          <ion-icon name="people"></ion-icon>
         </button>
-        <button ion-fab>
-          <ion-icon class="skull" (click)="loadVictim()"></ion-icon>
+        <button ion-fab (click)="loadVictim()">
+          <ion-icon class="skull"></ion-icon>
         </button>
-        <button ion-fab>
-          <ion-icon name="warning" (click)="popupSigns()"></ion-icon>
+        <button ion-fab (click)="popupSigns()">
+          <ion-icon name="warning" ></ion-icon>
         </button>
-        <button ion-fab>
-          <ion-icon name="pin" (click)="loadPolygons()"></ion-icon>
+        <button ion-fab (click)="loadPolygons()">
+          <ion-icon class="place"></ion-icon>
         </button>
-        <button ion-fab>
-          <ion-icon name="radio-button-off" (click)="loadRadiusCircle()"></ion-icon>
+        <button ion-fab (click)="loadRadiusCircle()">
+          <ion-icon class="circle"></ion-icon>
         </button>
       </ion-fab-list>
     </ion-fab>
