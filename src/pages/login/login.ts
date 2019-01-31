@@ -50,7 +50,7 @@ export class LoginPage {
         headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
         const res = await this.http.get('https://sgs-backend.herokuapp.com/api/users/me', { headers }).toPromise();
         const data = res.json();
-        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('userId', data.id);
         localStorage.setItem('name', data.name);
         localStorage.setItem('email', data.email);
         localStorage.setItem('avatar', `https://sgs-backend.herokuapp.com/api/users/${data.id}/avatar`);
