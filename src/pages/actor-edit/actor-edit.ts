@@ -7,6 +7,7 @@ import {
 } from 'ionic-angular';
 import { FormBuilder } from '@angular/forms';
 import { Http } from '@angular/http';
+import { stringify } from '@angular/core/src/render3/util';
 /**
  * Generated class for the ActorEditPage page.
  *
@@ -46,6 +47,14 @@ export class ActorEditPage {
   alcoholTest: number;
   vehicle: number;
   accident: number;
+  idVehicle:number;
+ 
+  alteredVehicle: any;
+  vehicles: any[];
+  register: string;
+  make: string;
+  model: string;
+
 
   constructor(
     public navCtrl: NavController,
@@ -56,7 +65,8 @@ export class ActorEditPage {
   ) {
     //console.log(JSON.stringify(this.navParams))
     this.actor = this.navParams.get('data');
-    console.log(JSON.stringify(this.actor));
+    //this.vehicle = this.navParams.get('vehicle');
+   
     this.id = this.actor.id;
     if (this.actor.person.identityDocumentType) {
       this.identityDocumentType = this.actor.person.identityDocumentType;
@@ -155,6 +165,7 @@ export class ActorEditPage {
     } else {
       this.alcoholTest = 0;
     }
+    if(this.actor.vehicle)this.idVehicle = this.actor.vehicle
     //if(this.actor.vehicle){
     //this.vehicle = this.actor.vehicle;
     //}else{this.vehicle = 2}
@@ -164,7 +175,27 @@ export class ActorEditPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ActorEditPage');
+    this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accident+"/vehicles/")
+      .map(resv => resv.json())
+      .subscribe(
+        resv => {
+          
+          this.vehicles = resv
+              
+          
+        },
+        error => {
+          console.log(error);
+        },
+      );
+
+      
+      
+        
+    
   }
+
+  convertToNumber(event):number {  return +event; }
 
   dismiss() {
     this.viewCtrl.dismiss();
@@ -199,15 +230,19 @@ export class ActorEditPage {
       address: this.address,
       doorNumber: this.doorNumber,
     };
+    let vehicle = {
+      id: this.idVehicle
+    }
     let editActor = {
       person: person,
+      vehicle: vehicle,
       role: this.role,
       wounds: this.wounds,
       alcoholTest: this.alcoholTest,
       //"vehicle": this.vehicle,
       //"accident": this.accident
     };
-    console.log('mudei: ' + JSON.stringify(editActor));
+
     this.http
       .put(
         'https://sgs-backend.herokuapp.com/api/accidents/' +
@@ -225,9 +260,6 @@ export class ActorEditPage {
         },
       );
     this.viewCtrl.dismiss();
-    this.navCtrl.push('ActorDetailPage', {
-      actor: editActor,
-      accident: this.accident,
-    });
+    
   }
 }

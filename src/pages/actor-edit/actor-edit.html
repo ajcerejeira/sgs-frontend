@@ -20,6 +20,7 @@
   
     <ion-list>
       <ion-list-header color="light">
+          <ion-icon name="car"></ion-icon>
           Dados do Acidente
     </ion-list-header>
 
@@ -48,16 +49,25 @@
     </ion-item>
     <ion-item>
         <ion-label>Teste de Alcoolemia:</ion-label>
-        <ion-input [(ngModel)]="alcoholTest"  type="number" > {{alcoholTest}</ion-input>
+        <ion-input [(ngModel)]="alcoholTest"  type="number" (ngModelChange)="alcoholTest = convertToNumber($event)" > {{alcoholTest}</ion-input>
       </ion-item>
-    
+      <ion-item>
+            <ion-label floating>Veículo:</ion-label>
+            <ion-select okText="Gravar" cancelText="Cancelar" [(ngModel)]="idVehicle" [ngModelOptions]="{standalone: true}"
+              multiple="false">
+              <ion-option *ngFor="let vehicle of vehicles" value="{{vehicle.id}}">
+                  {{vehicle.meta.register}} {{vehicle.meta.make}} {{vehicle.meta.model}}</ion-option>
+            </ion-select>
+            {{idVehicle}}
+          </ion-item>
 
     <ion-list-header color="light">
-      Dados Pessoias
+        <ion-icon name="person"></ion-icon>
+      Dados Pessoais
     </ion-list-header>
     
     <ion-item>
-      <ion-label>Nome</ion-label>
+      <ion-label>Nome:</ion-label>
       <ion-input [(ngModel)]="name"  type="text" > {{name}}</ion-input>
     </ion-item>
     <ion-item>
@@ -65,7 +75,7 @@
         <ion-datetime [(ngModel)]="birth" displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY"  > {{birth}}</ion-datetime>
       </ion-item>
     <ion-item>
-        <ion-label>Contacto</ion-label>
+        <ion-label>Contacto:</ion-label>
         <ion-input [(ngModel)]="phone"  type="text" > {{phone}}</ion-input>
     </ion-item>
     <ion-item>
@@ -91,29 +101,31 @@
     </ion-item>
     <!--<ion-item *ngFor="let parent of parentage">Filiação: <ion-note item-end>{{ parent }}</ion-note></ion-item>-->
     <ion-list-header color="light">
+        <ion-icon name="locate"></ion-icon>
         Localização
     </ion-list-header>
     <ion-item>
-        <ion-label>Localidade</ion-label>
+        <ion-label>Localidade:</ion-label>
         <ion-input [(ngModel)]="locality"  type="text" > {{locality}}</ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>Código-Postal</ion-label>
+        <ion-label>Código-Postal:</ion-label>
         <ion-input [(ngModel)]="zipcode"  type="text" > {{zipcode}}</ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>Morada</ion-label>
+        <ion-label>Morada:</ion-label>
         <ion-input [(ngModel)]="address"  type="text" > {{address}}</ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>Nº de Porta</ion-label>
+        <ion-label>Nº de Porta:</ion-label>
         <ion-input [(ngModel)]="doorNumber"  type="text" > {{doorNumber}}</ion-input>
     </ion-item>
     <ion-list-header color="light">
+        <ion-icon name="clipboard"></ion-icon>
         Identificação
     </ion-list-header>
     <ion-item>
-        <ion-label>Tipo de Identificação</ion-label>
+        <ion-label>Tipo de Identificação:</ion-label>
         <ion-select [(ngModel)]="identityDocumentType"  okText="Selecionar" cancelText="Cancelar">
             <ion-option value="IdentityDocument">Cartão de Cidadão</ion-option>
             <ion-option value="Passport">Passaporte</ion-option>
@@ -123,7 +135,7 @@
           </ion-select>
     </ion-item>
     <ion-item>
-        <ion-label>Nº de Identificação</ion-label>
+        <ion-label>Nº de Identificação:</ion-label>
         <ion-input [(ngModel)]="identityDocumentNumber"  type="text"> {{identityDocumentNumber}}</ion-input>
     </ion-item>
     <ion-item>
