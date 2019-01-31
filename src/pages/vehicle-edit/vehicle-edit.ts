@@ -25,15 +25,15 @@ export class VehicleEditPage {
   private vehicleEdited: FormGroup;
   private idAccident: number;
   private vehicle: any;
-  register: string;
-  make: string;
-  type: string;
-  model: string;
-  year: number;
-  color: string;
-  insurance: string;
-  policy: string;
-  expirationDate: string;
+  register: string = '';
+  make: string = '';
+  type: string = '';
+  model: string = '';
+  year: number = 0;
+  color: string = '#ffffff';
+  insurance: string = '';
+  policy: string = '';
+  expirationDate: string ;
 
   constructor(
     public navCtrl: NavController,
@@ -47,7 +47,7 @@ export class VehicleEditPage {
     this.idAccident = this.navParams.get('idAccident');
 
     if (this.vehicle.meta.register == null) {
-      this.register = '';
+      this.register = 'Matrícula inexistente';
     } else {
       this.register = this.vehicle.meta.register;
     }
@@ -86,9 +86,7 @@ export class VehicleEditPage {
     } else {
       this.policy = this.vehicle.meta.policy;
     }
-    if (this.vehicle.meta.expirationDate == null) {
-      this.expirationDate = '';
-    } else {
+    if (this.vehicle.meta.expirationDate != null) {
       this.expirationDate = this.vehicle.meta.expirationDate;
     }
     console.log(this.expirationDate);
