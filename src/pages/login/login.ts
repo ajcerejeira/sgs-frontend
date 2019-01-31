@@ -37,9 +37,6 @@ export class LoginPage {
     public emailComposer: EmailComposer,
   ) {this.menu.swipeEnable(false);}
 
-  
-    
-
   async login() {
     this.to = '';
     try {
