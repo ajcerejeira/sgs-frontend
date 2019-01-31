@@ -6,18 +6,11 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-      </button>
-    </ion-buttons>
     <ion-title>Novo utilizador</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding scroll="false">
-  <!--<div class="splash-bg"></div>
-  <div class="splash-info">
-    <div class="splash-logo"></div> photo?-->
+<ion-content>
   <div class="container">
     <form [formGroup]="user">
     <ion-list>
@@ -46,6 +39,5 @@
       </ion-item>
     </ion-list>
   </form>
-  <h6 *ngIf="this.badLog" style="color:red" > <small> Check your facts fool </small></h6>
   </div>    
 </ion-content>
