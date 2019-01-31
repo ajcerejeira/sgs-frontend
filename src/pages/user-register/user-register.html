@@ -32,7 +32,7 @@
       </ion-item>
       <ion-item>
         <ion-label floating>Afiliação</ion-label>
-        <ion-input type="text"> </ion-input>
+        <ion-input type="text" formControlName="entity"> </ion-input>
       </ion-item>
       <ion-item>
           <button ion-button type="submit" full [disabled]="!user.valid" (click)="createUser()">Registar</button>

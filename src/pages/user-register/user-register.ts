@@ -40,6 +40,7 @@ export class UserRegisterPage {
       name: [''],
       email: ['', Validators.required],
       password: ['', Validators.required],
+      entity: [''],
       confirmPassword: ['', Validators.required],
     });
     this.validationPassword = false;
@@ -56,6 +57,7 @@ export class UserRegisterPage {
       name: this.user.value['name'],
       email: this.user.value['email'],
       password: this.user.value['password'],
+      entity: this.user.value['entity'],
     };
     console.log(new_user);
     if (this.user.value['password'] === this.user.value['confirmPassword']) {

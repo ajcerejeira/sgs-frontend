@@ -61,6 +61,10 @@ export class UserEditPage {
     console.log('ionViewDidLoad UserEditPage');
   }
 
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
+  
   validate() {
     this.http
       .post('https://sgs-backend.herokuapp.com/api/auth/login', {

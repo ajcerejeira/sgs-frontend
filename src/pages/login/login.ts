@@ -35,7 +35,10 @@ export class LoginPage {
     public forgotCtrl: AlertController,
     public toastCtrl: ToastController,
     public emailComposer: EmailComposer,
-  ) {}
+  ) {this.menu.swipeEnable(false);}
+
+  
+    
 
   login() {
     this.to = '';
