@@ -60,7 +60,7 @@ export class VehicleDetailPage {
     public http: Http,
   ) {
     this.vehicle = this.navParams.get('vehicle');
-    this.vehicleId = this.navParams.get('vehicle').id;
+    this.vehicleId = this.navParams.get('idVehicle');
     this.idAccident = this.navParams.get('idAccident');
     this.actors = this.navParams.get('actors');
   }
@@ -71,6 +71,7 @@ export class VehicleDetailPage {
     this.vehicle.damages.forEach(value => {
       this.damages[value] = !this.damages[value];
     });
+    console.log("acidente: "+ this.idAccident + " e id do veiculo: "+this.vehicleId);
     const res = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`).toPromise();
     this.pictures = res.json();
     console.log(this.damages);
@@ -136,6 +137,9 @@ export class VehicleDetailPage {
   }
 
   vehicleEdit() {
+    // let modal = this.modalCtrl.create('VehicleEditPage', { data: this.vehicle, idAccident: this.idAccident });
+    // modal.onDidDismiss(data => { });
+    // modal.present();
     this.navCtrl.push('VehicleEditPage', {
       data: this.vehicle,
       idAccident: this.idAccident,

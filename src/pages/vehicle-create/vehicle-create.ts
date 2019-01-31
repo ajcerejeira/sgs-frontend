@@ -79,7 +79,7 @@ export class VehicleCreatePage {
   createVehicle() {
     this.viewCtrl.dismiss();
     var driver = this.vehicle.value['driver'];
-
+    var passengers = this.vehicle.value['passengers'];
     console.log("DRIVER: " + driver);
     var new_vehicle = {
       meta: {
@@ -94,8 +94,8 @@ export class VehicleCreatePage {
         expirationDate: this.vehicle.value['expirationDate']=="" ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
       },
       damages: [],
-      driver: {},
-      passengers: []
+      driver: driver,
+      passengers: passengers
     };
 
     // this.vehicles.push(new_vehicle);

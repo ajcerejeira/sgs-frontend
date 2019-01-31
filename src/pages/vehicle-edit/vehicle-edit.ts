@@ -24,6 +24,7 @@ import { Http } from '@angular/http';
 export class VehicleEditPage {
   private vehicleEdited: FormGroup;
   private idAccident: number;
+  private actors: any;
   private vehicle: any;
   register: string = '';
   make: string = '';
@@ -123,6 +124,7 @@ export class VehicleEditPage {
       },
       damages: [],
     };
+    console.log(new_vehicle);
     this.http
       .put(
         'https://sgs-backend.herokuapp.com/api/accidents/' +
@@ -139,6 +141,6 @@ export class VehicleEditPage {
           console.log(error);
         },
       );
-    this.navCtrl.push('VehicleDetailPage', this.vehicle);
+    this.navCtrl.push('VehicleDetailPage', {vehicle: new_vehicle, idVehicle: this.vehicle.id, idAccident: this.idAccident, actors: this.actors});
   }
 }
