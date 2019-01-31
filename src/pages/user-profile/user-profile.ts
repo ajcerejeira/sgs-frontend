@@ -8,7 +8,6 @@ import {
   ModalController,
 } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
-// import * as moment from 'moment';
 
 /**
  * Generated class for the UserProfilePage page.
@@ -24,9 +23,9 @@ import { Http, Headers } from '@angular/http';
 })
 export class UserProfilePage {
   idUser: number;
-  name: any;
-  //name: string = '';
-  email: string = '';
+  name: string;
+  email: string;
+  avatar: string;
 
   ngOnInit() {
     this.auth();
@@ -42,19 +41,26 @@ export class UserProfilePage {
   ) {
     this.name = this.navParams.get('name');
     this.idUser = this.navParams.get('idUser');
+    console.log(this.idUser);
   }
 
-  auth() {
-    console.log(this.getSession());
+  async auth() {
     let headers = new Headers();
     headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
-    console.log(headers);
-    //  + this.id).map(res => res.json()).subscribe(res => {
+    const res = await this.http.get('https://sgs-backend.herokuapp.com/api/users/me', { headers }).toPromise();
+    const data = res.json();
+    this.idUser = data.id;
+    this.email = data.email;
+    this.name = data.name; 
+    this.avatar = `https://sgs-backend.herokuapp.com/api/users/${this.idUser}/avatar`;
+    
+    
+    /*
     this.http
       .get('https://sgs-backend.herokuapp.com/api/users/me', {
         headers: headers,
-        //  id_token:this.getSession()
       })
+      .to
       .map(res => res.json())
       .subscribe(
         res => {
@@ -84,14 +90,11 @@ export class UserProfilePage {
           });
           toast.present();
         },
-      );
+      );*/
   }
 
   getSession() {
-    // const expiresAt = moment();
-
     return localStorage.getItem('id_token');
-    // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
   }
 
   ionViewDidLoad() {
