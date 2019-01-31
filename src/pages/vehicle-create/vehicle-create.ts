@@ -70,11 +70,10 @@ export class VehicleCreatePage {
   }
   
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
-  createVehicle() {
-    this.viewCtrl.dismiss();
+  async createVehicle() {
     var driver = this.vehicle.value['driver'];
     console.log(driver);
     var new_vehicle = {
@@ -83,24 +82,37 @@ export class VehicleCreatePage {
         type: this.vehicle.value['type'],
         make: this.vehicle.value['make'],
         model: this.vehicle.value['model'],
-        year: this.vehicle.value['year'].to_int,
+        year: parseInt(this.vehicle.value['year']),
         color: this.vehicle.value['color'],
         policy: this.vehicle.value['policy'],
         insurance: this.vehicle.value['insurance'],
-        expirationDate: this.vehicle.value['expirationDate']=="" ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
+        expirationDate: this.vehicle.value['expirationDate']== '' ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
       },
       damages: [],
       driver: {},
       passengers: []
     };
 
-    // this.vehicles.push(new_vehicle);
-    this.http.post("https://sgs-backend.herokuapp.com/api/accidents/"+this.idAccident+"/vehicles", new_vehicle)
-      .subscribe(data => {
-        console.log(data['_body']);
-      }, error => {
-        console.log(error);
-      });
-    this.navCtrl.push('VehicleListPage', this.idAccident);
+    await this.http.post('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/', new_vehicle)
+        .subscribe(
+          async data => {
+            console.log(data['_body']);
+            await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
+              .subscribe(
+                res => {
+                  this.dismiss();
+                  //this.navCtrl.push('AccidentDetailPage',{id: this.idAccident, vehicles: res.vehicles, actors: res.actors});
+                  // this.navCtrl.pop();
+                  // this.navCtrl.push('VehicleListPage', this.idAccident);
+                },
+                error => {
+                  console.log(error);
+                }
+            );
+        },
+        error => {
+          console.log(error);
+        },
+      );
   }
 }

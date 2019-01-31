@@ -5,6 +5,7 @@ import {
   NavController,
   NavParams,
   AlertController,
+  ViewController,
   ModalController,
 } from 'ionic-angular';
 import { Http } from '@angular/http';
@@ -56,6 +57,7 @@ export class VehicleDetailPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
+    public viewCtrl: ViewController,
     private camera: Camera,
     public http: Http,
   ) {
@@ -76,7 +78,7 @@ export class VehicleDetailPage {
     console.log(this.damages)
   }
 
-  confirmDelete() {
+  async confirmDelete() {
     const prompt = this.alertCtrl.create({
       title: 'Eliminar Veículo?',
       message:
@@ -89,16 +91,21 @@ export class VehicleDetailPage {
         {
           text: 'Eliminar',
           handler: () => {
-            this.http
-              .delete(
-                'https://sgs-backend.herokuapp.com/api/accidents/' +
-                  this.idAccident +
-                  '/vehicles/' +
-                  this.vehicleId,
-              )
+            this.http.delete('https://sgs-backend.herokuapp.com/api/accidents/' +this.idAccident +'/vehicles/' +this.vehicleId,)
               .subscribe(
-                res => {
-                  this.navCtrl.push('VehicleListPage');
+                async data => {
+                  await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
+                    .subscribe(
+                      res => {
+                        console.log("FIZ GET: " + this.idAccident)
+                        // this.navCtrl.pop();
+                        // this.viewCtrl.dismiss()
+                        // this.navCtrl.push('VehicleListPage', this.idAccident);
+                      },
+                      error => {
+                        console.log(error);
+                      }
+                  );
                 },
                 error => {
                   console.log(error);

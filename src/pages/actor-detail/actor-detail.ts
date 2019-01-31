@@ -330,7 +330,7 @@ export class ActorDetailPage {
 
   vehicleDetail(vehicle) {
     this.navCtrl.push('VehicleDetailPage', {
-      vehicle, 
+      vehicle: vehicle, 
       idAccident: this.accidentId});
   }
 

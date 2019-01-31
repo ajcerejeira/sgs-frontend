@@ -48,7 +48,7 @@ export class UserRegisterPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   createUser() {

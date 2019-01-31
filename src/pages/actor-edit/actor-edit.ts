@@ -198,7 +198,7 @@ export class ActorEditPage {
   convertToNumber(event):number {  return +event; }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   saveChanges() {
@@ -259,7 +259,6 @@ export class ActorEditPage {
           console.log(error);
         },
       );
-    this.viewCtrl.dismiss();
-    
+    this.dismiss();
   }
 }

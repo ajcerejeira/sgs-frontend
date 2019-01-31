@@ -43,7 +43,7 @@ export class AccidentListPage {
   }
 
   accidentCreate() {
-    this.navCtrl.push('AccidentCreatePage', { id: this.navParams.data });
+    this.navCtrl.push('AccidentCreatePage');
   }
 
   ionViewDidLoad() {
@@ -51,8 +51,8 @@ export class AccidentListPage {
     console.log('ionViewDidLoad AccidentListPage');
   }
 
-  accidentList() {
-    this.http
+  async accidentList() {
+    await this.http
       .get('https://sgs-backend.herokuapp.com/api/accidents')
       .map(res => res.json())
       .subscribe(

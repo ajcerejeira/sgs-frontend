@@ -58,7 +58,7 @@ export class AccidentCreatePage {
   longitude: any;
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
@@ -146,7 +146,6 @@ export class AccidentCreatePage {
     this.http.post('https://sgs-backend.herokuapp.com/api/accidents', postData).subscribe(
       data => {
         let info = data.json()
-        this.viewCtrl.dismiss();
         this.navCtrl.push('AccidentDetailPage', { id: info.id, vehicles: info.vehicles, actors: info.actors })
       }, error => {
         console.log(error);

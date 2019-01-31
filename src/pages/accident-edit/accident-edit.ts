@@ -63,7 +63,7 @@ export class AccidentEditPage {
   longitude: any;
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
@@ -159,7 +159,7 @@ export class AccidentEditPage {
       .subscribe(
         data => {
           //console.log(data['_body']);
-          console.log('CENAS\n'+this.id+'\n'+this.vehicles+'\n'+this.actors)
+          //console.log('CENAS\n'+this.id+'\n'+this.vehicles+'\n'+this.actors)
           this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
         },
         error => {

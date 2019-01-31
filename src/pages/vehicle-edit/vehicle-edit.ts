@@ -33,7 +33,7 @@ export class VehicleEditPage {
   color: string = '#ffffff';
   insurance: string = '';
   policy: string = '';
-  expirationDate: string ;
+  expirationDate: string;
 
   constructor(
     public navCtrl: NavController,
@@ -104,11 +104,11 @@ export class VehicleEditPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
-  editVehicle() {
-    this.viewCtrl.dismiss();
+  async editVehicle() {
+    //this.viewCtrl.dismiss();
     var new_vehicle = {
       meta: {
         register: this.vehicleEdited.value['register'],
@@ -123,23 +123,25 @@ export class VehicleEditPage {
       },
       damages: [],
     };
-    this.http
-      .put(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.idAccident +
-          '/vehicles/' +
-          this.vehicle.id,
-        new_vehicle,
-      )
+    
+    await this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicle.id, new_vehicle)
       .subscribe(
-        data => {
+        async data => {
           console.log(data['_body']);
-        },
-        error => {
-          console.log(error);
-        },
-      );
-    this.navCtrl.push('VehicleDetailPage', this.vehicle);
+          await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
+            .subscribe(
+              res => {
+                this.navCtrl.push('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
+              },
+              error => {
+                console.log(error);
+              }
+          );
+      },
+      error => {
+        console.log(error);
+      },
+    );
   }
 
   // this.make = "TReta";

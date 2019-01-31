@@ -44,7 +44,7 @@ export class UserEditPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   onFileChange(event: any) {

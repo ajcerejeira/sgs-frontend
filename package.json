@@ -28,7 +28,7 @@
     "@ionic-native/file": "^4.20.0",
     "@ionic-native/file-opener": "^4.20.0",
     "@ionic-native/file-transfer": "^4.20.0",
-    "@ionic-native/geolocation": "^4.20.0",
+    "@ionic-native/geolocation": "^4.18.0",
     "@ionic-native/google-maps": "^4.20.0",
     "@ionic-native/in-app-browser": "^4.18.0",
     "@ionic-native/media": "^4.18.0",

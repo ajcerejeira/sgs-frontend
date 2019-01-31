@@ -26,11 +26,11 @@ export class ActorCreatePage {
   public identDocument: string[];
   public injuryType: string[];
   public vehicles: any;
+  public actors: any;
   public register: any;
   public registers: any;
   id: string;
-  public url: string =
-    'http://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors';
+  public url: string ='http://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors';
   public vehicleC: any;
   public birth: any;
   public expires: any;
@@ -117,11 +117,7 @@ export class ActorCreatePage {
         id: this.getCarId(this.register)
       },
     };
-    this.http
-      .post(
-        'http://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors',
-        personDetails,
-      )
+    this.http.post('http://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors',personDetails,)
       .subscribe(
         data => {
           console.log(data['_body']);
@@ -142,9 +138,10 @@ export class ActorCreatePage {
           toast.present();
         },
       );
-      this.navCtrl.push("ActorListPage",{
-        accident : this.id
-      });  
+      this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+      // this.navCtrl.push("ActorListPage",{
+      //   accident : this.id
+      // });  
       
   }
   // MATRICULAS
@@ -171,16 +168,11 @@ export class ActorCreatePage {
   }
 
   async ionViewDidLoad() {
-    await this.http
-      .get(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.id +
-          '/vehicles',
-      )
-      .map(res => res.json())
+    await this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.id,).map(res => res.json())
       .subscribe(
-        res => {
-          this.vehicles = res;
+        res => {        
+          this.vehicles=res.vehicles;
+          this.actors = res.actors;
           this.getRegisters();
         },
         error => {

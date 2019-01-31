@@ -45,9 +45,9 @@ export class VehicleListPage {
     );
   }
 
-  vehiclesList() {
+  async vehiclesList() {
     // console.log("LISTA VEIC ID: "+ this.navParams.data);
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
         this.vehicles=res.vehicles;
         this.filteredVehicles = res.vehicles;
         this.actors = res.actors;
