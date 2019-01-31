@@ -24,6 +24,7 @@ export class UserEditPage {
   private userEdited: FormGroup;
   private user: any;
   name: string;
+  name2: string;
   newPassword: string;
   userId: any;
   email: any;
@@ -40,6 +41,7 @@ export class UserEditPage {
     public http: Http,
   ) {
     this.user = this.navParams.get('data');
+    this.name2 = this.navParams.get('name');
     this.userId = this.user.userId;
     if (this.user) {
       this.name = this.user.name;
@@ -51,7 +53,7 @@ export class UserEditPage {
     this.oldpassword= null;
 
     this.userEdited = this.formBuilder.group({
-      name: [''],
+      name2: [''],
       oldpassword: [''],
       newPassword: [''],
     });
@@ -73,7 +75,6 @@ export class UserEditPage {
       })
       .subscribe(
         data => {
-          console.log('ola');
           console.log(data);
           return true;
         },

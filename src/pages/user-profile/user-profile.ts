@@ -58,22 +58,11 @@ export class UserProfilePage {
       .map(res => res.json())
       .subscribe(
         res => {
-          // console.log(JSON.stringify(data));
-          // console.log(localStorage.getItem('token'));
           console.log(JSON.stringify(res.name));
           this.name = res.name;
           console.log(this.name);
           this.email = res.email;
         },
-        // .subscribe(data => {
-        //   console.log(data);
-        //   // console.log(JSON.stringify(data));
-        //   // console.log(localStorage.getItem('token'));
-        //   console.log(JSON.stringify(res['_body'].name));
-        //   this.name= data['_body'].name;
-        //   console.log(this.name);
-        //   this.email= data['_body'].email;
-        // },
         error => {
           console.log(error);
           const toast = this.toastCtrl.create({
@@ -101,6 +90,7 @@ export class UserProfilePage {
   profileEdit() {
     let modal = this.modalController.create('UserEditPage', {
       data: this.email,
+      name:this.name,
       user: this.idUser,
     });
     modal.onDidDismiss(data => {});
