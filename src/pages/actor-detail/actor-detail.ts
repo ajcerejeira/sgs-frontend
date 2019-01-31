@@ -79,8 +79,8 @@ export class ActorDetailPage {
   accidentId: any;
   audioList: any[] = [
     {
-      audio: 'bla bla bla',
-      filename: 'bla bla bla',
+      audio: 'Gravação António Silva',
+      filename: 'Gravação António Silva',
     },
   ];
 
@@ -368,6 +368,7 @@ export class ActorDetailPage {
     let name = this.audioList[i].audio;
     this.audioList.splice(i, 1);
     const toast = this.toastCtrl.create({
+      position: 'top',
       message: 'Gravação "' + name + '" eliminada com sucesso!',
       duration: 3000,
     });
