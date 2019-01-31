@@ -8,7 +8,7 @@ import {
   ToastController,
 } from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 /**
  * Generated class for the LoginPage page.
@@ -40,30 +40,35 @@ export class LoginPage {
   
     
 
-  login() {
+  async login() {
     this.to = '';
-    return this.http
-      .post('https://sgs-backend.herokuapp.com/api/auth/login', {
-        email: this.email,
-        password: this.password,
-      })
-      .subscribe(
-        data => {
-          const token = data['_body'];
-          localStorage.setItem('token', token);
-
-          this.navCtrl.setRoot('AccidentListPage');
-        },
-        error => {
-          console.log(error);
-          const toast = this.toastCtrl.create({
-            position: 'top',
-            message: 'Email ou password errados',
-            duration: 3000,
-          });
-          toast.present();
-        },
-      );
+    try {
+      const res = await this.http.post('https://sgs-backend.herokuapp.com/api/auth/login', { email: this.email, password: this.password }).toPromise();
+      const token = res.text();
+      localStorage.setItem('token', token);
+      
+      try {
+        // Get user info with the new token: name, email and avatar
+        let headers = new Headers();
+        headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+        const res = await this.http.get('https://sgs-backend.herokuapp.com/api/users/me', { headers }).toPromise();
+        const data = res.json();
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('name', data.name);
+        localStorage.setItem('email', data.email);
+        localStorage.setItem('avatar', `https://sgs-backend.herokuapp.com/api/users/${data.id}/avatar`);
+      } catch (err) {
+        console.log(err);
+      }
+      this.navCtrl.setRoot('AccidentListPage');
+    } catch (err) {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Email ou password incorrectos',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   forgotPass() {
