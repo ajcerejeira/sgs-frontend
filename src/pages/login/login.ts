@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -8,8 +8,7 @@ import {
   ToastController,
 } from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
-import { Http } from '@angular/http';
-// import * as moment from 'moment';
+import { Http, Headers } from '@angular/http';
 
 /**
  * Generated class for the LoginPage page.
@@ -23,12 +22,10 @@ import { Http } from '@angular/http';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-@Injectable()
 export class LoginPage {
   badLog: boolean = false;
   email: any;
   password: any;
-  session: any;
   to: '';
   constructor(
     public navCtrl: NavController,
@@ -40,50 +37,42 @@ export class LoginPage {
     public emailComposer: EmailComposer,
   ) {}
 
-  login() {
-    return this.http
-      .post('https://sgs-backend.herokuapp.com/api/auth/login', {
-        email: this.email,
-        password: this.password,
-      })
-      .subscribe(
-        data => {
-          const token = data['_body'];
-          localStorage.setItem('token', token);
-
-          this.navCtrl.setRoot('AccidentListPage');
-        },
-        error => {
-          console.log(error);
-          const toast = this.toastCtrl.create({
-            position: 'top',
-            message: 'Email ou password errados',
-            duration: 3000,
-            // cssClass : 'normalToast'
-          });
-          toast.present();
-        },
-      );
-
-    // let postData = {
-    //   // "email": this.email,
-    //   // "location": [this.latitude, this.longitude]
-    // }
-    // // console.log(JSON.parse(JSON.stringify('login')));
-  }
-
-  setSession(authResult) {
-    console.log(authResult);
-    localStorage.setItem('id_token', JSON.stringify(authResult));
-    console.log(localStorage.getItem('id_token'));
-    // localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+  async login() {
+    this.to = '';
+    try {
+      const res = await this.http.post('https://sgs-backend.herokuapp.com/api/auth/login', { email: this.email, password: this.password }).toPromise();
+      const token = res.text();
+      localStorage.setItem('token', token);
+      
+      try {
+        // Get user info with the new token: name, email and avatar
+        let headers = new Headers();
+        headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+        const res = await this.http.get('https://sgs-backend.herokuapp.com/api/users/me', { headers }).toPromise();
+        const data = res.json();
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('name', data.name);
+        localStorage.setItem('email', data.email);
+        localStorage.setItem('avatar', `https://sgs-backend.herokuapp.com/api/users/${data.id}/avatar`);
+      } catch (err) {
+        console.log(err);
+      }
+      this.navCtrl.setRoot('AccidentListPage');
+    } catch (err) {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Email ou password incorrectos',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   forgotPass() {
     let forgot = this.forgotCtrl.create({
       title: 'Esqueceu a sua password?',
       message:
-        'Introduza o seu email de registo de a proceder ao reset da password.',
+        'Introduza o seu email de registo de modo a proceder ao reset da password.',
       inputs: [
         {
           name: 'email',
@@ -122,32 +111,9 @@ export class LoginPage {
 
   register() {
     this.navCtrl.push('UserRegisterPage');
-    this.navCtrl.setRoot('UserRegisterPage');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
-
-  // @Injectable()
-  // export class AuthService {
-
-  //     constructor(private http: Http) {
-
-  //     }
-
-  //     login(email:string, password:string ) {
-  //         return this.http.post<User>('/api/login', {email, password})
-  //             .do(res => this.setSession)
-  //             .shareReplay();
-  //     }
-
-  //     private setSession(authResult) {
-  //         const expiresAt = moment();
-
-  //         localStorage.setItem('id_token', authResult.idToken);
-  //         localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
-  //     }
-
-  // }
 }

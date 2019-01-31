@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import {
   IonicPage,
   ViewController,
@@ -24,7 +24,7 @@ import { Http } from '@angular/http';
 })
 export class UserRegisterPage {
   private user: FormGroup;
-  private validationPassword: boolean;
+  private validationPassword: Boolean;
   private idUser: number;
 
   constructor(

@@ -6,22 +6,16 @@ import 'rxjs/add/operator/map';
 export class Data {
   items: any;
 
-  constructor(public http: Http) {}
+  constructor(public http: Http) { }
 
   filterItems(searchTerm, list) {
-    console.log(list);
-    if (searchTerm && searchTerm != '') {
+    if (searchTerm && searchTerm != "") {
       this.items = list;
-      return this.items.filter(item => {
-        return (
-          item.meta['register']
-            .toLowerCase()
-            .indexOf(searchTerm.toLowerCase()) > -1 ||
-          item.meta['model'].toLowerCase().indexOf(searchTerm.toLowerCase()) >
-            -1
-        );
+      return this.items.filter((item) => {
+        return (item.meta['register'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.meta['model'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       });
-    } else {
+    }
+    else {
       return list;
     }
   }

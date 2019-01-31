@@ -21,15 +21,23 @@ export class MyApp {
   appMenuItems: Array<MenuItem>;
   profile: MenuItem;
 
+  email: string = '';
+  name: string = '';
+  userId: string = '';
+  avatar: string = '';
+
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
   ) {
     this.initializeApp();
+    this.email = localStorage.getItem('email');
+    this.name = localStorage.getItem('name');
+    this.avatar = localStorage.getItem('avatar');
   }
 
-  initializeApp() {
+   initializeApp() {
     this.appMenuItems = [
       { title: 'Sinistros', component: AccidentListPage, icon: 'car' },
       { title: 'Definições', component: null, icon: 'build' },
