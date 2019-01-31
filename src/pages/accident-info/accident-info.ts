@@ -67,9 +67,7 @@ export class AccidentInfoPage {
 
           this.date = day + ' de ' + monthValue + ' de ' + year;
           this.hour =
-            dateObj.getUTCHours().toString() +
-            ':' +
-            dateObj.getUTCMinutes().toString();
+            dateObj.getUTCHours().toString() +'h ' + dateObj.getUTCMinutes().toString()+'m';
           this.address = res.address;
           this.url = res.mapUrl;
         },
@@ -80,10 +78,9 @@ export class AccidentInfoPage {
   }
 
   editAccident() {
-    let modal = this.modalCtrl.create('AccidentEditPage', {
-      id: this.navParams.data,
-    });
-    modal.present();
+    this.navCtrl.push('AccidentEditPage', {id: this.navParams.data});
+    // let modal = this.modalCtrl.create('AccidentEditPage', {id: this.navParams.data});
+    // modal.present();
   }
 
   confirmDelete() {

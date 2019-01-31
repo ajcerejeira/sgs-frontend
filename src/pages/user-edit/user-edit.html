@@ -20,12 +20,12 @@
   <div class="splash-bg"></div>
   <div class="splash-info" margin-bottom>
     <img
-      src="{{ avatar }}"
+      src="{{ newAvatarImg }}"
       ion-avatar
       style="margin: auto; width: 200px; height: 200px; border-radius: 50%; vertical-align: middle;"
     />
     <label for="avatar" class="filePickerLabel">Alterar foto de perfil</label>
-    <input type="file" id="avatar" name="avatar" class="filePicker">
+    <input type="file" id="avatar" name="avatar" class="filePicker" [(ngModel)]="newAvatar" (change)="onFileChange($event)"/>
   </div>
   <div class="container">
     <ion-list no-margin>
@@ -35,7 +35,7 @@
           type="text"
           name="name"
           id="name"
-          [ngModel]="name"
+          [ngModel]="newName"
         ></ion-input>
       </ion-item>
       <ion-item>
@@ -48,13 +48,14 @@
           type="password"
           name="password"
           id="passwordConfirm"
+          [(ngModel)]="newPassword"
         ></ion-input>
       </ion-item>
     </ion-list>
   </div>
 </ion-content>
 <ion-footer>
-  <button ion-button color="primary" type="submit" full>
+  <button ion-button color="primary" type="submit" full (click)="saveChanges()">
     Atualizar perfil
   </button>
 </ion-footer>

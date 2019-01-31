@@ -30,7 +30,7 @@
         *ngFor="let accident of accidents"
       >
         <ion-card (click)="accidentDetail(accident)">
-          <img src= {{accident.mapUrl}}/>
+          <img src= {{accident.mapUrl}} style="object-fit: cover; max-height: 150px;"/>
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
             <h2>{{ accident.address ? accident.address.split(',')[0] : 'Rua Desconhecida' }}</h2>

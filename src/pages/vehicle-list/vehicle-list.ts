@@ -57,9 +57,7 @@ export class VehicleListPage {
   }
 
   vehicleCreate() {
-    let modal = this.modalCtrl.create('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
-    modal.onDidDismiss(data => { });
-    modal.present();
+    this.navCtrl.push('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
   }
 
   ionViewDidLoad() {

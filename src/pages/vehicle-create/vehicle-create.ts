@@ -87,7 +87,7 @@ export class VehicleCreatePage {
         color: this.vehicle.value['color'],
         policy: this.vehicle.value['policy'],
         insurance: this.vehicle.value['insurance'],
-        expirationDate: this.vehicle.value['expirationDate'],
+        expirationDate: this.vehicle.value['expirationDate']=="" ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
       },
       damages: [],
       driver: {},
