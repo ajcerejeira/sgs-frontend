@@ -38,18 +38,12 @@ export class AccidentListPage {
   }
 
   accidentDetail(accident) {
-    //console.log("ID:" +idAccident)
-    this.navCtrl.push('AccidentDetailPage', {
-      id: accident.id,
-      vehicles: accident.vehicles,
-      actors: accident.actors,
-    });
+    this.navCtrl.push('AccidentDetailPage',{id: accident.id, vehicles: accident.vehicles, actors: accident.actors});
     console.log('accident-detail');
   }
 
   accidentCreate() {
-    let modal = this.modalCtrl.create('AccidentCreatePage');
-    modal.present();
+    this.navCtrl.push('AccidentCreatePage', { id: this.navParams.data });
   }
 
   ionViewDidLoad() {

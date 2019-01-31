@@ -1,78 +1,100 @@
-<!--
-  Generated template for the VehicleEditPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span ion-text showWhen="ios">Cancel</span>
-        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+    <ion-title>Editar veículo</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="editVehicle()">
+        <ion-icon name="checkmark-circle"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Editar veículo</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding scroll="false">
+<ion-content no-padding scroll="false">
   <div class="container">
-    <form [formGroup]="vehicleEdited" (ngSubmit)="editVehicle()">
-      <ion-item>
-        <ion-label>Matrícula</ion-label>
-        <ion-input [(ngModel)]="register" type="text" formControlName="register"> {{register.value}} </ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Categoria</ion-label>
-        <ion-select formControlName="type" okText="Selecionar" cancelText="Cancelar">
-          <ion-option value="motorcycle">Motociclo</ion-option>
-          <ion-option value="light">Ligeiro</ion-option>
-          <ion-option value="heavy">Pesado</ion-option>
-          {{type.value}}
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Marca</ion-label>
-        <ion-input [(ngModel)]="make" type="text" formControlName="make"> {{make.value}}</ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Modelo</ion-label>
-        <ion-input [(ngModel)]="model" type="text" formControlName="model"> {{model.value}}</ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Marca</ion-label>
-        <ion-input [(ngModel)]="year" type="text" formControlName="year"> {{year.value}}</ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cor</ion-label>
-        <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
-          <ion-option value="#ffff00">Amarelo</ion-option>
-          <ion-option value="#0000ff">Azul</ion-option>
-          <ion-option value="#ffffff">Branco</ion-option>
-          <ion-option value="#000000">Preto</ion-option>
-          <ion-option value="#a52a2a">Castanho</ion-option>
-          <ion-option value="#bebebe">Cinza</ion-option>
-          <ion-option value="#ffa500">Laranja</ion-option>
-          <ion-option value="#a020f0">Roxo</ion-option>
-          <ion-option value="#ffff00">Rosa</ion-option>
-          <ion-option value="#00ff00">Verde</ion-option>
-          <ion-option value="#ff0000">Vermelho</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Apólice</ion-label>
-        <ion-input [(ngModel)]="policy" type="text" formControlName="policy"> {{policy.value}}</ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Seguradora</ion-label>
-        <ion-input [(ngModel)]="insurance" type="text" formControlName="insurance"> {{insurance.value}}</ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Data de Validade do Seguro</ion-label>
-        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate">{{expirationDate.value}}</ion-datetime>
-      </ion-item>
-      <button ion-button type="submit" [disabled]="!vehicleEdited.valid">Submit</button>
+    <form [formGroup]="vehicleEdited">
+      <ion-list no-margin>
+        <ion-list-header color="light" no-margin>
+          <ion-icon name="car"></ion-icon>
+          Geral
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Matrícula</ion-label>
+          <ion-input [(ngModel)]="register" type="text" formControlName="register"> {{register.value}} </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Categoria</ion-label>
+          <ion-select formControlName="type" okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="motorcycle">Motociclo</ion-option>
+            <ion-option value="light">Ligeiro</ion-option>
+            <ion-option value="heavy">Pesado</ion-option>
+            {{type.value}}
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Marca</ion-label>
+          <ion-input [(ngModel)]="make" type="text" formControlName="make"> {{make.value}}</ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Modelo</ion-label>
+          <ion-input [(ngModel)]="model" type="text" formControlName="model"> {{model.value}}</ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Ano</ion-label>
+          <ion-input [(ngModel)]="year" type="number" formControlName="year"> {{year.value}}</ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Cor</ion-label>
+          <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="#ffff00">Amarelo</ion-option>
+            <ion-option value="#0000ff">Azul</ion-option>
+            <ion-option value="#ffffff">Branco</ion-option>
+            <ion-option value="#000000">Preto</ion-option>
+            <ion-option value="#a52a2a">Castanho</ion-option>
+            <ion-option value="#bebebe">Cinza</ion-option>
+            <ion-option value="#ffa500">Laranja</ion-option>
+            <ion-option value="#a020f0">Roxo</ion-option>
+            <ion-option value="#ffff00">Rosa</ion-option>
+            <ion-option value="#00ff00">Verde</ion-option>
+            <ion-option value="#ff0000">Vermelho</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-list-header color="light" no-margin>
+          <ion-icon name="umbrella"></ion-icon>
+          Seguro
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating>Apólice</ion-label>
+          <ion-input [(ngModel)]="policy" type="text" formControlName="policy"> {{policy.value}}</ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Seguradora</ion-label>
+          <ion-input [(ngModel)]="insurance" type="text" formControlName="insurance"> {{insurance.value}}</ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Data de Validade do Seguro</ion-label>
+          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate">{{expirationDate.value}}</ion-datetime>
+        </ion-item>
+        <ion-list-header color="light">
+          <ion-icon name="person"></ion-icon>
+          Condutor
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Nome </ion-label>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
+            <ion-option *ngFor="let d of drivers">{{d.person.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-list-header color="light">
+          <ion-icon name="people"></ion-icon>
+          Passageiros
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Nome </ion-label>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
+            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
     </form>
   </div>
 </ion-content>

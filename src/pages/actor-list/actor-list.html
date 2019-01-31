@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ActorListPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
@@ -21,7 +15,10 @@
           <h2>{{ driver.person.name }}</h2>
           <p>{{ driver.register }} {{ driver.make }} {{ driver.model }}</p>
 
-          <ion-note item-end>{{ driver.wounds }}</ion-note>
+          <ion-note *ngIf="driver.wounds == 'None'" item-end>Nenhuns</ion-note>
+          <ion-note *ngIf="driver.wounds == 'Light'" item-end>Leves</ion-note>
+          <ion-note *ngIf="driver.wounds == 'Severe'" item-end>Graves</ion-note>
+          <ion-note *ngIf="driver.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
         <ion-list-header *ngIf="passengers?.length > 0" color="light">
@@ -31,7 +28,10 @@
         <button ion-item *ngFor="let passenger of passengers"(click)="actorDetail(passenger)">
             <h2>{{ passenger.person.name }}</h2>
             <p>{{ passenger.register }} {{ passenger.make }} {{ passenger.model }}</p>
-          <ion-note item-end>{{ passenger.wounds }}</ion-note>
+            <ion-note *ngIf="passenger.wounds == 'None'" item-end>Nenhuns</ion-note>
+            <ion-note *ngIf="passenger.wounds == 'Light'" item-end>Leves</ion-note>
+            <ion-note *ngIf="passenger.wounds == 'Severe'" item-end>Graves</ion-note>
+            <ion-note *ngIf="passenger.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
         <ion-list-header *ngIf="pedestrians?.length > 0" color="light">
@@ -40,7 +40,10 @@
         </ion-list-header>
         <button ion-item *ngFor="let pedestrian of pedestrians"(click)="actorDetail(pedestrian)">
           <h2>{{ pedestrian.person.name }}</h2>
-          <ion-note item-end>{{ pedestrian.wounds }}</ion-note>
+          <ion-note *ngIf="pedestrian.wounds == 'None'" item-end>Nenhuns</ion-note>
+          <ion-note *ngIf="pedestrian.wounds == 'Light'" item-end>Leves</ion-note>
+          <ion-note *ngIf="pedestrian.wounds == 'Severe'" item-end>Graves</ion-note>
+          <ion-note *ngIf="pedestrian.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
         <ion-list-header *ngIf="witnesses?.length > 0" color="light">
@@ -57,7 +60,10 @@
         </ion-list-header>
         <button ion-item *ngFor="let other of others"(click)="actorDetail(other)">
           <h2>{{ other.person.name }}</h2>
-          <ion-note item-end>{{ other.wounds }}</ion-note>
+          <ion-note *ngIf="other.wounds == 'None'" item-end>Nenhuns</ion-note>
+          <ion-note *ngIf="other.wounds == 'Light'" item-end>Leves</ion-note>
+          <ion-note *ngIf="other.wounds == 'Severe'" item-end>Graves</ion-note>
+          <ion-note *ngIf="other.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
       </ion-list>
   <ion-fab right bottom>

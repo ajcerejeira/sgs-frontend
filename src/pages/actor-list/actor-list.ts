@@ -37,8 +37,6 @@ export class ActorListPage {
   }
 
   ionViewDidLoad() {
-    console.log('ID ACIDENTE È: ' + this.navParams.data);
-    console.log('ionViewDidLoad ActorListPage');
 
     if (this.navParams.get('accident'))
       this.accidentId = this.navParams.get('accident');
@@ -85,7 +83,7 @@ export class ActorListPage {
             if (actors[i].role === 'Witness') {
               this.witnesses.push(actors[i]);
             }
-            if (actors[i].role === 'Other') {
+            if (actors[i].role === 'Other' || !actors[i].role) {
               this.others.push(actors[i]);
             }
           }
@@ -98,8 +96,8 @@ export class ActorListPage {
 
   actorDetail(actor) {
     this.navCtrl.push('ActorDetailPage', {
-      actor: actor,
       accident: this.accidentId,
+      actorId: actor.id
     });
   }
 

@@ -23,6 +23,7 @@ import { Data } from '../../providers/data/data';
 })
 export class VehicleListPage {
   vehicles: any;
+  actors: any;
   vehicleToDelete: string;
   filteredVehicles: any;
   filterBy: string = '';
@@ -33,7 +34,9 @@ export class VehicleListPage {
     public navParams: NavParams,
     public http: Http,
     public dataService: Data,
-  ) {}
+  ) {
+    this.vehiclesList();
+  }
 
   searchVehicles() {
     this.filteredVehicles = this.dataService.filterItems(
@@ -43,34 +46,23 @@ export class VehicleListPage {
   }
 
   vehiclesList() {
-    console.log('LISTA VEIC ID: ' + this.navParams.data);
-    this.http
-      .get(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.navParams.data,
-      )
-      .map(res => res.json())
-      .subscribe(
-        res => {
-          this.vehicles = res.vehicles;
-        },
-        error => {
-          console.log(error);
-        },
-      );
-    //this.navCtrl.push('ActorCreatePage',{vehicles: this.vehicles});
+    // console.log("LISTA VEIC ID: "+ this.navParams.data);
+    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
+        this.vehicles=res.vehicles;
+        this.filteredVehicles = res.vehicles;
+        this.actors = res.actors;
+      }, error => {
+        console.log(error);
+      });
   }
 
   vehicleCreate() {
-    let modal = this.modalCtrl.create('VehicleCreatePage', {
-      id: this.navParams.data,
-    });
-    modal.onDidDismiss(data => {});
-    modal.present();
+    this.navCtrl.push('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
   }
 
   ionViewDidLoad() {
     this.vehiclesList();
+    // console.log(this.filteredVehicles);
     this.filteredVehicles = this.vehicles;
     console.log('ionViewDidLoad VehicleListPage');
   }
@@ -79,7 +71,8 @@ export class VehicleListPage {
     var data = {
       vehicle: vehicle,
       idAccident: this.navParams.data,
-    };
+      actors: this.actors
+    }
     this.navCtrl.push('VehicleDetailPage', data);
   }
 }

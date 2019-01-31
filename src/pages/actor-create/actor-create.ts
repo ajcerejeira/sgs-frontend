@@ -53,8 +53,8 @@ export class ActorCreatePage {
       phone: [null, Validators.required],
       nationality: [null, Validators.required],
       naturality: [null, Validators.required],
-      parentage: [null, Validators.required],
-      parentage1: [null, Validators.required],
+      parentage: ['', Validators.required],
+      parentage1: ['', Validators.required],
       locality: [null, Validators.required],
       address: [null, Validators.required],
       zipcode: [null, Validators.required],
@@ -113,7 +113,9 @@ export class ActorCreatePage {
       role: this.formGroup.value['role'],
       wounds: this.formGroup.value['wounds'],
       alcoholTest: parseFloat(this.formGroup.value['alcoholTest']),
-      id: this.getCarId(this.register),
+      vehicle: {
+        id: this.getCarId(this.register)
+      },
     };
     this.http
       .post(
@@ -140,7 +142,10 @@ export class ActorCreatePage {
           toast.present();
         },
       );
-    this.navCtrl.push('ActorDetailPage');
+      this.navCtrl.push("ActorListPage",{
+        accident : this.id
+      });  
+      
   }
   // MATRICULAS
   getRegisters() {

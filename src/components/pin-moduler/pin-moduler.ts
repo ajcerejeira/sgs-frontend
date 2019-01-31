@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the PinModulerComponent component.
@@ -17,11 +17,26 @@ export class PinModulerComponent {
   public typeObject: string;
   public typePin: string;
   public color: string;
-  public number: any;
+  public number: any = 0;
+  public customID: any;
 
-  constructor(public navParams: NavParams) {
+  constructor(
+    public navParams: NavParams,
+    public viewCtrl: ViewController
+  ){
     this.typePin = this.navParams.data.pinType;
     this.color = this.navParams.data.color;
+    this.customID = this.navParams.data.customID;
+  }
+
+  goBack() {
+    var data={
+      "url" : this.typePin,
+      "color": this.color,
+      "angle": this.number,
+      "customID": this.customID
+    }
+    this.viewCtrl.dismiss(data);
   }
 
   // styleObject() {

@@ -95,4 +95,8 @@ export class UserRegisterPage {
       toast.present();
     }
   }
+
+  login() {
+    this.navCtrl.setRoot('LoginPage');
+  }
 }
