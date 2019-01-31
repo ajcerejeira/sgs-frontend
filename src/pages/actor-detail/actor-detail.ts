@@ -79,8 +79,8 @@ export class ActorDetailPage {
   accidentId: any;
   audioList: any[] = [
     {
-      audio: 'bla bla bla',
-      filename: 'bla bla bla',
+      audio: 'Gravação António Silva',
+      filename: 'Gravação António Silva',
     },
   ];
 
