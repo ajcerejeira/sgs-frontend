@@ -8,6 +8,7 @@ import {
   App,
   Select,
   PopoverController,
+  ToastController
 } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler';
@@ -123,6 +124,7 @@ export class SketchPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
+    public toastCtrl: ToastController,
   ) {
     this.id = this.navParams.data;
   }
@@ -150,6 +152,12 @@ export class SketchPage {
             this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': '' }).subscribe(
               data => {
                 console.log('deleted with success');
+                const toast = this.toastCtrl.create({
+                  position: 'top',
+                  message: 'Croqui apagado com sucesso!',
+                  duration: 3000,
+                });
+                toast.present();
               },
               error => {
                 console.log(error);
@@ -163,7 +171,16 @@ export class SketchPage {
   }
 
   popupVehicles() {
-    this.vehicleRef.open();
+    if (this.vehicles.length>0) {
+      this.vehicleRef.open();
+    } else {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Não existem veículos registados neste sinistro!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   popupSigns() {
@@ -171,7 +188,16 @@ export class SketchPage {
   }
 
   popupActors() {
-    this.actorRef.open();
+    if (this.actors.length>0) {
+      this.actorRef.open();
+    } else {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Não existem intervenientes registados neste sinistro!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   onOkSign(chosenSign) {
@@ -266,7 +292,7 @@ export class SketchPage {
       this.longitude = this.position[1]
       this.map = GoogleMaps.create("map_canvas", mapOptions);
 
-      if (this.geoJSON != '' && this.geoJSON != {} && this.geoJSON != [])
+      if (this.geoJSON != '' && this.geoJSON != {} && this.geoJSON != [] && this.geoJSON != null)
         this.loadSketch()
       else
         console.log("SKETCH VAZIO!")
@@ -316,23 +342,37 @@ export class SketchPage {
   }
 
   loadVictim() {
-    let icon = {
-      url: '../assets/imgs/croquiItens/body/body.png',
-      // scaledSize: {
-      //   width: 200
-      // },
-      type: "victim"
-    }
+    let flag
+    this.actors.forEach(actor => {
+      if(actor.wounds=="Dead")
+        flag=true
+    });
+    if(flag){
+      let icon = {
+        url: '../assets/imgs/croquiItens/body/body.png',
+        // scaledSize: {
+        //   width: 200
+        // },
+        type: "victim"
+      }
 
-    let position = { lat: this.latitude, lng: this.longitude };
-    let marker = {
-      position: position,
-      draggable: true,
-      icon: icon
-    };
-    let backupMarker = this.map.addMarkerSync(marker);
-    this.map.setCameraTarget(backupMarker.getPosition())
-    this.markerList.push(backupMarker);
+      let position = { lat: this.latitude, lng: this.longitude };
+      let marker = {
+        position: position,
+        draggable: true,
+        icon: icon
+      };
+      let backupMarker = this.map.addMarkerSync(marker);
+      this.map.setCameraTarget(backupMarker.getPosition())
+      this.markerList.push(backupMarker);
+    }else{
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Não existem vítimas registadas neste sinistro!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   loadRadiusCircle() {
@@ -414,7 +454,7 @@ export class SketchPage {
   loadSavedPolygon(polyPoints) {
     let positions: ILatLng[] = [];
     polyPoints.forEach(latLng => {
-      positions.push({lat: latLng[0], lng: latLng[1]});
+      positions.push({ lat: latLng[0], lng: latLng[1] });
     });
 
     this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
@@ -672,6 +712,12 @@ export class SketchPage {
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': collection }).subscribe(
       data => {
         console.log('success');
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Croqui guardado com sucesso!',
+          duration: 3000,
+        });
+        toast.present();
       },
       error => {
         console.log(error);

@@ -1,50 +1,37 @@
-<!--
-  Generated template for the AccidentCreatePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-    <ion-navbar color="primary">
-      <ion-buttons start>
-        <button ion-button (click)="dismiss()">
-          <span ion-text showWhen="ios">Cancel</span>
-          <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
-        </button>
-      </ion-buttons>
-      <ion-title>Editar sinistro</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content scroll="false">
-    <div class="container">
-      <ion-list no-margin>
-        <ion-list-header color="light" no-margin>
-          <ion-icon name="calendar"></ion-icon>
-          Data e hora
-        </ion-list-header>
-        <ion-item>
-          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="accidentDate"></ion-datetime>
+  <ion-navbar color="primary">
+    <ion-title>Editar sinistro</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="updateAccident()">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scroll="false">
+  <div class="container">
+    <ion-list no-margin>
+      <ion-list-header color="light" no-margin>
+        <ion-icon name="calendar"></ion-icon>
+        Data e hora
+      </ion-list-header>
+      <ion-item>
+        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="accidentDate"></ion-datetime>
+      </ion-item>
+      <ion-list-header color="light" no-margin>
+        <ion-icon name="pin"></ion-icon>
+        Localização
+      </ion-list-header>
+    </ion-list>
+
+    <div id='map_canvas'>
+      <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Procura manual local do acidente"></ion-searchbar>
+      <ion-list [hidden]="autocompleteItems.length == 0">
+        <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+          {{ item.description }}
         </ion-item>
-        <ion-list-header color="light" no-margin>
-          <ion-icon name="pin"></ion-icon>
-          Localização
-        </ion-list-header>
       </ion-list>
-  
-      <div id='map_canvas'>
-        <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Procura manual local do acidente"></ion-searchbar>
-        <ion-list [hidden]="autocompleteItems.length == 0">
-          <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-            {{ item.description }}
-          </ion-item>
-        </ion-list>
-      </div>
-  
-      <div>
-        <button ion-button color="primary" type="submit" full (click)="updateAccident()">
-          Guardar alterações
-        </button>
-      </div>
     </div>
-  </ion-content>
+  </div>
+</ion-content>

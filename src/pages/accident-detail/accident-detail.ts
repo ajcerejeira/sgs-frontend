@@ -24,7 +24,7 @@ export class AccidentDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.id = navParams.get('id');
-    this.nvehicles = navParams.get('vehicles').length;
-    this.nactors = navParams.get('actors').length;
+    this.nvehicles = navParams.get('vehicles').length || 0;
+    this.nactors = navParams.get('actors').length || 0;
   }
 }

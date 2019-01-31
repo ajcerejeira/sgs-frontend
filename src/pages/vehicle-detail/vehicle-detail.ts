@@ -29,6 +29,24 @@ export class VehicleDetailPage {
   actors: any;
   vehiclePage: string = "info"; // Default segment to load
 
+  driver = { //TODO
+    name: '',
+    wounds: ''
+  }
+  passengers = []  //TODO
+  
+  damages: boolean[] = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+
   constructor(
     public modalCtrl: ModalController,
     public navCtrl: NavController,
@@ -46,6 +64,10 @@ export class VehicleDetailPage {
   ionViewDidLoad() {
     console.log('VEICULO: ' + this.vehicle.id);
     console.log('ionViewDidLoad VehicleDetailPage');
+    this.vehicle.damages.forEach(value => {
+      this.damages[value] = !this.damages[value];
+    });
+    console.log(this.damages)
   }
 
   confirmDelete() {
@@ -83,37 +105,34 @@ export class VehicleDetailPage {
     prompt.present();
   }
 
-  // TODO
-  // sendDamages() {
-  //   let array = [];
-  //   for (let i = 0; i < this.damages.length; i++) {
-  //     if (this.damages[i] === true) {
-  //       array.push(i);
-  //     }
-  //   }
+  sendDamages() {
+    let array = [];
+    for (let i = 0; i < this.damages.length; i++) {
+      if (this.damages[i] === true) {
+        array.push(i);
+      }
+    }
 
-  //   let data = {
-  //     damages: array,
-  //     accident: 1,
-  //   };
+    let data = { //nao tou a usar!!
+      damages: array,
+      accident: 1, //TODO WHAT IS THIS???
+    };
 
-  //   this.http.put(this.url + this.vehicle.id, data).subscribe(
-  //     data => {
-  //       console.log(data['_body']);
-  //     },
-  //     error => {
-  //       console.log(error);
-  //     },
-  //   );
-  // }
+    this.http.put('https://sgs-backend.herokuapp.com/api/accidents/'+ this.idAccident + '/vehicles/' + this.vehicle.id, { 'damages': array }).subscribe(
+      data => {
+        console.log(data['_body']);
+      },
+      error => {
+        console.log(error);
+      },
+    );
+  }
 
   vehicleEdit() {
-    let modal = this.modalCtrl.create('VehicleEditPage', {
+    this.navCtrl.push('VehicleEditPage', {
       data: this.vehicle,
       idAccident: this.idAccident,
-    });
-    modal.onDidDismiss(data => {});
-    modal.present();
+    })
   }
 
   // openCamera() {
@@ -146,7 +165,7 @@ export class VehicleDetailPage {
   //   );
   // }
 
-  // toggleDamage(index: number) {
-  //   this.damages[index] = !this.damages[index];
-  // }
+  toggleDamage(index: number) {
+    this.damages[index] = !this.damages[index];
+  }
 }

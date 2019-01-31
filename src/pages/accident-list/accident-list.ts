@@ -43,8 +43,7 @@ export class AccidentListPage {
   }
 
   accidentCreate() {
-    let modal = this.modalCtrl.create('AccidentCreatePage');
-    modal.present();
+    this.navCtrl.push('AccidentCreatePage', { id: this.navParams.data });
   }
 
   ionViewDidLoad() {

@@ -1,22 +1,15 @@
-<!--
-  Generated template for the AccidentCreatePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span ion-text showWhen="ios">Cancel</span>
-        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+    <ion-title>Adicionar sinistro</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="createAccident()">
+        <ion-icon name="checkmark-circle"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>Novo sinistro</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content scroll="false">
+<ion-content>
   <div class="container">
     <ion-list no-margin>
       <ion-list-header color="light" no-margin>
@@ -39,12 +32,6 @@
           {{ item.description }}
         </ion-item>
       </ion-list>
-    </div>
-
-    <div>
-      <button ion-button color="primary" type="submit" full (click)="createAccident()">
-        Registar sinistro
-      </button>
     </div>
   </div>
 </ion-content>
