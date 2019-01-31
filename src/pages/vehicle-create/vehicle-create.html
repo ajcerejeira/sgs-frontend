@@ -16,62 +16,86 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding scroll="false">
+<ion-content no-padding scroll="true">
   <div class="container">
     <form [formGroup]="vehicle" (ngSubmit)="createVehicle()">
-      <ion-item>
-        <ion-label>Matrícula</ion-label>
-        <ion-input type="text" formControlName="register"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Categoria</ion-label>
-        <ion-select formControlName="type" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
-            <ion-option value="motorcycle">Motociclo</ion-option>
-            <ion-option value="light">Ligeiro</ion-option>
-            <ion-option value="heavy">Pesado</ion-option>
+      <ion-list no-margin>
+        <ion-list-header color="light" no-margin>
+          <ion-icon name="car"></ion-icon>
+          Geral
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating>Matrícula</ion-label>
+          <ion-input type="text" formControlName="register"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Marca</ion-label>
+          <ion-input type="text" formControlName="make"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Modelo</ion-label>
+          <ion-input type="text" formControlName="model"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Ano</ion-label>
+          <ion-input type="number" formControlName="year"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Cor</ion-label>
+          <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="#ffff00">Amarelo</ion-option>
+            <ion-option value="#0000ff">Azul</ion-option>
+            <ion-option value="#ffffff">Branco</ion-option>
+            <ion-option value="#000000">Preto</ion-option>
+            <ion-option value="#a52a2a">Castanho</ion-option>
+            <ion-option value="#bebebe">Cinza</ion-option>
+            <ion-option value="#ffa500">Laranja</ion-option>
+            <ion-option value="#a020f0">Roxo</ion-option>
+            <ion-option value="#ffff00">Rosa</ion-option>
+            <ion-option value="#00ff00">Verde</ion-option>
+            <ion-option value="#ff0000">Vermelho</ion-option>
           </ion-select>
-      </ion-item>
-      <ion-item>  
-        <ion-label>Marca</ion-label>
-        <ion-input type="text" formControlName="make"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Modelo</ion-label>
-        <ion-input type="text" formControlName="model"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Year</ion-label>
-        <ion-input type="text" formControlName="year"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cor</ion-label>
-        <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
-          <ion-option value="#ffff00">Amarelo</ion-option>
-          <ion-option value="#0000ff">Azul</ion-option>
-          <ion-option value="#ffffff">Branco</ion-option>
-          <ion-option value="#000000">Preto</ion-option>
-          <ion-option value="#a52a2a">Castanho</ion-option>
-          <ion-option value="#bebebe">Cinza</ion-option>
-          <ion-option value="#ffa500">Laranja</ion-option>
-          <ion-option value="#a020f0">Roxo</ion-option>
-          <ion-option value="#ffff00">Rosa</ion-option>
-          <ion-option value="#00ff00">Verde</ion-option>
-          <ion-option value="#ff0000">Vermelho</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Apólice</ion-label>
-        <ion-input type="text" formControlName="policy"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Seguradora</ion-label>
-        <ion-input type="text" formControlName="insurance"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Data de Validade</ion-label>
-        <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate"></ion-datetime>
-      </ion-item>
-      <button ion-button type="submit" [disabled]="!vehicle.valid">Submit</button>
+        </ion-item>
+        <ion-list-header color="light" no-margin>
+          <ion-icon name="umbrella"></ion-icon>
+          Seguro
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating>Apólice</ion-label>
+          <ion-input type="text" formControlName="policy"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Seguradora</ion-label>
+          <ion-input type="text" formControlName="insurance"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Data de Validade</ion-label>
+          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate"></ion-datetime>
+        </ion-item>
+        <ion-list-header color="light">
+          <ion-icon name="person"></ion-icon>
+          Condutor
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Nome do Condutor </ion-label>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="driver" multiple="true">
+            <ion-option *ngFor="let d of drivers"> {{d.person.name}} </ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-list-header color="light">
+          <ion-icon name="people"></ion-icon>
+          Passageiros
+        </ion-list-header>
+        <ion-item>
+          <ion-label floating> Nome do Passageiro </ion-label>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
+            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <div padding-top>
+          <button ion-button color="primary" type="submit" full> Criar Veículo </button>
+        </div>
+      </ion-list>
     </form>
   </div>
 </ion-content>
