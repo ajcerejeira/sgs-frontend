@@ -99,7 +99,7 @@ export class VehicleEditPage {
       color: [''],
       policy: [''],
       insurance: [''],
-      expirationDate: [''],
+      expirationDate: ['', Validators.required],
     });
   }
 
@@ -141,22 +141,4 @@ export class VehicleEditPage {
       );
     this.navCtrl.push('VehicleDetailPage', this.vehicle);
   }
-
-  // this.make = "TReta";
-  // this.currentVehicle = {
-  //   category: "Veículo ligeiro",
-  //   color: "blue",
-  //   register: this.vehicle.value['register'],
-  //   make: this.vehicle.value['make'],
-  //   model: this.vehicle.value['model'],
-  //   year: this.vehicle.value['year'],
-  //   policy: this.vehicle.value['policy'],
-  //   insurance: this.vehicle.value['insurance'],
-  //   nactors: 1,
-  //   photos: []
-  // };
-  // console.log(this.currentVehicle.make);
-  // this.vehicles = this.httpClient.post('');
-
-  // console.log(this.vehicles);
 }

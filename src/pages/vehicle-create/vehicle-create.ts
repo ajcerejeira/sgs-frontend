@@ -49,13 +49,16 @@ export class VehicleCreatePage {
       policy: [''],
       insurance: [''],
       expirationDate: [''],
-      driver: ['']
+      driver: [''],
+      passengers: ['']
     })
     this.drivers = [];
     this.passengers = [];
     this.idAccident = this.navParams.get('id');
     if(this.navParams.get('actors').length > 0) { 
       let actorList = this.navParams.get('actors')
+      console.log(actorList);
+
       actorList.forEach(actor => {
         let new_actor = actor;
         console.log(new_actor);
@@ -76,7 +79,8 @@ export class VehicleCreatePage {
   createVehicle() {
     this.viewCtrl.dismiss();
     var driver = this.vehicle.value['driver'];
-    console.log(driver);
+
+    console.log("DRIVER: " + driver);
     var new_vehicle = {
       meta: {
         register: this.vehicle.value['register'],

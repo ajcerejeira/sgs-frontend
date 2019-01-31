@@ -47,7 +47,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Cor</ion-label>
-          <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+          <ion-select formControlName="color" value="#ffff00" okText="Selecionar" cancelText="Cancelar">
             <ion-option value="#ffff00">Amarelo</ion-option>
             <ion-option value="#0000ff">Azul</ion-option>
             <ion-option value="#ffffff">Branco</ion-option>
@@ -75,25 +75,25 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Data de Validade</ion-label>
-          <ion-datetime displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" formControlName="expirationDate"></ion-datetime>
+          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate"></ion-datetime>
         </ion-item>
-        <ion-list-header color="light" *ngIf="drivers.length!=0">
+        <ion-list-header color="light">
           <ion-icon name="person"></ion-icon>
           Condutor
         </ion-list-header>
-        <ion-item *ngIf="drivers.length!=0">
-          <ion-label floating>Escolher condutor</ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="driver" multiple="true">
+        <ion-item>
+          <ion-label floating> Nome do Condutor </ion-label>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="driver" multiple="false">
             <ion-option *ngFor="let d of drivers"> {{d.person.name}} </ion-option>
           </ion-select>
         </ion-item>
-        <ion-list-header color="light" *ngIf="passengers.length!=0">
+        <ion-list-header color="light">
           <ion-icon name="people"></ion-icon>
           Passageiros
         </ion-list-header>
-        <ion-item *ngIf="passengers.length!=0">
-          <ion-label floating>Escolher passageiro(s)</ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
+        <ion-item>
+          <ion-label floating> Nome do Passageiro </ion-label>
+          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="passengers" multiple="true">
             <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
           </ion-select>
         </ion-item>

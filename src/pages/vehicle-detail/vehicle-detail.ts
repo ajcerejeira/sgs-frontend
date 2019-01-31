@@ -73,7 +73,8 @@ export class VehicleDetailPage {
     });
     const res = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`).toPromise();
     this.pictures = res.json();
-    console.log(this.damages)
+    console.log(this.damages);
+    console.log(this.vehicle);
   }
 
   confirmDelete() {
@@ -98,7 +99,7 @@ export class VehicleDetailPage {
               )
               .subscribe(
                 res => {
-                  this.navCtrl.push('VehicleListPage');
+                  this.navCtrl.push('VehicleListPage',this.idAccident);
                 },
                 error => {
                   console.log(error);
