@@ -24,6 +24,7 @@ import {
   Spherical,
   Polygon,
   BaseArrayClass,
+  HtmlInfoWindow,
   LatLng,
 } from '@ionic-native/google-maps';
 
@@ -109,6 +110,11 @@ export class SketchPage {
   longitude: any;
   polygonPoints: ILatLng[] = [];
   markerList: Marker[] = [];
+  tipo:any;
+  register:any;
+  make:any;
+  model:any;
+  year: any
 
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('actorSelect') actorRef: Select;
@@ -558,22 +564,37 @@ export class SketchPage {
 
   loadSketch() {
     this.map.clear();
+    var type2
+    var htmlInfoWindow = new HtmlInfoWindow();
     this.geoJSON.features.forEach(element => {
       console.log(element)
       let imgURL
-
       if (element.properties.type != 'polygon') {
-        if (element.properties.type == 'car')
+        if (element.properties.type == 'car'){
+          type2='car'
           imgURL = '../assets/imgs/croquiItens/carroCroqui/carroCroqui' + element.properties.rotation + '.png'
-        else if (element.properties.type == 'crosswalk')
+          this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.id+'/vehicles/'+parseInt(element.properties.idVehicle)).map(res => res.json()).subscribe(res => {
+            htmlInfoWindow.setContent(
+              '<div style="width: 300px;">'+
+              '<ul>'+
+              '<li>Tipo: '+ res.meta.type+'</li>'+
+              '<li>Matrícula: ' + res.meta.register +'</li>' +
+              '<li>Marca: ' + res.meta.make +'</li>' +
+              '<li>Modelo: ' + res.meta.model +'</li>' +
+              '<li>Ano: ' + res.meta.year +'</li>' +
+              '</ul>'+
+            '</div>');
+          });
+          
+        }else if (element.properties.type == 'crosswalk'){
           imgURL = '../assets/imgs/croquiItens/signs/crosswalk' + element.properties.rotation + '.png'
-        else if (element.properties.type == 'victim')
+        }else if (element.properties.type == 'victim'){
           imgURL = '../assets/imgs/croquiItens/body/body.png'
-        else if (element.properties.type == 'actor')
+        }else if (element.properties.type == 'actor'){
           imgURL = '../assets/imgs/croquiItens/signs/actor.png'
-        else
+        }else{
           imgURL = this.signDictionary[this.signTypesInverted[element.properties.type]];
-
+        }
         let icon = {
           url: imgURL,
           type: this.signTypesInverted[element.properties.type]
@@ -589,7 +610,12 @@ export class SketchPage {
           draggable: true,
           icon: icon,
         };
-        this.map.addMarkerSync(marker);
+        
+        this.map.addMarker(marker).then((marker: Marker) => {
+          marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+            htmlInfoWindow.open(marker);
+          });
+        });
         let cameraMoveTo = { lat: this.latitude, lng: this.longitude };
         this.map.setCameraTarget(cameraMoveTo)
         //this.markerList.push(backupMarker);
