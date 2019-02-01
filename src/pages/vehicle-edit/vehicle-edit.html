@@ -57,7 +57,6 @@
             <ion-option value="#bebebe">Cinza</ion-option>
             <ion-option value="#ffa500">Laranja</ion-option>
             <ion-option value="#a020f0">Roxo</ion-option>
-            <ion-option value="#ffff00">Rosa</ion-option>
             <ion-option value="#00ff00">Verde</ion-option>
             <ion-option value="#ff0000">Vermelho</ion-option>
             {{color.value}}
@@ -78,26 +77,6 @@
         <ion-item>
           <ion-label floating>Data de Validade do Seguro</ion-label>
           <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="expirationDate" formControlName="expirationDate"> {{expirationDate.value}}</ion-datetime>
-        </ion-item>
-        <ion-list-header color="light">
-          <ion-icon name="person"></ion-icon>
-          Condutor
-        </ion-list-header>
-        <ion-item>
-          <ion-label floating> Nome </ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
-            <ion-option *ngFor="let d of drivers">{{d.person.name}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-list-header color="light">
-          <ion-icon name="people"></ion-icon>
-          Passageiros
-        </ion-list-header>
-        <ion-item>
-          <ion-label floating> Nome </ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
-            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
-          </ion-select>
         </ion-item>
       </ion-list>
     </form>

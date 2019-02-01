@@ -78,9 +78,6 @@ export class VehicleCreatePage {
 
   createVehicle() {
     this.viewCtrl.dismiss();
-    var driver = this.vehicle.value['driver'];
-    var passengers = this.vehicle.value['passengers'];
-    console.log("DRIVER: " + driver);
     var new_vehicle = {
       meta: {
         register: this.vehicle.value['register'],
@@ -94,13 +91,11 @@ export class VehicleCreatePage {
         expirationDate: this.vehicle.value['expirationDate']=="" ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
       },
       damages: [],
-      driver: driver,
-      passengers: passengers,
       pictures: []
     };
 
+    console.log(new_vehicle);
 
-    /// VÊ POR FAVOR PORQUE RAZÂO O NEW_VEHICLE não está a passar com todos os parâmetros que é suposto, DRIVER E PASSENGERS
     this.http.post("https://sgs-backend.herokuapp.com/api/accidents/"+this.idAccident+"/vehicles", new_vehicle)
       .subscribe(data => {
         console.log(data['_body']);
