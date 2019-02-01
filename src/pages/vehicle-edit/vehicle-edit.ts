@@ -24,16 +24,18 @@ import { Http } from '@angular/http';
 export class VehicleEditPage {
   private vehicleEdited: FormGroup;
   private idAccident: number;
+  private actors: any;
   private vehicle: any;
-  register: string;
-  make: string;
-  type: string;
-  model: string;
-  year: number;
-  color: string;
-  insurance: string;
-  policy: string;
-  expirationDate: string;
+  damages: any;
+  register: string = '';
+  make: string = '';
+  type: string = '';
+  model: string = '';
+  year: number = 0;
+  color: string = '#ffffff';
+  insurance: string = '';
+  policy: string = '';
+  expirationDate: Date;
 
   constructor(
     public navCtrl: NavController,
@@ -46,8 +48,10 @@ export class VehicleEditPage {
     this.vehicle = this.navParams.get('data');
     this.idAccident = this.navParams.get('idAccident');
 
+    console.log(JSON.stringify(this.vehicle))
+
     if (this.vehicle.meta.register == null) {
-      this.register = '';
+      this.register = 'Matrícula inexistente';
     } else {
       this.register = this.vehicle.meta.register;
     }
@@ -67,7 +71,7 @@ export class VehicleEditPage {
       this.model = this.vehicle.meta.model;
     }
     if (this.vehicle.meta.year == null) {
-      this.year = 0;
+      this.year = 0; //verificar
     } else {
       this.year = this.vehicle.meta.year;
     }
@@ -86,11 +90,12 @@ export class VehicleEditPage {
     } else {
       this.policy = this.vehicle.meta.policy;
     }
-    if (this.vehicle.meta.expirationDate == null) {
-      this.expirationDate = '';
-    } else {
+    if (this.vehicle.meta.expirationDate != null) {
       this.expirationDate = this.vehicle.meta.expirationDate;
     }
+
+    this.damages = this.vehicle.damages;
+
     console.log(this.expirationDate);
     this.vehicleEdited = this.formBuilder.group({
       register: ['', Validators.required],
@@ -106,59 +111,49 @@ export class VehicleEditPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
-  editVehicle() {
-    this.viewCtrl.dismiss();
+  async editVehicle() {
+    //this.viewCtrl.dismiss();
     var new_vehicle = {
       meta: {
         register: this.vehicleEdited.value['register'],
         type: this.vehicleEdited.value['type'],
         make: this.vehicleEdited.value['make'],
         model: this.vehicleEdited.value['model'],
-        year: this.vehicleEdited.value['year'].to_int,
+        year: this.vehicleEdited.value['year'],
         color: this.vehicleEdited.value['color'],
         policy: this.vehicleEdited.value['policy'],
         insurance: this.vehicleEdited.value['insurance'],
-        expirationDate: this.vehicleEdited.value['expirationDate'],
+        expirationDate: this.vehicleEdited.value['expirationDate']
       },
-      damages: [],
+      damages: this.damages,
     };
-    this.http
-      .put(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.idAccident +
-          '/vehicles/' +
-          this.vehicle.id,
-        new_vehicle,
-      )
+
+    console.log("VOU ENVIAR ISTO+\n\n" + JSON.stringify(new_vehicle))
+    
+    await this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicle.id, new_vehicle)
       .subscribe(
-        data => {
-          console.log(data['_body']);
-        },
-        error => {
-          console.log(error);
-        },
-      );
-    this.navCtrl.push('VehicleDetailPage', this.vehicle);
+        async data => {
+          console.log("BODY:" + data['_body']);
+          await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
+            .subscribe(
+              res => {
+                //this.navCtrl.push('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
+                // this.navCtrl.setRoot('VehicleDetailPage', { vehicle: new_vehicle, idVehicle: this.vehicle.id, idAccident: this.idAccident, actors: this.actors});
+                // this.navCtrl.popToRoot()
+                this.navCtrl.setRoot('VehicleListPage', this.idAccident);
+                this.navCtrl.popToRoot()
+              },
+              error => {
+                console.log(error);
+              }
+          );
+      },
+      error => {
+        console.log(error);
+      },
+    );
   }
-
-  // this.make = "TReta";
-  // this.currentVehicle = {
-  //   category: "Veículo ligeiro",
-  //   color: "blue",
-  //   register: this.vehicle.value['register'],
-  //   make: this.vehicle.value['make'],
-  //   model: this.vehicle.value['model'],
-  //   year: this.vehicle.value['year'],
-  //   policy: this.vehicle.value['policy'],
-  //   insurance: this.vehicle.value['insurance'],
-  //   nactors: 1,
-  //   photos: []
-  // };
-  // console.log(this.currentVehicle.make);
-  // this.vehicles = this.httpClient.post('');
-
-  // console.log(this.vehicles);
 }

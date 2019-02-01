@@ -1,23 +1,21 @@
-<!--
-  Generated template for the VehicleDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-  
   <ion-navbar color="primary">
-    <ion-title>Veículo</ion-title>
+    <ion-title>Informação veículo</ion-title>
     <ion-buttons end [ngSwitch]="vehiclePage">
+      <button ion-button icon-only (click)="vehicleEdit()" *ngSwitchCase="'info'">
+        <ion-icon name="create"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="confirmDelete(vehicle)" *ngSwitchCase="'info'">
         <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="uploadPicture()" *ngSwitchCase="'gallery'">
+        <ion-icon name="cloud-upload"></ion-icon>
       </button>
       <button ion-button icon-only (click)="sendDamages()" *ngSwitchCase="'damages'">
         <ion-icon name="checkmark-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-
   <ion-toolbar>
     <ion-segment [(ngModel)]="vehiclePage">
       <ion-segment-button value="info">
@@ -42,6 +40,9 @@
       <ion-icon name="car"></ion-icon>
       Geral
     </ion-list-header>
+    <ion-item *ngIf="vehicle.meta.type.length>0">
+      Tipo <ion-note item-end>{{ vehicle.meta.type }}</ion-note>
+    </ion-item>
     <ion-item>
       Matrícula <ion-note item-end>{{ vehicle.meta.register }}</ion-note>
     </ion-item>
@@ -51,17 +52,23 @@
     <ion-item>
       Modelo <ion-note item-end>{{ vehicle.meta.model }}</ion-note>
     </ion-item>
-    <ion-list-header color="light">
+    <ion-item>
+      Ano <ion-note item-end>{{ vehicle.meta.year }}</ion-note>
+    </ion-item>
+    <ion-list-header color="light" *ngIf="vehicle.meta.policy.length>0 || vehicle.meta.insurance.length>0 || vehicle.meta.expirationDate!=null">
       <ion-icon name="umbrella"></ion-icon>
       Seguro
     </ion-list-header>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.policy.length>0">
       Apólice <ion-note item-end>{{ vehicle.meta.policy }}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.insurance.length>0">
       Seguradora <ion-note item-end>{{ vehicle.meta.insurance }}</ion-note>
     </ion-item>
-    <ion-list-header color="light">
+    <ion-item *ngIf="vehicle.meta.expirationDate!=null">
+      Data expiração <ion-note item-end>{{ vehicle.meta.expirationDate.split('T')[0] }}</ion-note>
+    </ion-item>
+    <!-- <ion-list-header color="light">
       <ion-icon name="person"></ion-icon>
       Condutor
     </ion-list-header>
@@ -76,25 +83,34 @@
     <button ion-item *ngFor="let passenger of passengers">
       <h2>{{ passenger.name }}</h2>
       <ion-note item-end>{{ passenger.wounds }}</ion-note>
-    </button>
+    </button> -->
   </ion-list>
-  <ion-fab right bottom *ngSwitchCase="'info'">
-    <button ion-fab color="primary" (click)="vehicleEdit()">
-      <ion-icon name="create"></ion-icon>
-    </button>
-  </ion-fab>
   <ion-grid *ngSwitchCase="'gallery'">
     <ion-row>
-      <ion-col col-4 col-lg-3 *ngFor="let photo of photos">
-        <img src="{{ photo }}" class="photo" />
+      <ion-col style="display: block; margin: auto; width: 100%;" col-4 col-lg-3 *ngFor="let picture of pictures">
+        <button style="display: block; margin: auto; width: 100%; background-color: transparent;" (click)=imageViewer()>
+          <img src="{{ picture }}" class="photo"/>
+        </button>
       </ion-col>
     </ion-row>
+    <ion-footer>
+      <ion-grid no-padding>
+        <ion-row no-padding>
+          <ion-col no-padding style="margin-right: 4px; margin-left: 4px;">
+            <button ion-button full>
+              <label for="picture" class="filePickerLabel">Upload fotografia</label>
+              <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)" />
+            </button>
+          </ion-col>
+          <!-- <ion-col no-padding style="margin-right: 4px; margin-left: 2px;">
+            <button ion-button full (click)="openCamera()">
+              <label class="filePickerLabel">Tirar fotografia</label>
+            </button>
+          </ion-col> -->
+        </ion-row>
+      </ion-grid>
+    </ion-footer>
   </ion-grid>
-  <ion-fab right bottom *ngSwitchCase="'gallery'">
-    <button ion-fab color="primary" (click)="openCamera()">
-      <ion-icon name="camera"></ion-icon>
-    </button>
-  </ion-fab>
   <div *ngSwitchCase="'damages'">
     <ion-grid>
       <ion-row justify-content-center>

@@ -36,6 +36,7 @@ export class AccidentCreatePage {
   GooglePlaces: any;
   geocoder: any;
   autocompleteItems: any;
+  selectedRole: any;
 
   constructor(
     public zone: NgZone,
@@ -57,7 +58,7 @@ export class AccidentCreatePage {
   longitude: any;
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
@@ -142,19 +143,15 @@ export class AccidentCreatePage {
       position: [this.latitude, this.longitude],
     };
 
-    this.http
-      .post('https://sgs-backend.herokuapp.com/api/accidents', postData)
-      .subscribe(
-        data => {
-          console.log(data['_body']);
-        },
-        error => {
-          console.log(error);
-        },
-      );
-
-    this.viewCtrl.dismiss();
-    this.navCtrl.push('AccidentListPage');
+    this.http.post('https://sgs-backend.herokuapp.com/api/accidents', postData).subscribe(
+      data => {
+        let info = data.json()
+        this.navCtrl.push('AccidentDetailPage', { id: info.id, vehicles: info.vehicles, actors: info.actors })
+      }, error => {
+        console.log(error);
+      },
+    );
+    //this.navCtrl.push('AccidentListPage');
     //this.app.getRootNav().push('AccidentDetailPage');
   }
 }

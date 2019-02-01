@@ -38,6 +38,8 @@ export class AccidentEditPage {
   geocoder: any;
   autocompleteItems: any;
   id: string;
+  vehicles: any;
+  actors: any;
 
   constructor(
     public navCtrl: NavController,
@@ -61,7 +63,7 @@ export class AccidentEditPage {
   longitude: any;
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {
@@ -75,7 +77,8 @@ export class AccidentEditPage {
       .map(res => res.json())
       .subscribe(
         res => {
-          // Get position and address
+          this.vehicles = res.vehicles;
+          this.actors = res.actors;
           this.position = res.position;
           this.accidentDate = res.date;
 
@@ -155,14 +158,18 @@ export class AccidentEditPage {
       )
       .subscribe(
         data => {
-          console.log(data['_body']);
+          //console.log(data['_body']);
+          //console.log('CENAS\n'+this.id+'\n'+this.vehicles+'\n'+this.actors)
+          // this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+          this.navCtrl.setRoot('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+          this.navCtrl.popToRoot()
         },
         error => {
           console.log(error);
         },
       );
 
-    this.viewCtrl.dismiss();
-    this.navCtrl.push('AccidentListPage');
+    // this.viewCtrl.dismiss();
+    // this.navCtrl.push('AccidentListPage');
   }
 }

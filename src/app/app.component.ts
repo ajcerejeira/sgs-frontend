@@ -23,7 +23,7 @@ export class MyApp {
 
   email: string = '';
   name: string = '';
-  userId: string = '';
+  userId: number = 0;
   avatar: string = '';
 
   constructor(
@@ -32,12 +32,20 @@ export class MyApp {
     public splashScreen: SplashScreen,
   ) {
     this.initializeApp();
+    this.userId = parseInt(localStorage.getItem('userId'));
     this.email = localStorage.getItem('email');
     this.name = localStorage.getItem('name');
     this.avatar = localStorage.getItem('avatar');
   }
 
-   initializeApp() {
+  update(){
+    this.userId = parseInt(localStorage.getItem('userId'));
+    this.email = localStorage.getItem('email');
+    this.name = localStorage.getItem('name');
+    this.avatar = localStorage.getItem('avatar');
+  }
+
+  initializeApp() {
     this.appMenuItems = [
       { title: 'Sinistros', component: AccidentListPage, icon: 'car' },
       { title: 'Definições', component: null, icon: 'build' },
@@ -69,5 +77,6 @@ export class MyApp {
     // localStorage.removeItem("expires_at");
     localStorage.setItem('id_token', '');
     this.nav.setRoot('LoginPage');
+    this.nav.popToRoot()
   }
 }

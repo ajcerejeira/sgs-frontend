@@ -8,6 +8,7 @@ import {
   App,
   Select,
   PopoverController,
+  ToastController
 } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PinModulerComponent } from '../../components/pin-moduler/pin-moduler';
@@ -23,6 +24,7 @@ import {
   Spherical,
   Polygon,
   BaseArrayClass,
+  HtmlInfoWindow,
   LatLng,
 } from '@ionic-native/google-maps';
 
@@ -108,6 +110,11 @@ export class SketchPage {
   longitude: any;
   polygonPoints: ILatLng[] = [];
   markerList: Marker[] = [];
+  tipo:any;
+  register:any;
+  make:any;
+  model:any;
+  year: any
 
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('actorSelect') actorRef: Select;
@@ -123,6 +130,7 @@ export class SketchPage {
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
+    public toastCtrl: ToastController,
   ) {
     this.id = this.navParams.data;
   }
@@ -150,6 +158,12 @@ export class SketchPage {
             this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': '' }).subscribe(
               data => {
                 console.log('deleted with success');
+                const toast = this.toastCtrl.create({
+                  position: 'top',
+                  message: 'Croqui apagado com sucesso!',
+                  duration: 3000,
+                });
+                toast.present();
               },
               error => {
                 console.log(error);
@@ -163,7 +177,16 @@ export class SketchPage {
   }
 
   popupVehicles() {
-    this.vehicleRef.open();
+    if (this.vehicles.length>0) {
+      this.vehicleRef.open();
+    } else {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Não existem veículos registados neste sinistro!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   popupSigns() {
@@ -171,7 +194,16 @@ export class SketchPage {
   }
 
   popupActors() {
-    this.actorRef.open();
+    if (this.actors.length>0) {
+      this.actorRef.open();
+    } else {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Não existem intervenientes registados neste sinistro!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   onOkSign(chosenSign) {
@@ -266,7 +298,7 @@ export class SketchPage {
       this.longitude = this.position[1]
       this.map = GoogleMaps.create("map_canvas", mapOptions);
 
-      if (this.geoJSON != '' && this.geoJSON != {} && this.geoJSON != [])
+      if (this.geoJSON != '' && this.geoJSON != {} && this.geoJSON != [] && this.geoJSON != null)
         this.loadSketch()
       else
         console.log("SKETCH VAZIO!")
@@ -316,23 +348,37 @@ export class SketchPage {
   }
 
   loadVictim() {
-    let icon = {
-      url: '../assets/imgs/croquiItens/body/body.png',
-      // scaledSize: {
-      //   width: 200
-      // },
-      type: "victim"
-    }
+    let flag
+    this.actors.forEach(actor => {
+      if(actor.wounds=="Dead")
+        flag=true
+    });
+    if(flag){
+      let icon = {
+        url: '../assets/imgs/croquiItens/body/body.png',
+        // scaledSize: {
+        //   width: 200
+        // },
+        type: "victim"
+      }
 
-    let position = { lat: this.latitude, lng: this.longitude };
-    let marker = {
-      position: position,
-      draggable: true,
-      icon: icon
-    };
-    let backupMarker = this.map.addMarkerSync(marker);
-    this.map.setCameraTarget(backupMarker.getPosition())
-    this.markerList.push(backupMarker);
+      let position = { lat: this.latitude, lng: this.longitude };
+      let marker = {
+        position: position,
+        draggable: true,
+        icon: icon
+      };
+      let backupMarker = this.map.addMarkerSync(marker);
+      this.map.setCameraTarget(backupMarker.getPosition())
+      this.markerList.push(backupMarker);
+    }else{
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Não existem vítimas registadas neste sinistro!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   loadRadiusCircle() {
@@ -414,7 +460,7 @@ export class SketchPage {
   loadSavedPolygon(polyPoints) {
     let positions: ILatLng[] = [];
     polyPoints.forEach(latLng => {
-      positions.push({lat: latLng[0], lng: latLng[1]});
+      positions.push({ lat: latLng[0], lng: latLng[1] });
     });
 
     this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
@@ -518,22 +564,37 @@ export class SketchPage {
 
   loadSketch() {
     this.map.clear();
+    var type2
+    var htmlInfoWindow = new HtmlInfoWindow();
     this.geoJSON.features.forEach(element => {
       console.log(element)
       let imgURL
-
       if (element.properties.type != 'polygon') {
-        if (element.properties.type == 'car')
+        if (element.properties.type == 'car'){
+          type2='car'
           imgURL = '../assets/imgs/croquiItens/carroCroqui/carroCroqui' + element.properties.rotation + '.png'
-        else if (element.properties.type == 'crosswalk')
+          this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.id+'/vehicles/'+parseInt(element.properties.idVehicle)).map(res => res.json()).subscribe(res => {
+            htmlInfoWindow.setContent(
+              '<div style="width: 300px;">'+
+              '<ul>'+
+              '<li>Tipo: '+ res.meta.type+'</li>'+
+              '<li>Matrícula: ' + res.meta.register +'</li>' +
+              '<li>Marca: ' + res.meta.make +'</li>' +
+              '<li>Modelo: ' + res.meta.model +'</li>' +
+              '<li>Ano: ' + res.meta.year +'</li>' +
+              '</ul>'+
+            '</div>');
+          });
+          
+        }else if (element.properties.type == 'crosswalk'){
           imgURL = '../assets/imgs/croquiItens/signs/crosswalk' + element.properties.rotation + '.png'
-        else if (element.properties.type == 'victim')
+        }else if (element.properties.type == 'victim'){
           imgURL = '../assets/imgs/croquiItens/body/body.png'
-        else if (element.properties.type == 'actor')
+        }else if (element.properties.type == 'actor'){
           imgURL = '../assets/imgs/croquiItens/signs/actor.png'
-        else
+        }else{
           imgURL = this.signDictionary[this.signTypesInverted[element.properties.type]];
-
+        }
         let icon = {
           url: imgURL,
           type: this.signTypesInverted[element.properties.type]
@@ -549,7 +610,12 @@ export class SketchPage {
           draggable: true,
           icon: icon,
         };
-        this.map.addMarkerSync(marker);
+        
+        this.map.addMarker(marker).then((marker: Marker) => {
+          marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+            htmlInfoWindow.open(marker);
+          });
+        });
         let cameraMoveTo = { lat: this.latitude, lng: this.longitude };
         this.map.setCameraTarget(cameraMoveTo)
         //this.markerList.push(backupMarker);
@@ -672,6 +738,14 @@ export class SketchPage {
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': collection }).subscribe(
       data => {
         console.log('success');
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Croqui guardado com sucesso!',
+          duration: 3000,
+        });
+        toast.present();
+        //this.navCtrl.push('AccidentListPage');
+        //this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
       },
       error => {
         console.log(error);

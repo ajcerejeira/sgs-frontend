@@ -8,11 +8,23 @@ export class Data {
 
   constructor(public http: Http) { }
 
-  filterItems(searchTerm, list) {
+  filterVehicles(searchTerm, list) {
     if (searchTerm && searchTerm != "") {
       this.items = list;
       return this.items.filter((item) => {
-        return (item.meta['register'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.meta['model'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+        return (item.meta['register'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.meta['make'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      });
+    }
+    else {
+      return list;
+    }
+  }
+
+  filterAccidents(searchTerm, list) {
+    if (searchTerm && searchTerm != "") {
+      this.items = list;
+      return this.items.filter((item) => {
+        return (item['address'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || item['date'].split('T')[0].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       });
     }
     else {

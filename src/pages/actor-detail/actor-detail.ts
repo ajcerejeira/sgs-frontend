@@ -199,9 +199,9 @@ export class ActorDetailPage {
               )
               .subscribe(
                 res => {
-                  this.navCtrl.push('ActorListPage', {
-                    accident: this.accidentId,
-                  });
+                  // this.navCtrl.push('ActorListPage', {accident: this.accidentId});
+                  this.navCtrl.setRoot('ActorListPage', {accident: this.accidentId});
+                  this.navCtrl.popToRoot()
                 },
                 error => {
                   console.log(error);
@@ -260,19 +260,14 @@ export class ActorDetailPage {
     toast.present();
   }
 
-  openSignature() {
-    //let modal = this.modalController.create('ActorSignaturePage');
-    //modal.present();
-    if (this.drawn) {
-      this.signatureImage = null;
-      this.drawn = false;
-    } else {
-      if (this.signaturePad.isEmpty() == false) {
-        this.drawn = true;
-        this.signatureImage = this.signaturePad.toDataURL();
-        this.signaturePad.clear();
-      }
-    }
+  clearSignature(){
+    this.drawn = false;
+    this.signaturePad.clear();
+  }
+
+  saveSignature() {
+    this.drawn = true;
+    this.signatureImage = this.signaturePad.toDataURL();
   }
 
   testimonialStopRecord() {
@@ -303,19 +298,6 @@ export class ActorDetailPage {
     this.audio.setVolume(0.8);
   }
 
-  openSignatureModel() {
-    if (this.drawn) {
-      this.signatureImage = null;
-      this.drawn = false;
-    } else {
-      if (this.signaturePad.isEmpty() == false) {
-        this.drawn = true;
-        this.signatureImage = this.signaturePad.toDataURL();
-        this.signaturePad.clear();
-      }
-    }
-  }
-
   actorEdit() {
     let person = {
       identityDocumentType: this.identityDocumentType,
@@ -343,23 +325,12 @@ export class ActorDetailPage {
       vehicle: this.idv,
       //"accident": this.accident
     };
-    
-    let modal = this.modalController.create('ActorEditPage', {
-      data: actor,
-      accident: this.accidentId,
-      
-    });
-    modal.onDidDismiss(data => {
-      this.navCtrl.push('ActorListPage', {
-        accident: this.accidentId,
-        //actorId: this.id,
-      });
-    });
-    modal.present();
+    this.navCtrl.push('ActorEditPage',{data: actor,accident: this.accidentId});
   }
+
   vehicleDetail(vehicle) {
     this.navCtrl.push('VehicleDetailPage', {
-      vehicle, 
+      vehicle: vehicle, 
       idAccident: this.accidentId});
   }
 

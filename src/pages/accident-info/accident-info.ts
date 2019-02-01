@@ -5,6 +5,7 @@ import {
   NavParams,
   AlertController,
   ModalController,
+  ViewController
 } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -24,12 +25,14 @@ export class AccidentInfoPage {
   hour: string;
   address: string;
   url: string;
+  modal: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
+    public viewCtrl: ViewController,
     public http: Http,
     public iab: InAppBrowser,
   ) {}
@@ -38,11 +41,7 @@ export class AccidentInfoPage {
     console.log('ID É: ' + this.navParams.data);
     console.log('ionViewDidLoad AccidentInfoPage');
 
-    this.http
-      .get(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.navParams.data,
-      )
+    this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.navParams.data)
       .map(res => res.json())
       .subscribe(
         res => {
@@ -66,10 +65,7 @@ export class AccidentInfoPage {
           var year = dateObj.getUTCFullYear();
 
           this.date = day + ' de ' + monthValue + ' de ' + year;
-          this.hour =
-            dateObj.getUTCHours().toString() +
-            ':' +
-            dateObj.getUTCMinutes().toString();
+          this.hour = dateObj.getUTCHours().toString() +'h ' + dateObj.getUTCMinutes().toString()+'m';
           this.address = res.address;
           this.url = res.mapUrl;
         },
@@ -80,10 +76,9 @@ export class AccidentInfoPage {
   }
 
   editAccident() {
-    let modal = this.modalCtrl.create('AccidentEditPage', {
-      id: this.navParams.data,
-    });
-    modal.present();
+    this.navCtrl.push('AccidentEditPage', {id: this.navParams.data});
+    // this.modal = this.modalCtrl.create('AccidentEditPage', {id: this.navParams.data});
+    // this.modal = this.modal.present();
   }
 
   confirmDelete() {
@@ -99,14 +94,13 @@ export class AccidentInfoPage {
         {
           text: 'Eliminar',
           handler: () => {
-            this.http
-              .delete(
-                'https://sgs-backend.herokuapp.com/api/accidents/' +
-                  this.navParams.data,
-              )
+            this.http.delete('https://sgs-backend.herokuapp.com/api/accidents/' + this.navParams.data)
               .subscribe(
                 res => {
-                  this.navCtrl.push('AccidentListPage');
+                  this.navCtrl.setRoot('AccidentListPage');
+                  this.navCtrl.popToRoot()
+                  // this.navCtrl.push('AccidentListPage');
+                  //aqui
                 },
                 error => {
                   console.log(error);

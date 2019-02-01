@@ -24,6 +24,7 @@ import { Data } from '../../providers/data/data';
 export class VehicleListPage {
   vehicles: any;
   actors: any;
+  photos: any;
   vehicleToDelete: string;
   filteredVehicles: any;
   filterBy: string = '';
@@ -39,16 +40,17 @@ export class VehicleListPage {
   }
 
   searchVehicles() {
-    this.filteredVehicles = this.dataService.filterItems(
+    this.filteredVehicles = this.dataService.filterVehicles(
       this.filterBy,
       this.vehicles,
     );
   }
 
-  vehiclesList() {
-    // console.log("LISTA VEIC ID: "+ this.navParams.data);
-    this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
+  async vehiclesList() {
+    console.log("LISTA ACC ID: "+ JSON.stringify(this.navParams.data));
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
         this.vehicles=res.vehicles;
+        console.log(this.vehicles);
         this.filteredVehicles = res.vehicles;
         this.actors = res.actors;
       }, error => {
@@ -57,24 +59,30 @@ export class VehicleListPage {
   }
 
   vehicleCreate() {
-    let modal = this.modalCtrl.create('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
-    modal.onDidDismiss(data => { });
-    modal.present();
+    this.navCtrl.push('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
   }
 
-  ionViewDidLoad() {
-    this.vehiclesList();
-    // console.log(this.filteredVehicles);
-    this.filteredVehicles = this.vehicles;
+  async ionViewDidLoad() {
     console.log('ionViewDidLoad VehicleListPage');
+    // this.vehiclesList();
+    console.log(this.navParams.data);
+    this.vehicles = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.navParams.data}/vehicles`).toPromise();
+    this.filteredVehicles = this.vehicles.json();
+    console.log("FILTRO:" + this.filteredVehicles);
   }
 
-  vehicleDetail(vehicle) {
-    var data = {
-      vehicle: vehicle,
-      idAccident: this.navParams.data,
-      actors: this.actors
-    }
-    this.navCtrl.push('VehicleDetailPage', data);
+  async vehicleDetail(vehicle) {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data+'/vehicles/'+vehicle.id).map(res => res.json()).subscribe(
+      res => {
+        // console.log("PASSO ISTO: "+ JSON.stringify(data))
+        this.navCtrl.push('VehicleDetailPage', {
+          vehicle: res,
+          idVehicle: res.id,
+          idAccident: this.navParams.data,
+          actors: this.actors
+        });
+      }, error => {
+        console.log(error);
+    });
   }
 }

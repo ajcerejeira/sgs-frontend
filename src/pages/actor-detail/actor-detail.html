@@ -1,20 +1,22 @@
-<!--
-  Generated template for the ActorDetailPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar color="primary">
-    <ion-title>Interveniente</ion-title>
+    <ion-title>Informação interveniente</ion-title>
     <ion-buttons end [ngSwitch]="actorPage">
+      <button ion-button icon-only (click)="actorEdit()" *ngSwitchCase="'info'">
+        <ion-icon name="create"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="confirmDelete()" *ngSwitchCase="'info'">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="saveSignature()" *ngSwitchCase="'signature'">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="clearSignature()" *ngSwitchCase="'signature'">
         <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-  
+
   <ion-toolbar>
     <ion-segment [(ngModel)]="actorPage">
       <ion-segment-button value="info">
@@ -33,98 +35,119 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [ngSwitch]="actorPage">
-    <ion-list *ngSwitchCase="'info'">
-        <ion-list-header color="light">
-            <ion-icon name="car"></ion-icon>
-              Dados do Acidente
-        </ion-list-header>
-    
-        <ion-item *ngIf="role == 'Driver'">Tipo de Interveniente: <ion-note item-end >Condutor</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Passenger'">Tipo de Interveniente: <ion-note item-end >Passageiro</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Pedestrian'">Tipo de Interveniente: <ion-note item-end >Peão</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Witness'">Tipo de Interveniente: <ion-note item-end >Testemunha</ion-note></ion-item>
-        <ion-item *ngIf="role == 'Other'">Tipo de Interveniente: <ion-note item-end >Outro</ion-note></ion-item>
+  <ion-list *ngSwitchCase="'info'">
+    <ion-list-header color="light">
+      <ion-icon name="car"></ion-icon>
+      Dados do Acidente
+    </ion-list-header>
 
-        <ion-item *ngIf="wounds == 'None'">Ferimentos: <ion-note item-end>Nenhuns</ion-note></ion-item>
-        <ion-item *ngIf="wounds == 'Light'">Ferimentos: <ion-note item-end>Leves</ion-note></ion-item>
-        <ion-item *ngIf="wounds == 'Severe'">Ferimentos: <ion-note item-end>Graves</ion-note></ion-item>
-        <ion-item *ngIf="wounds == 'Dead'">Ferimentos: <ion-note item-end>Morto</ion-note></ion-item>
+    <ion-item *ngIf="role == 'Driver'">Tipo de Interveniente: <ion-note item-end>Condutor</ion-note>
+    </ion-item>
+    <ion-item *ngIf="role == 'Passenger'">Tipo de Interveniente: <ion-note item-end>Passageiro</ion-note>
+    </ion-item>
+    <ion-item *ngIf="role == 'Pedestrian'">Tipo de Interveniente: <ion-note item-end>Peão</ion-note>
+    </ion-item>
+    <ion-item *ngIf="role == 'Witness'">Tipo de Interveniente: <ion-note item-end>Testemunha</ion-note>
+    </ion-item>
+    <ion-item *ngIf="role == 'Other'">Tipo de Interveniente: <ion-note item-end>Outro</ion-note>
+    </ion-item>
+
+    <ion-item *ngIf="wounds == 'None'">Ferimentos: <ion-note item-end>Nenhuns</ion-note>
+    </ion-item>
+    <ion-item *ngIf="wounds == 'Light'">Ferimentos: <ion-note item-end>Leves</ion-note>
+    </ion-item>
+    <ion-item *ngIf="wounds == 'Severe'">Ferimentos: <ion-note item-end>Graves</ion-note>
+    </ion-item>
+    <ion-item *ngIf="wounds == 'Dead'">Ferimentos: <ion-note item-end>Morto</ion-note>
+    </ion-item>
 
 
-        <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note></ion-item>
-        <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
-          Veículo:
-          <ion-note item-end><h2>{{ register }} </h2>
-            <p>{{ make }} {{ model }}</p></ion-note>
-        </button>
-        
-    
-        <ion-list-header color="light">
-          <ion-icon name="person"></ion-icon>
-          Dados Pessoais
-        </ion-list-header>
-        
-        <ion-item>Nome: <ion-note item-end>{{ name }}</ion-note></ion-item>
-        <ion-item>Data de Nascimento: <ion-note item-end>{{ birthAux }}</ion-note></ion-item>
-        <ion-item>Contacto: <ion-note item-end>{{ phone }}</ion-note></ion-item>
-        <ion-item>Email: <ion-note item-end>{{ email }}</ion-note></ion-item>
-        <ion-item>Nacionalidade: <ion-note item-end>{{ nationality }}</ion-note></ion-item>
-        <ion-item>Naturalidade: <ion-note item-end>{{ naturality }}</ion-note></ion-item>
-        <ion-item *ngFor="let parent of parentage">Filiação: <ion-note item-end>{{ parent }}</ion-note></ion-item>
-        <ion-list-header color="light">
-            <ion-icon name="locate"></ion-icon>
-            Localização
-        </ion-list-header>
-        <ion-item>Localidade: <ion-note item-end>{{ locality }}</ion-note></ion-item>
-        <ion-item>Código-Postal: <ion-note item-end>{{ zipcode }}</ion-note></ion-item>
-        <ion-item>Morada: <ion-note item-end>{{ address }}</ion-note></ion-item>
-        <ion-item>Nº de Porta: <ion-note item-end>{{ doorNumber }}</ion-note></ion-item>
-        <ion-list-header color="light">
-            <ion-icon name="clipboard"></ion-icon>
-            Identificação
-        </ion-list-header>
-        <ion-item *ngIf="identityDocumentType == 'IdentityDocument'">Documento de Identificação: <ion-note item-end>BI/CC</ion-note></ion-item>
-        <ion-item *ngIf="identityDocumentType == 'Passport'">Documento de Identificação: <ion-note item-end>Passaporte</ion-note></ion-item>
-        <ion-item *ngIf="identityDocumentType == 'DriverLicense'">Documento de Identificação: <ion-note item-end>Carta de Condução</ion-note></ion-item>
-
-        <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note></ion-item>
-        <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDateAux }}</ion-note></ion-item>
-        <ion-item>Emitido por: <ion-note item-end>{{ identityDocumentEmitedBy }}</ion-note></ion-item>
-        <ion-item> <ion-note item-end></ion-note></ion-item>
-      </ion-list>
-  <ion-fab right bottom *ngSwitchCase="'info'">
-    <button ion-fab color="primary" (click)="actorEdit()">
-      <ion-icon name="create"></ion-icon>
+    <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note>
+    </ion-item>
+    <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
+      Veículo:
+      <ion-note item-end>
+        <h2>{{ register }} </h2>
+        <p>{{ make }} {{ model }}</p>
+      </ion-note>
     </button>
-  </ion-fab>
-  
+
+
+    <ion-list-header color="light">
+      <ion-icon name="person"></ion-icon>
+      Dados Pessoais
+    </ion-list-header>
+
+    <ion-item>Nome: <ion-note item-end>{{ name }}</ion-note>
+    </ion-item>
+    <ion-item>Data de Nascimento: <ion-note item-end>{{ birthAux }}</ion-note>
+    </ion-item>
+    <ion-item>Contacto: <ion-note item-end>{{ phone }}</ion-note>
+    </ion-item>
+    <ion-item>Email: <ion-note item-end>{{ email }}</ion-note>
+    </ion-item>
+    <ion-item>Nacionalidade: <ion-note item-end>{{ nationality }}</ion-note>
+    </ion-item>
+    <ion-list-header color="light">
+      <ion-icon name="home"></ion-icon>
+      Localização
+    </ion-list-header>
+    <ion-item>Localidade: <ion-note item-end>{{ locality }}</ion-note>
+    </ion-item>
+    <ion-item>Morada: <ion-note item-end>{{ address }}</ion-note>
+    </ion-item>
+    <ion-item>Código-Postal: <ion-note item-end>{{ zipcode }}</ion-note>
+    </ion-item>
+    <ion-list-header color="light">
+      <ion-icon name="card"></ion-icon>
+      Identificação
+    </ion-list-header>
+    <ion-item *ngIf="identityDocumentType == 'IdentityDocument'">Documento de Identificação: <ion-note item-end>BI/CC</ion-note>
+    </ion-item>
+    <ion-item *ngIf="identityDocumentType == 'Passport'">Documento de Identificação: <ion-note item-end>Passaporte</ion-note>
+    </ion-item>
+    <ion-item *ngIf="identityDocumentType == 'DriverLicense'">Documento de Identificação: <ion-note item-end>Carta de
+        Condução</ion-note>
+    </ion-item>
+
+    <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note>
+    </ion-item>
+    <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDateAux }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-note item-end></ion-note>
+    </ion-item>
+  </ion-list>
+
   <ion-list *ngSwitchCase="'testimonials'">
     <ion-item-sliding *ngFor="let audio of audioList; index as i;">
-        <ion-item>
-            <button ion-item (click)="testimonialPlay(audio.filename, i)">
-                <ion-icon name="play" item-start></ion-icon>
-                <h2>{{ audio.filename }}</h2>
-                <p>{{ audio.filename }}</p>
-            </button>
-        </ion-item>
-        <ion-item-options>
-          <button ion-button color="danger" (click)="removeItem(i)">
-            <ion-icon name="trash"></ion-icon>
-            Eliminar
-          </button>
-        </ion-item-options>
+      <ion-item>
+        <button ion-item (click)="testimonialPlay(audio.filename, i)">
+          <ion-icon name="play" item-start></ion-icon>
+          <h2>{{ audio.filename }}</h2>
+          <p>{{ audio.filename }}</p>
+        </button>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="danger" (click)="removeItem(i)">
+          <ion-icon name="trash"></ion-icon>
+          Eliminar
+        </button>
+      </ion-item-options>
     </ion-item-sliding>
-    </ion-list> 
+  </ion-list>
   <ion-fab right bottom *ngSwitchCase="'testimonials'">
-    <button ion-fab color="primary" (click)="testimonialStartRecord()" *ngIf="!recording"><ion-icon name="mic"></ion-icon></button>
-    <button ion-fab color="primary" (click)="testimonialStopRecord()" *ngIf="recording"><ion-icon name="mic-off"></ion-icon></button>
+    <button ion-fab color="primary" (click)="testimonialStartRecord()" *ngIf="!recording">
+      <ion-icon name="mic"></ion-icon>
+    </button>
+    <button ion-fab color="primary" (click)="testimonialStopRecord()" *ngIf="recording">
+      <ion-icon name="mic-off"></ion-icon>
+    </button>
   </ion-fab>
   <ion-list *ngSwitchCase="'signature'">
-    <div *ngIf="drawn == 1" ><img [src]="signatureImage" *ngIf="signatureImage" /></div>
-    <div *ngIf="drawn == 0"><signature-pad [options]="signaturePadOptions"  id="signatureCanvas"></signature-pad></div>
+    <div *ngIf="drawn == 1"><img [src]="signatureImage" *ngIf="signatureImage" /></div>
+    <div *ngIf="drawn == 0">
+      <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>
+    </div>
   </ion-list>
-  <ion-fab right bottom *ngSwitchCase="'signature'">
-    <button ion-fab color="primary" (click)="openSignature()"><ion-icon name="create"></ion-icon></button>
-  </ion-fab>
-  
 </ion-content>

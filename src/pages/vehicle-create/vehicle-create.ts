@@ -40,8 +40,8 @@ export class VehicleCreatePage {
     public http: Http,
   ) {
     this.vehicle = this.formBuilder.group({
-      register: ['', Validators.required],
-      type: [''],
+      register: [''],
+      type: ['', Validators.required],
       make: [''],
       model: [''],
       year: [''],
@@ -49,13 +49,16 @@ export class VehicleCreatePage {
       policy: [''],
       insurance: [''],
       expirationDate: [''],
-      driver: ['']
+      driver: [''],
+      passengers: ['']
     })
     this.drivers = [];
     this.passengers = [];
     this.idAccident = this.navParams.get('id');
     if(this.navParams.get('actors').length > 0) { 
       let actorList = this.navParams.get('actors')
+      console.log(actorList);
+
       actorList.forEach(actor => {
         let new_actor = actor;
         console.log(new_actor);
@@ -70,37 +73,49 @@ export class VehicleCreatePage {
   }
   
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
-  createVehicle() {
+  async createVehicle() {
     this.viewCtrl.dismiss();
-    var driver = this.vehicle.value['driver'];
-    console.log(driver);
     var new_vehicle = {
       meta: {
         register: this.vehicle.value['register'],
         type: this.vehicle.value['type'],
         make: this.vehicle.value['make'],
         model: this.vehicle.value['model'],
-        year: this.vehicle.value['year'].to_int,
+        year: this.vehicle.value['year']== '' ? null : this.vehicle.value['year'],
         color: this.vehicle.value['color'],
         policy: this.vehicle.value['policy'],
         insurance: this.vehicle.value['insurance'],
-        expirationDate: this.vehicle.value['expirationDate'],
+        expirationDate: this.vehicle.value['expirationDate']== '' ? null : this.vehicle.value['expirationDate']
       },
       damages: [],
-      driver: {},
-      passengers: []
+      pictures: []
     };
 
-    // this.vehicles.push(new_vehicle);
-    this.http.post("https://sgs-backend.herokuapp.com/api/accidents/"+this.idAccident+"/vehicles", new_vehicle)
-      .subscribe(data => {
-        console.log(data['_body']);
-      }, error => {
-        console.log(error);
-      });
-    this.navCtrl.push('VehicleListPage', this.idAccident);
+    await this.http.post('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/', new_vehicle)
+        .subscribe(
+          async data => {
+            //console.log(data['_body']);
+            await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
+              .subscribe(
+                res => {
+                  // this.dismiss();
+                  // this.navCtrl.push('AccidentDetailPage',{id: this.idAccident, vehicles: res.vehicles, actors: res.actors});
+                  // this.navCtrl.pop();
+                  // this.navCtrl.push('VehicleListPage', this.idAccident);
+                  this.navCtrl.setRoot('VehicleListPage', this.idAccident);
+                  this.navCtrl.popToRoot();
+                },
+                error => {
+                  console.log(error);
+                }
+            );
+        },
+        error => {
+          console.log(error);
+        },
+      );
   }
 }
