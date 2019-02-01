@@ -84,7 +84,7 @@
         <ion-item>
           <ion-label floating> Nome do Condutor </ion-label>
           <ion-select okText="Gravar" cancelText="Cancelar" formControlName="driver" multiple="false">
-            <ion-option *ngFor="let d of drivers"> {{d.person.name}} </ion-option>
+            <ion-option *ngFor="let d of drivers" [value]="d.id">{{d.person.name}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-list-header color="light">
@@ -94,7 +94,7 @@
         <ion-item>
           <ion-label floating> Nome do Passageiro </ion-label>
           <ion-select okText="Gravar" cancelText="Cancelar" formControlName="passengers" multiple="true">
-            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
+            <ion-option *ngFor="let p of passengers" [value]="p.id">{{p.person.name}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>

@@ -95,10 +95,12 @@ export class VehicleCreatePage {
       },
       damages: [],
       driver: driver,
-      passengers: passengers
+      passengers: passengers,
+      pictures: []
     };
 
-    // this.vehicles.push(new_vehicle);
+
+    /// VÊ POR FAVOR PORQUE RAZÂO O NEW_VEHICLE não está a passar com todos os parâmetros que é suposto, DRIVER E PASSENGERS
     this.http.post("https://sgs-backend.herokuapp.com/api/accidents/"+this.idAccident+"/vehicles", new_vehicle)
       .subscribe(data => {
         console.log(data['_body']);
