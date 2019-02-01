@@ -216,22 +216,33 @@ export class VehicleDetailPage {
   }
 
   async uploadPicture() {
-    console.log(this.newPictureFile);
-    const newData = new FormData();
-    newData.append('picture', this.newPictureFile, this.newPictureFile.name);
-    try {
-      const res = await this.http.post(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`,newData).toPromise();
-      console.log("RES:" +res)
-      this.pictures = res.json().pictures;
-      this.imageViewer();
-    } catch(err) {
+    if(this.newPictureFile==undefined){
       const toast = this.toastCtrl.create({
         position: 'top',
-        message: 'Ocorreu um erro durante o upload da imagem!',
+        message: 'Tem de selecionar uma imagem antes de fazer upload!',
         duration: 3000,
       });
       toast.present();
-      console.error(err);
+    }else{
+      console.log(this.newPictureFile);
+      const newData = new FormData();
+      newData.append('picture', this.newPictureFile, this.newPictureFile.name);
+      try {
+        const res = await this.http.post(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`,newData).toPromise();
+        console.log("RES:" +res)
+        this.pictures = res.json().pictures;
+        this.navCtrl.setRoot('VehicleImageViewerPage');
+        this.navCtrl.popToRoot();
+        // this.navCtrl.push('VehicleImageViewerPage', {pictures: this.pictures});
+      } catch(err) {
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Ocorreu um erro durante o upload da imagem!',
+          duration: 3000,
+        });
+        toast.present();
+        console.error(err);
+      }
     }
   }
 

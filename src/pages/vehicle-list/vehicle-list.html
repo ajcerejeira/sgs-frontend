@@ -17,15 +17,14 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-searchbar [(ngModel)]="filterBy" placeholder="Procurar por Matrícula" (ionInput)="searchVehicles()"></ion-searchbar> -->
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-sm-6 col-md-4 col-lg-3 *ngFor="let vehicle of filteredVehicles">
         <ion-card (click)="vehicleDetail(vehicle)">
           <ion-grid no-padding>
-            <ion-row>
-              <ion-col no-padding *ngFor="let photo of vehicle.photos">
-                <img style="object-fit: cover; height: 80px;" src="{{ photo }}">
+            <ion-row *ngIf="vehicle.pictures.length>0">
+              <ion-col no-padding *ngFor="let picture of vehicle.pictures">
+                <img style="object-fit: cover; height: 80px;" src="{{ picture }}">
               </ion-col>
             </ion-row>
             <ion-row align-items-center>

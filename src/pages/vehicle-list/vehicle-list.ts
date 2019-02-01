@@ -24,6 +24,7 @@ import { Data } from '../../providers/data/data';
 export class VehicleListPage {
   vehicles: any;
   actors: any;
+  photos: any;
   vehicleToDelete: string;
   filteredVehicles: any;
   filterBy: string = '';
@@ -48,6 +49,15 @@ export class VehicleListPage {
   async vehiclesList() {
     console.log("LISTA ACC ID: "+ JSON.stringify(this.navParams.data));
     await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
+        res.vehicles.forEach(async element => {
+          console.log("debug1: "+ JSON.stringify(element))
+          await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data+'/vehicles/'+element.id+'/pictures').map(photos => photos.json()).subscribe(
+            async photos => {
+              // await console.log("URL FOTOS: " + photos)
+              res.vehicles[element.id].pictures=photos
+              //console.log("FICOU ASSSIM:"+res.vehicles[element.id].pictures)
+          });
+        });
         this.vehicles=res.vehicles;
         this.filteredVehicles = res.vehicles;
         this.actors = res.actors;

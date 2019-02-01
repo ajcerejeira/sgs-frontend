@@ -87,26 +87,30 @@
   </ion-list>
   <ion-grid *ngSwitchCase="'gallery'">
     <ion-row>
-      <ion-col col-4 col-lg-3 *ngFor="let picture of pictures">
-        <button style="display: block; width: 100%; background-color: transparent;" (click)=imageViewer()>
-          <img src="{{ picture }}" class="photo" />
+      <ion-col style="display: block; margin: auto; width: 100%;" col-4 col-lg-3 *ngFor="let picture of pictures">
+        <button style="display: block; margin: auto; width: 100%; background-color: transparent;" (click)=imageViewer()>
+          <img src="{{ picture }}" class="photo"/>
         </button>
       </ion-col>
     </ion-row>
+    <ion-footer>
+      <ion-grid no-padding>
+        <ion-row no-padding>
+          <ion-col no-padding style="margin-right: 2px; margin-left: 4px;">
+            <button ion-button full>
+              <label for="picture" class="filePickerLabel">Upload fotografia</label>
+              <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)" />
+            </button>
+          </ion-col>
+          <ion-col no-padding style="margin-right: 4px; margin-left: 2px;">
+            <button ion-button full (click)="openCamera()">
+              <label class="filePickerLabel">Tirar fotografia</label>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-footer>
   </ion-grid>
-  <ion-fab right bottom *ngSwitchCase="'gallery'">
-    <div class="splash-info" margin-bottom>
-      <label for="picture" class="filePickerLabel">Adicionar fotografia</label>
-      <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)" />
-    </div>
-      <label for="picture" class="filePickerLabel">Adicionar fotografia</label>
-      <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)" />
-      <input type="submit" (click)="uploadPicture()">
-    </form> 
-    <button ion-fab color="primary" (click)="openCamera()">
-      <ion-icon name="camera"></ion-icon>
-    </button>
-  </ion-fab>
   <div *ngSwitchCase="'damages'">
     <ion-grid>
       <ion-row justify-content-center>
