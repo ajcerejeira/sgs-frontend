@@ -101,6 +101,8 @@ export class VehicleDetailPage {
                         // this.navCtrl.pop();
                         // this.viewCtrl.dismiss()
                         // this.navCtrl.push('VehicleListPage', this.idAccident);
+                        this.navCtrl.setRoot('VehicleListPage', this.idAccident);
+                        this.navCtrl.popToRoot()
                       },
                       error => {
                         console.log(error);
@@ -142,6 +144,7 @@ export class VehicleDetailPage {
   }
 
   vehicleEdit() {
+    console.log("vehicleEdit: "+ JSON.stringify(this.vehicle) +'\n'+this.idAccident)
     this.navCtrl.push('VehicleEditPage', {
       data: this.vehicle,
       idAccident: this.idAccident,

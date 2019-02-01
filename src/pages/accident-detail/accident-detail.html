@@ -1,6 +1,8 @@
 <ion-tabs selectedIndex="0">
     <ion-tab [root]="accidentInfoRoot" [rootParams]="id" tabTitle="Info" tabIcon="information-circle"></ion-tab>
-    <ion-tab [root]="vehicleListRoot" [rootParams]="id" tabTitle="Veículos" tabIcon="car" tabBadge="{{ nvehicles }}" tabBadgeStyle="primary"></ion-tab>
-    <ion-tab [root]="actorListRoot" [rootParams]="id" tabTitle="Intervenientes" tabIcon="people" tabBadge="{{ nactors }}" tabBadgeStyle="primary"></ion-tab>
+    <ion-tab [root]="vehicleListRoot" [rootParams]="id" tabTitle="Veículos" tabIcon="car" tabBadgeStyle="primary"></ion-tab>
+    <ion-tab [root]="actorListRoot" [rootParams]="id" tabTitle="Intervenientes" tabIcon="people" tabBadgeStyle="primary"></ion-tab>
     <ion-tab [root]="sketchRoot" [rootParams]="id" tabTitle="Croqui" tabIcon="brush"></ion-tab>
 </ion-tabs>
+
+<!-- tabBadge="{{ nvehicles }}" -->

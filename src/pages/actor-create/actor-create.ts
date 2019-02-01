@@ -127,6 +127,8 @@ export class ActorCreatePage {
             duration: 3000,
           });
           toast.present();
+          this.navCtrl.setRoot("ActorListPage",{accident : this.id});
+          this.navCtrl.popToRoot()
         },
         error => {
           console.log(error);
@@ -138,7 +140,7 @@ export class ActorCreatePage {
           toast.present();
         },
       );
-      this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+      // this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
       // this.navCtrl.push("ActorListPage",{
       //   accident : this.id
       // });  

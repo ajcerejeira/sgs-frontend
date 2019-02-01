@@ -41,11 +41,7 @@ export class AccidentInfoPage {
     console.log('ID É: ' + this.navParams.data);
     console.log('ionViewDidLoad AccidentInfoPage');
 
-    this.http
-      .get(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.navParams.data,
-      )
+    this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.navParams.data)
       .map(res => res.json())
       .subscribe(
         res => {
@@ -101,7 +97,9 @@ export class AccidentInfoPage {
             this.http.delete('https://sgs-backend.herokuapp.com/api/accidents/' + this.navParams.data)
               .subscribe(
                 res => {
-                  this.navCtrl.push('AccidentListPage');
+                  this.navCtrl.setRoot('AccidentListPage');
+                  this.navCtrl.popToRoot()
+                  // this.navCtrl.push('AccidentListPage');
                   //aqui
                 },
                 error => {

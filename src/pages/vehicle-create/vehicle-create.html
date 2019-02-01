@@ -75,7 +75,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Data de Validade</ion-label>
-          <ion-datetime displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" formControlName="expirationDate"></ion-datetime>
+          <ion-datetime displayFormat="DD/MMM/YYYY" max="2050-01-01" pickerFormat="DD/MMM/YYYY" formControlName="expirationDate"></ion-datetime>
         </ion-item>
         <ion-list-header color="light" *ngIf="drivers.length!=0">
           <ion-icon name="person"></ion-icon>

@@ -7,7 +7,7 @@
 
 <ion-content>
   <ion-list>
-      <ion-list-header color="light">
+      <ion-list-header *ngIf="drivers.length > 0" color="light">
           <ion-icon name="car"></ion-icon>
           Condutores
         </ion-list-header>
@@ -21,7 +21,7 @@
           <ion-note *ngIf="driver.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
-        <ion-list-header *ngIf="passengers?.length > 0" color="light">
+        <ion-list-header *ngIf="passengers.length > 0" color="light">
           <ion-icon name="people"></ion-icon>
           Passageiros
         </ion-list-header>
@@ -34,7 +34,7 @@
             <ion-note *ngIf="passenger.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
-        <ion-list-header *ngIf="pedestrians?.length > 0" color="light">
+        <ion-list-header *ngIf="pedestrians.length > 0" color="light">
           <ion-icon name="walk"></ion-icon>
         Peões
         </ion-list-header>
@@ -46,7 +46,7 @@
           <ion-note *ngIf="pedestrian.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
-        <ion-list-header *ngIf="witnesses?.length > 0" color="light">
+        <ion-list-header *ngIf="witnesses.length > 0" color="light">
           <ion-icon name="eye"></ion-icon>
         Testemunhas
         </ion-list-header>
@@ -54,7 +54,7 @@
           <h2>{{ witness.person.name }}</h2>
         </button>
     
-        <ion-list-header *ngIf="others?.length > 0" color="light">
+        <ion-list-header *ngIf="others.length > 0" color="light">
           <ion-icon name="medkit"></ion-icon>
           Outros
         </ion-list-header>

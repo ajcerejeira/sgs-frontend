@@ -199,9 +199,9 @@ export class ActorDetailPage {
               )
               .subscribe(
                 res => {
-                  this.navCtrl.push('ActorListPage', {
-                    accident: this.accidentId,
-                  });
+                  // this.navCtrl.push('ActorListPage', {accident: this.accidentId});
+                  this.navCtrl.setRoot('ActorListPage', {accident: this.accidentId});
+                  this.navCtrl.popToRoot()
                 },
                 error => {
                   console.log(error);

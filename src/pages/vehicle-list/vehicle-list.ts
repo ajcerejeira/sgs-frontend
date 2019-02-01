@@ -46,7 +46,7 @@ export class VehicleListPage {
   }
 
   async vehiclesList() {
-    // console.log("LISTA VEIC ID: "+ this.navParams.data);
+    console.log("LISTA ACC ID: "+ JSON.stringify(this.navParams.data));
     await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
         this.vehicles=res.vehicles;
         this.filteredVehicles = res.vehicles;
@@ -61,8 +61,9 @@ export class VehicleListPage {
   }
 
   ionViewDidLoad() {
+    console.log('ionViewDidLoad VehicleListPage');
     this.vehiclesList();
-    // console.log(this.filteredVehicles);
+    console.log("FILTRO:" + this.filteredVehicles);
     this.filteredVehicles = this.vehicles;
     console.log('ionViewDidLoad VehicleListPage');
   }

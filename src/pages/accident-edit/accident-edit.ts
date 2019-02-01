@@ -160,7 +160,9 @@ export class AccidentEditPage {
         data => {
           //console.log(data['_body']);
           //console.log('CENAS\n'+this.id+'\n'+this.vehicles+'\n'+this.actors)
-          this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+          // this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+          this.navCtrl.setRoot('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+          this.navCtrl.popToRoot()
         },
         error => {
           console.log(error);

@@ -177,22 +177,14 @@ export class ActorEditPage {
     console.log('ionViewDidLoad ActorEditPage');
     this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accident+"/vehicles/")
       .map(resv => resv.json())
-      .subscribe(
-        resv => {
-          
-          this.vehicles = resv
-              
-          
+        .subscribe(
+          resv => {
+            this.vehicles = resv
+          },
+          error => {
+            console.log(error);
         },
-        error => {
-          console.log(error);
-        },
-      );
-
-      
-      
-        
-    
+     );
   }
 
   convertToNumber(event):number {  return +event; }
@@ -243,22 +235,16 @@ export class ActorEditPage {
       //"accident": this.accident
     };
 
-    this.http
-      .put(
-        'https://sgs-backend.herokuapp.com/api/accidents/' +
-          this.accident +
-          '/actors/' +
-          this.id,
-        editActor,
-      )
+    this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' +this.accident +'/actors/' +this.id,editActor)
       .subscribe(
         data => {
-          console.log(data['_body']);
+          // console.log(data['_body']);
+          this.navCtrl.setRoot("ActorListPage",{accident : this.accident});
+          this.navCtrl.popToRoot()
         },
         error => {
           console.log(error);
         },
       );
-    this.dismiss();
   }
 }

@@ -96,14 +96,16 @@ export class VehicleCreatePage {
     await this.http.post('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/', new_vehicle)
         .subscribe(
           async data => {
-            console.log(data['_body']);
+            //console.log(data['_body']);
             await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
               .subscribe(
                 res => {
-                  this.dismiss();
-                  //this.navCtrl.push('AccidentDetailPage',{id: this.idAccident, vehicles: res.vehicles, actors: res.actors});
+                  // this.dismiss();
+                  // this.navCtrl.push('AccidentDetailPage',{id: this.idAccident, vehicles: res.vehicles, actors: res.actors});
                   // this.navCtrl.pop();
                   // this.navCtrl.push('VehicleListPage', this.idAccident);
+                  this.navCtrl.setRoot('VehicleListPage', this.idAccident);
+                  this.navCtrl.popToRoot();
                 },
                 error => {
                   console.log(error);

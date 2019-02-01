@@ -9,8 +9,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-grid>
+<ion-content no-padding scroll="true">
+  <div class="container">
     <form [formGroup]="formGroup">
       <ion-list-header color="light">
         <ion-icon name="car"></ion-icon>
@@ -18,7 +18,7 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-label floating>Tipo de Interveniente:</ion-label>
+        <ion-label floating>Tipo de Interveniente</ion-label>
         <ion-select formControlName="role" okText="Gravar" cancelText="Cancelar" [(ngModel)]="selectedRole">
           <ion-option value="Driver">Condutor</ion-option>
           <ion-option value="Passenger">Passageiro</ion-option>
@@ -29,7 +29,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Ferimentos:</ion-label>
+        <ion-label floating>Ferimentos</ion-label>
         <ion-select formControlName="wounds" okText="Gravar" cancelText="Cancelar">
           <ion-option value="None">Nenhum</ion-option>
           <ion-option value="Light">Leves</ion-option>
@@ -39,13 +39,13 @@
       </ion-item>
 
       <ion-item *ngIf="selectedRole=='Driver'">
-        <ion-label floating>Teste de Alcoolemia:</ion-label>
+        <ion-label floating>Teste de Alcoolemia</ion-label>
         <ion-input type="number" formControlName="alcoholTest"></ion-input>
         <ion-note item-end>g/L</ion-note>
       </ion-item>
 
       <ion-item *ngIf="selectedRole=='Driver' || selectedRole=='Passenger'">
-        <ion-label floating>Veículo:</ion-label>
+        <ion-label floating>Veículo</ion-label>
         <ion-select okText="Gravar" cancelText="Cancelar" [(ngModel)]="register" [ngModelOptions]="{standalone: true}"
           multiple="false">
           <ion-option *ngFor="let r of registers">{{r.register}}</ion-option>
@@ -58,28 +58,28 @@
       </ion-list-header>
 
       <ion-item class="transparent">
-        <ion-label floating>Nome:</ion-label>
+        <ion-label floating>Nome</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label floating>Data de Nascimento:</ion-label>
+        <ion-label floating>Data de Nascimento</ion-label>
         <ion-datetime doneText="Gravar" cancelText="Cancelar" displayFormat="DD/MM/YYYY" [(ngModel)]="birth"
           [ngModelOptions]="{standalone: true}"></ion-datetime>
       </ion-item>
 
       <ion-item class="transparent">
-        <ion-label floating>Contacto:</ion-label>
+        <ion-label floating>Contacto</ion-label>
         <ion-input type="text" formControlName="phone"></ion-input>
       </ion-item>
 
       <ion-item class="transparent">
-        <ion-label floating>Email:</ion-label>
+        <ion-label floating>Email</ion-label>
         <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
 
       <ion-item class="transparent">
-        <ion-label floating>Nacionalidade:</ion-label>
+        <ion-label floating>Nacionalidade</ion-label>
         <ion-input type="text" formControlName="nationality"></ion-input>
       </ion-item>
 
@@ -89,18 +89,18 @@
       </ion-list-header>
 
       <ion-item class="transparent">
-        <ion-label floating>Rua:</ion-label>
+        <ion-label floating>Rua</ion-label>
         <ion-input type="text" formControlName="address"></ion-input>
       </ion-item>
 
 
       <ion-item class="transparent">
-        <ion-label floating>Código Postal:</ion-label>
+        <ion-label floating>Código Postal</ion-label>
         <ion-input type="text" formControlName="zipcode"></ion-input>
       </ion-item>
 
       <ion-item class="transparent">
-        <ion-label floating>Localidade:</ion-label>
+        <ion-label floating>Localidade</ion-label>
         <ion-input type="text" formControlName="locality"></ion-input>
       </ion-item>
 
@@ -110,11 +110,11 @@
       </ion-list-header>
 
       <ion-item>
-        <ion-label floating>Documento de Identificacão:</ion-label>
+        <ion-label floating>Documento de Identificacão</ion-label>
         <ion-select formControlName="identityDocumentType" okText="Gravar" cancelText="Cancelar">
-          <ion-option value="IdentityDocument">CC/BI</ion-option>
+          <ion-option value="IdentityDocument">Cartão de Cidadão</ion-option>
           <ion-option value="Passport">Passaporte</ion-option>
-          <ion-option value="DriverLicense">Carta Condução</ion-option>
+          <ion-option value="DriverLicense">Carta de Condução</ion-option>
         </ion-select>
       </ion-item>
 
@@ -125,10 +125,10 @@
 
 
       <ion-item class="transparent">
-        <ion-label floating>Data de Validade:</ion-label>
+        <ion-label floating>Data de Validade</ion-label>
         <ion-datetime doneText="Gravar" cancelText="Cancelar" displayFormat="DD/MM/YYYY" min="1900-01-01" max="2050-12-31"
           [(ngModel)]="expires" [ngModelOptions]="{standalone: true}"></ion-datetime>
       </ion-item>
     </form>
-  </ion-grid>
+  </div>
 </ion-content>

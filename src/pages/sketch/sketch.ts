@@ -719,7 +719,7 @@ export class SketchPage {
         });
         toast.present();
         //this.navCtrl.push('AccidentListPage');
-        this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+        //this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
       },
       error => {
         console.log(error);

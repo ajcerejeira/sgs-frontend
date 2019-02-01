@@ -131,7 +131,9 @@ export class VehicleEditPage {
           await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
             .subscribe(
               res => {
-                this.navCtrl.push('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
+                //this.navCtrl.push('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
+                this.navCtrl.setRoot('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
+                this.navCtrl.popToRoot()
               },
               error => {
                 console.log(error);

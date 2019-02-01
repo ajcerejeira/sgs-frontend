@@ -35,9 +35,9 @@ export class AccidentDetailPage {
     await this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' + this.id).map(res => res.json())
       .subscribe(
         res => {
-          console.log("FIZ ALGO")
-          this.nvehicles = res.vehicles.length
-          this.nactors = res.actors.length;
+          //console.log("FIZ ALGO: " + res.vehicles + ':' + res.actors)
+          this.nvehicles = res.vehicles.length || 0
+          this.nactors = res.actors.length || 0
         },
         error => {
           console.log(error);
