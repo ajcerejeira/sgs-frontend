@@ -44,6 +44,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Ano</ion-label>
+          <!-- <ion-datetime [(ngModel)]="year" displayFormat="YYYY" pickerFormat="YYYY" formControlName="year"></ion-datetime> -->
           <ion-input [(ngModel)]="year" type="number" formControlName="year"> {{year.value}}</ion-input>
         </ion-item>
         <ion-item>
@@ -76,7 +77,8 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Data de Validade do Seguro</ion-label>
-          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="expirationDate" formControlName="expirationDate"> {{expirationDate.value}}</ion-datetime>
+          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="expirationDate" formControlName="expirationDate"> {{expirationDate}} </ion-datetime>
+          <!-- <ion-datetime [(ngModel)]="expirationDate" max="2050/01/01" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" formControlName="expirationDate"></ion-datetime> -->
         </ion-item>
       </ion-list>
     </form>

@@ -38,6 +38,9 @@
       <ion-icon name="car"></ion-icon>
       Geral
     </ion-list-header>
+    <ion-item *ngIf="vehicle.meta.type.length>0">
+      Tipo <ion-note item-end>{{ vehicle.meta.type }}</ion-note>
+    </ion-item>
     <ion-item>
       Matrícula <ion-note item-end>{{ vehicle.meta.register }}</ion-note>
     </ion-item>
@@ -47,15 +50,21 @@
     <ion-item>
       Modelo <ion-note item-end>{{ vehicle.meta.model }}</ion-note>
     </ion-item>
-    <ion-list-header color="light">
+    <ion-item>
+      Ano <ion-note item-end>{{ vehicle.meta.year }}</ion-note>
+    </ion-item>
+    <ion-list-header color="light" *ngIf="vehicle.meta.policy.length>0 || vehicle.meta.insurance.length>0 || vehicle.meta.expirationDate!=null">
       <ion-icon name="umbrella"></ion-icon>
       Seguro
     </ion-list-header>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.policy.length>0">
       Apólice <ion-note item-end>{{ vehicle.meta.policy }}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.insurance.length>0">
       Seguradora <ion-note item-end>{{ vehicle.meta.insurance }}</ion-note>
+    </ion-item>
+    <ion-item *ngIf="vehicle.meta.expirationDate!=null">
+      Data expiração <ion-note item-end>{{ vehicle.meta.expirationDate.split('T')[0] }}</ion-note>
     </ion-item>
     <!-- <ion-list-header color="light">
       <ion-icon name="person"></ion-icon>

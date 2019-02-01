@@ -40,8 +40,8 @@ export class VehicleCreatePage {
     public http: Http,
   ) {
     this.vehicle = this.formBuilder.group({
-      register: ['', Validators.required],
-      type: [''],
+      register: [''],
+      type: ['', Validators.required],
       make: [''],
       model: [''],
       year: [''],
@@ -84,11 +84,11 @@ export class VehicleCreatePage {
         type: this.vehicle.value['type'],
         make: this.vehicle.value['make'],
         model: this.vehicle.value['model'],
-        year: this.vehicle.value['year'],
+        year: this.vehicle.value['year']== '' ? null : this.vehicle.value['year'],
         color: this.vehicle.value['color'],
         policy: this.vehicle.value['policy'],
         insurance: this.vehicle.value['insurance'],
-        expirationDate: this.vehicle.value['expirationDate']== '' ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
+        expirationDate: this.vehicle.value['expirationDate']== '' ? null : this.vehicle.value['expirationDate']
       },
       damages: [],
       pictures: []

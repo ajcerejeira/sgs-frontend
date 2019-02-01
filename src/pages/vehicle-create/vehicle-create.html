@@ -2,7 +2,7 @@
   <ion-navbar color="primary">
     <ion-title>Adicionar veículo</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="createVehicle()">
+      <button ion-button icon-only (click)="createVehicle()" [disabled]="!vehicle.valid">
         <ion-icon name="checkmark-circle"></ion-icon>
       </button>
     </ion-buttons>
@@ -19,7 +19,7 @@
         </ion-list-header>
         <ion-item>
           <ion-label floating>Categoria</ion-label>
-          <ion-select formControlName="type" value="Ligeiro de passageiros" okText="Selecionar" cancelText="Cancelar">
+          <ion-select formControlName="type" okText="Selecionar" cancelText="Cancelar">
             <ion-option value="Ligeiro de passageiros">Ligeiro de passageiros</ion-option>
             <ion-option value="Ligeiro de mercadorias">Ligeiro de mercadorias</ion-option>
             <ion-option value="Pesado de passageiros">Pesado de passageiros</ion-option>
@@ -43,6 +43,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Ano</ion-label>
+          <!-- <ion-datetime displayFormat="YYYY" min="1900" pickerFormat="YYYY" formControlName="year"></ion-datetime> -->
           <ion-input type="number" formControlName="year"></ion-input>
         </ion-item>
         <ion-item>

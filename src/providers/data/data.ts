@@ -12,7 +12,7 @@ export class Data {
     if (searchTerm && searchTerm != "") {
       this.items = list;
       return this.items.filter((item) => {
-        return (item.meta['register'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.meta['model'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+        return (item.meta['register'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) || (item.meta['make'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
       });
     }
     else {

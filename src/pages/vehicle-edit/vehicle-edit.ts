@@ -26,6 +26,7 @@ export class VehicleEditPage {
   private idAccident: number;
   private actors: any;
   private vehicle: any;
+  damages: any;
   register: string = '';
   make: string = '';
   type: string = '';
@@ -34,7 +35,7 @@ export class VehicleEditPage {
   color: string = '#ffffff';
   insurance: string = '';
   policy: string = '';
-  expirationDate: string;
+  expirationDate: Date;
 
   constructor(
     public navCtrl: NavController,
@@ -46,6 +47,8 @@ export class VehicleEditPage {
   ) {
     this.vehicle = this.navParams.get('data');
     this.idAccident = this.navParams.get('idAccident');
+
+    console.log(JSON.stringify(this.vehicle))
 
     if (this.vehicle.meta.register == null) {
       this.register = 'Matrícula inexistente';
@@ -68,7 +71,7 @@ export class VehicleEditPage {
       this.model = this.vehicle.meta.model;
     }
     if (this.vehicle.meta.year == null) {
-      this.year = 0;
+      this.year = 0; //verificar
     } else {
       this.year = this.vehicle.meta.year;
     }
@@ -90,6 +93,9 @@ export class VehicleEditPage {
     if (this.vehicle.meta.expirationDate != null) {
       this.expirationDate = this.vehicle.meta.expirationDate;
     }
+
+    this.damages = this.vehicle.damages;
+
     console.log(this.expirationDate);
     this.vehicleEdited = this.formBuilder.group({
       register: ['', Validators.required],
@@ -100,7 +106,7 @@ export class VehicleEditPage {
       color: [''],
       policy: [''],
       insurance: [''],
-      expirationDate: ['', Validators.required],
+      expirationDate: [''],
     });
   }
 
@@ -116,24 +122,28 @@ export class VehicleEditPage {
         type: this.vehicleEdited.value['type'],
         make: this.vehicleEdited.value['make'],
         model: this.vehicleEdited.value['model'],
-        year: this.vehicleEdited.value['year'].to_int,
+        year: this.vehicleEdited.value['year'],
         color: this.vehicleEdited.value['color'],
         policy: this.vehicleEdited.value['policy'],
         insurance: this.vehicleEdited.value['insurance'],
-        expirationDate: this.vehicleEdited.value['expirationDate'],
+        expirationDate: this.vehicleEdited.value['expirationDate']
       },
-      damages: [],
+      damages: this.damages,
     };
+
+    console.log("VOU ENVIAR ISTO+\n\n" + JSON.stringify(new_vehicle))
     
     await this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicle.id, new_vehicle)
       .subscribe(
         async data => {
-          console.log(data['_body']);
+          console.log("BODY:" + data['_body']);
           await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
             .subscribe(
               res => {
                 //this.navCtrl.push('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
-                this.navCtrl.setRoot('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
+                // this.navCtrl.setRoot('VehicleDetailPage', { vehicle: new_vehicle, idVehicle: this.vehicle.id, idAccident: this.idAccident, actors: this.actors});
+                // this.navCtrl.popToRoot()
+                this.navCtrl.setRoot('VehicleListPage', this.idAccident);
                 this.navCtrl.popToRoot()
               },
               error => {

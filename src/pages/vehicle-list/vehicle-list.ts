@@ -63,18 +63,22 @@ export class VehicleListPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad VehicleListPage');
     this.vehiclesList();
-    console.log("FILTRO:" + this.filteredVehicles);
     this.filteredVehicles = this.vehicles;
-    console.log('ionViewDidLoad VehicleListPage');
+    console.log("FILTRO:" + this.filteredVehicles);
   }
 
-  vehicleDetail(vehicle) {
-    var data = {
-      vehicle: vehicle,
-      idVehicle: vehicle.id,
-      idAccident: this.navParams.data,
-      actors: this.actors
-    }
-    this.navCtrl.push('VehicleDetailPage', data);
+  async vehicleDetail(vehicle) {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data+'/vehicles/'+vehicle.id).map(res => res.json()).subscribe(
+      res => {
+        // console.log("PASSO ISTO: "+ JSON.stringify(data))
+        this.navCtrl.push('VehicleDetailPage', {
+          vehicle: res,
+          idVehicle: res.id,
+          idAccident: this.navParams.data,
+          actors: this.actors
+        });
+      }, error => {
+        console.log(error);
+    });
   }
 }

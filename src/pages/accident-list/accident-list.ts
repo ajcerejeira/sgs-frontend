@@ -57,6 +57,11 @@ export class AccidentListPage {
       .map(res => res.json())
       .subscribe(
         res => {
+          // if(res.length==0){
+          //   console.log("BUG")
+          //   this.navCtrl.setRoot('AccidentListPage');
+          //   this.navCtrl.popToRoot()
+          // }
           this.accidents = res;
         },
         error => {

@@ -130,11 +130,6 @@ export class VehicleDetailPage {
       }
     }
 
-    let data = { //nao tou a usar!!
-      damages: array,
-      accident: 1, //TODO WHAT IS THIS???
-    };
-
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/'+ this.idAccident + '/vehicles/' + this.vehicle.id, { 'damages': array }).subscribe(
       data => {
         console.log(data['_body']);
