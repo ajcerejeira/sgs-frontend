@@ -84,7 +84,7 @@ export class VehicleCreatePage {
         type: this.vehicle.value['type'],
         make: this.vehicle.value['make'],
         model: this.vehicle.value['model'],
-        year: this.vehicle.value['year'].to_int,
+        year: this.vehicle.value['year'],
         color: this.vehicle.value['color'],
         policy: this.vehicle.value['policy'],
         insurance: this.vehicle.value['insurance'],
