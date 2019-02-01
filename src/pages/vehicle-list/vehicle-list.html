@@ -22,7 +22,7 @@
       <ion-col col-12 col-sm-6 col-md-4 col-lg-3 *ngFor="let vehicle of filteredVehicles">
         <ion-card (click)="vehicleDetail(vehicle)">
           <ion-grid no-padding>
-            <ion-row *ngIf="vehicle.pictures.length>0">
+            <ion-row *ngIf="vehicle.pictures">
               <ion-col no-padding *ngFor="let picture of vehicle.pictures">
                 <img style="object-fit: cover; height: 80px;" src="{{ picture }}">
               </ion-col>

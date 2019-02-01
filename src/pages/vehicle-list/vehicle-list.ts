@@ -49,16 +49,8 @@ export class VehicleListPage {
   async vehiclesList() {
     console.log("LISTA ACC ID: "+ JSON.stringify(this.navParams.data));
     await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
-        res.vehicles.forEach(async element => {
-          console.log("debug1: "+ JSON.stringify(element))
-          await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data+'/vehicles/'+element.id+'/pictures').map(photos => photos.json()).subscribe(
-            async photos => {
-              // await console.log("URL FOTOS: " + photos)
-              res.vehicles[element.id].pictures=photos
-              //console.log("FICOU ASSSIM:"+res.vehicles[element.id].pictures)
-          });
-        });
         this.vehicles=res.vehicles;
+        console.log(this.vehicles);
         this.filteredVehicles = res.vehicles;
         this.actors = res.actors;
       }, error => {
@@ -70,10 +62,12 @@ export class VehicleListPage {
     this.navCtrl.push('VehicleCreatePage', {id: this.navParams.data, actors: this.actors});
   }
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
     console.log('ionViewDidLoad VehicleListPage');
-    this.vehiclesList();
-    this.filteredVehicles = this.vehicles;
+    // this.vehiclesList();
+    console.log(this.navParams.data);
+    this.vehicles = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.navParams.data}/vehicles`).toPromise();
+    this.filteredVehicles = this.vehicles.json();
     console.log("FILTRO:" + this.filteredVehicles);
   }
 
