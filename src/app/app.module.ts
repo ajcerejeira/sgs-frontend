@@ -14,12 +14,14 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { PinModulerComponent } from '../components/pin-moduler/pin-moduler';
 import { Data } from '../providers/data/data';
 import { MyApp } from './app.component';
+import { HelpPage } from '../pages/help/help';
+import { AboutPage } from '../pages/about/about';
 
 @NgModule({
-  declarations: [MyApp, PinModulerComponent],
+  declarations: [MyApp, PinModulerComponent,HelpPage, AboutPage],
   imports: [BrowserModule, HttpModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, PinModulerComponent],
+  entryComponents: [MyApp, PinModulerComponent,HelpPage, AboutPage],
   providers: [
     Camera,
     StatusBar,

@@ -25,6 +25,7 @@ import {
   Polygon,
   BaseArrayClass,
   LatLng,
+  HtmlInfoWindow,
 } from '@ionic-native/google-maps';
 
 declare var google: any;
@@ -109,6 +110,9 @@ export class SketchPage {
   longitude: any;
   polygonPoints: ILatLng[] = [];
   markerList: Marker[] = [];
+  vehiclesInfo:any =[];
+  allAcidents:any;
+
 
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('actorSelect') actorRef: Select;
@@ -278,7 +282,7 @@ export class SketchPage {
       this.geoJSON = res.sketch;
       this.actors = res.actors; //? res.actors.map(actor => actor.person.name) : [];
       this.actorNames = res.actors ? res.actors.map(actor => actor.person.name) : [];
-
+      this.
       let mapOptions: GoogleMapOptions = {
         camera: {
           target: {
@@ -306,7 +310,7 @@ export class SketchPage {
     });
   }
 
-  loadCustomMarker(img, color, degrees, type) {
+  async loadCustomMarker(img, color, degrees, type) {
     console.log(img + " | " + color + " | " + degrees + " | " + type)
     var idA, idV;
 
@@ -331,15 +335,84 @@ export class SketchPage {
       // }
     }
     let position = { lat: this.latitude, lng: this.longitude };
+    let htmlInfoWindow = new HtmlInfoWindow();
+    let info = this.vehicleInfoV(idV)
+
+    console.log("INFO: \n" + info)
+
+    alert("HERE") 
+    console.log("NO FRAME" +this.vehiclesInfo[idV])
+    alert("AQUI")
+    // const matricula = this.vehiclesInfo[idV].split(':')[0]
+
+
+    let frame: HTMLElement = document.createElement('div');
+    frame.innerHTML = [
+
+      '<h3>Veiculo</h3>',
+      '<h3>'+this.vehiclesInfo[idV]+'</h3>',
+
+    ].join("");
+    frame.addEventListener("click", () => {
+      htmlInfoWindow.close()
+    });
+    console.log(idV)
+
+    console.log( frame.innerHTML)
+    htmlInfoWindow.setContent(frame, {
+      width: "280px",
+      height: "330px"
+    });
+
+
     let marker = {
       position: position,
       draggable: true,
-      icon: icon
-    };
-    let backupMarker = this.map.addMarkerSync(marker);
-    this.map.setCameraTarget(backupMarker.getPosition())
-    this.markerList.push(backupMarker);
+      icon: icon,
+      disableAutoPan: true
+    }; 
+    
+    let backupMarker:Marker = this.map.addMarkerSync(marker);
+
+      backupMarker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+      htmlInfoWindow.open(backupMarker);
+
+    });
+
+    
   }
+
+
+  async vehicleInfoV(idV) {
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents").map(res => res.json()).subscribe(res => {
+
+      res.forEach(acident => {
+        // console.log(acident.vehicles)
+        acident.vehicles.forEach(a => {
+          if (a.id == idV) {
+            this.vehiclesInfo[idV] = "{matricula:" + a.meta.register + ";" +
+              "make:" + a.meta.make + "model:" + a.meta.model + ";insurance:" + a.meta.insurance +
+              ";}"
+            console.log("VALOR :" + this.vehiclesInfo[idV])
+            // console.log(a.id)
+            alert("FOUND")
+            return this.vehiclesInfo[idV];
+          }
+        });
+      });
+    }
+      , error => {
+        console.log(error);
+      });
+  }
+
+    // this.markerList.forEach((marker: Marker) => {
+    //   let markerInfo = marker.get('icon');
+
+
+
+
+
 
   loadVictim() {
     let flag

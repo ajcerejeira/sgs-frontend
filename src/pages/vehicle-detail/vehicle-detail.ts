@@ -147,6 +147,8 @@ export class VehicleDetailPage {
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      saveToPhotoAlbum: true,
     };
 
     this.camera.getPicture(options).then(

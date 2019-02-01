@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AccidentListPage } from '../pages/accident-list/accident-list';
+import { HelpPage } from '../pages/help/help';
+import { AboutPage } from '../pages/about/about';
 
 export interface MenuItem {
   title: string;
@@ -41,9 +43,9 @@ export class MyApp {
    initializeApp() {
     this.appMenuItems = [
       { title: 'Sinistros', component: AccidentListPage, icon: 'car' },
-      { title: 'Definições', component: null, icon: 'build' },
-      { title: 'Ajuda', component: null, icon: 'help-buoy' },
-      { title: 'Sobre', component: null, icon: 'information-circle' },
+      // { title: 'Definições', component: HelpPage, icon: 'build' },
+      { title: 'Ajuda', component: HelpPage, icon: 'help-buoy' },
+      { title: 'Sobre', component: AboutPage, icon: 'information-circle' },
     ];
 
     this.platform.ready().then(() => {
@@ -53,6 +55,11 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  openWithBackOpt(page){
+    //push of page, will show the back button
+    this.nav.push(page.component);
   }
 
   openPage(page) {
