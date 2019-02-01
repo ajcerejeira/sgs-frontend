@@ -1,20 +1,17 @@
-<!--
-  Generated template for the AccidentListPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-navbar color="primary">
-    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title *ngIf= "!isSearchBarOpen">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="!isSearchBarOpen">
       Sinistros
-      </ion-title>
-      <ion-searchbar showCancelButton cancelButtonText="true" *ngIf= "isSearchBarOpen" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
+    </ion-title>
+    <ion-searchbar [(ngModel)]="filterBy" (ionInput)="searchAccidents()" showCancelButton placeholder="Procurar sinistro"
+      cancelButtonText="true" *ngIf="isSearchBarOpen" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
     <ion-buttons end>
-      <!--<ion-searchbar showCancelButton cancelButtonText="Custom Cancel"></ion-searchbar>-->
-      <button ion-button icon-only *ngIf= "!isSearchBarOpen" (click)="isSearchBarOpen=true">
-        <ion-icon name="search"></ion-icon></button>
+      <button ion-button icon-only *ngIf="!isSearchBarOpen" (click)="isSearchBarOpen=true">
+        <ion-icon name="search"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -22,15 +19,9 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col
-        col-12
-        col-sm-6
-        col-md-4
-        col-lg-3
-        *ngFor="let accident of accidents"
-      >
+      <ion-col col-12 col-sm-6 col-md-4 col-lg-3 *ngFor="let accident of filteredAccidents">
         <ion-card (click)="accidentDetail(accident)">
-          <img src= {{accident.mapUrl}} style="object-fit: cover; max-height: 150px;"/>
+          <img src={{accident.mapUrl}} style="object-fit: cover; max-height: 150px;" />
           <ion-item>
             <ion-icon name="pin" item-start></ion-icon>
             <h2>{{ accident.address ? accident.address.split(',')[0] : 'Rua Desconhecida' }}</h2>
@@ -45,13 +36,13 @@
               <ion-col>
                 <ion-item>
                   <ion-icon name="car" item-start></ion-icon>
-                  <h2>{{ accident.vehicles ? accident.vehicles.length : 0}}</h2> 
+                  <h2>{{ accident.vehicles ? accident.vehicles.length : 0}}</h2>
                 </ion-item>
               </ion-col>
               <ion-col>
                 <ion-item>
                   <ion-icon name="people" item-start></ion-icon>
-                  <h2>{{ accident.actors ? accident.actors.length : 0}}</h2> 
+                  <h2>{{ accident.actors ? accident.actors.length : 0}}</h2>
                 </ion-item>
               </ion-col>
             </ion-row>

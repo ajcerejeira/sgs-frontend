@@ -39,7 +39,6 @@ export class MyApp {
   }
 
   update(){
-    console.log("triggered")
     this.userId = parseInt(localStorage.getItem('userId'));
     this.email = localStorage.getItem('email');
     this.name = localStorage.getItem('name');

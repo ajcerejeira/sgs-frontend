@@ -8,6 +8,7 @@ import {
   ViewController,
 } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { Data } from '../../providers/data/data';
 import 'rxjs/add/operator/map';
 
 /**
@@ -25,6 +26,8 @@ import 'rxjs/add/operator/map';
 export class AccidentListPage {
   accidents: any;
   isSearchBarOpen: false;
+  filteredAccidents: any;
+  filterBy: string = '';
 
   constructor(
     public app: App,
@@ -33,12 +36,32 @@ export class AccidentListPage {
     public modalCtrl: ModalController,
     public viewCtrl: ViewController,
     public http: Http,
+    public dataService: Data,
   ) {
-    this.accidents = [];
+    this.accidentList();
+  }
+
+  searchAccidents() {
+    this.filteredAccidents = this.dataService.filterAccidents(
+      this.filterBy,
+      this.accidents,
+    );
+  }
+
+  async accidentList() {
+    await this.http.get('https://sgs-backend.herokuapp.com/api/accidents').map(res => res.json()).subscribe(
+      res => {
+        this.accidents = res;
+        this.filteredAccidents = res;
+      },
+      error => {
+        console.log(error);
+      },
+    );
   }
 
   accidentDetail(accident) {
-    this.navCtrl.push('AccidentDetailPage',{id: accident.id, vehicles: accident.vehicles, actors: accident.actors});
+    this.navCtrl.push('AccidentDetailPage', { id: accident.id, vehicles: accident.vehicles, actors: accident.actors });
     console.log('accident-detail');
   }
 
@@ -48,25 +71,8 @@ export class AccidentListPage {
 
   ionViewDidLoad() {
     this.accidentList();
+    this.filteredAccidents = this.accidents;
     console.log('ionViewDidLoad AccidentListPage');
-  }
-
-  async accidentList() {
-    await this.http
-      .get('https://sgs-backend.herokuapp.com/api/accidents')
-      .map(res => res.json())
-      .subscribe(
-        res => {
-          // if(res.length==0){
-          //   console.log("BUG")
-          //   this.navCtrl.setRoot('AccidentListPage');
-          //   this.navCtrl.popToRoot()
-          // }
-          this.accidents = res;
-        },
-        error => {
-          console.log(error);
-        },
-      );
+    console.log("FILTRO:" + this.filteredAccidents);
   }
 }

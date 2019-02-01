@@ -39,7 +39,7 @@ export class VehicleListPage {
   }
 
   searchVehicles() {
-    this.filteredVehicles = this.dataService.filterItems(
+    this.filteredVehicles = this.dataService.filterVehicles(
       this.filterBy,
       this.vehicles,
     );
