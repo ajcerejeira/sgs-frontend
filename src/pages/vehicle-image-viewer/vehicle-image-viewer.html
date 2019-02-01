@@ -6,13 +6,14 @@
 -->
 <ion-header>
     <ion-navbar color="primary">
+      <ion-title>Galeria</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-slides class="image-slider" loop="true">
+  <ion-slides class="image-slider" pager="true" loop="true">
     <ion-slide *ngFor="let img of pictures">
-      <img src="{{img}}" #myImage (click)="presentImage(myImage)" class="thumb-img"> 
+      <img src="{{img}}" class="preview"> 
     </ion-slide>
   </ion-slides>
 

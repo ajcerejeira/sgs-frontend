@@ -7,6 +7,7 @@ import {
   AlertController,
   ViewController,
   ModalController,
+  ToastController
 } from 'ionic-angular';
 import { Http } from '@angular/http';
 
@@ -60,6 +61,7 @@ export class VehicleDetailPage {
     public viewCtrl: ViewController,
     private camera: Camera,
     public http: Http,
+    public toastCtrl: ToastController
   ) {
     this.vehicle = this.navParams.get('vehicle');
     this.vehicleId = this.navParams.get('idVehicle');
@@ -186,9 +188,6 @@ export class VehicleDetailPage {
     );
   }
 
-  //this.pictures;
-
-
   onFileChange(event: any) {
     let reader = new FileReader();
    
@@ -207,24 +206,34 @@ export class VehicleDetailPage {
         // need to run CD since file load runs outside of zone
         //this.cd.markForCheck();
       };
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Imagem escolhida com successo!\nPor favor faça upload da mesma.',
+        duration: 3000,
+      });
+      toast.present();
     }
   }
 
   async uploadPicture() {
     console.log(this.newPictureFile);
-
     const newData = new FormData();
     newData.append('picture', this.newPictureFile, this.newPictureFile.name);
     try {
-      const res = await this.http.post(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`,
-                                      newData).toPromise();
-      this.pictures = res.json().pictures;      
+      const res = await this.http.post(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`,newData).toPromise();
+      console.log("RES:" +res)
+      this.pictures = res.json().pictures;
+      this.imageViewer();
     } catch(err) {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Ocorreu um erro durante o upload da imagem!',
+        duration: 3000,
+      });
+      toast.present();
       console.error(err);
     }
   }
-
-  
 
   toggleDamage(index: number) {
     this.damages[index] = !this.damages[index];

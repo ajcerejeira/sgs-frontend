@@ -26,11 +26,6 @@ export class VehicleImageViewerPage {
     console.log(this.pictures);
   }
 
-  presentImage(myImage) {
-    const imageViewer = this._imageViewerCtrl.create(myImage);
-    imageViewer.present();
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad VehicleImageViewerPage');
   }

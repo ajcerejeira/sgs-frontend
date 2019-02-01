@@ -8,12 +8,14 @@
       <button ion-button icon-only (click)="confirmDelete(vehicle)" *ngSwitchCase="'info'">
         <ion-icon name="trash"></ion-icon>
       </button>
+      <button ion-button icon-only (click)="uploadPicture()" *ngSwitchCase="'gallery'">
+        <ion-icon name="cloud-upload"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="sendDamages()" *ngSwitchCase="'damages'">
         <ion-icon name="checkmark-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-
   <ion-toolbar>
     <ion-segment [(ngModel)]="vehiclePage">
       <ion-segment-button value="info">
@@ -86,21 +88,21 @@
   <ion-grid *ngSwitchCase="'gallery'">
     <ion-row>
       <ion-col col-4 col-lg-3 *ngFor="let picture of pictures">
-        <button (click)=imageViewer()>
+        <button style="display: block; width: 100%; background-color: transparent;" (click)=imageViewer()>
           <img src="{{ picture }}" class="photo" />
         </button>
       </ion-col>
     </ion-row>
   </ion-grid>
   <ion-fab right bottom *ngSwitchCase="'gallery'">
-    <!--
-      TODO: Este formulário permite efectuar o upload da imagem para o backend. Testar.
-    <form>
+    <div class="splash-info" margin-bottom>
       <label for="picture" class="filePickerLabel">Adicionar fotografia</label>
-      <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)"/>
+      <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)" />
+    </div>
+      <label for="picture" class="filePickerLabel">Adicionar fotografia</label>
+      <input type="file" id="picture" name="picture" class="filePicker" [(ngModel)]="newPicture" (change)="onFileChange($event)" />
       <input type="submit" (click)="uploadPicture()">
-    </form>-->
-
+    </form> 
     <button ion-fab color="primary" (click)="openCamera()">
       <ion-icon name="camera"></ion-icon>
     </button>

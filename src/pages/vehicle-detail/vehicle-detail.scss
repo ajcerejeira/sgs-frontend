@@ -1,6 +1,39 @@
 @import '../../theme/variables.scss';
 
 page-vehicle-detail {
+  .splash-info {
+    position: relative;
+    z-index: 2;
+    margin-top: -64px;
+    text-align: center;
+  }
+
+  .filePicker {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .filePickerLabel {
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    background-color: #1465AA;
+    margin: 0.4rem 0.2rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.1em;
+    text-align: center;
+    line-height: 2.5;
+    border-radius: 3%;
+    overflow: hidden;
+    height: 3rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    width: 200px;
+    text-transform: uppercase;
+  }
+
   .segment-icon {
     display: inline-block;
     vertical-align: middle;
