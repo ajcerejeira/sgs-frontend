@@ -4,7 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<!-- <ion-header>
   <ion-navbar color="primary">
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -14,7 +14,19 @@
     </ion-buttons>
     <ion-title>Editar Utilizador</ion-title>
   </ion-navbar>
+</ion-header> -->
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Editar utilizador</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="validate()">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
+
 
 <ion-content scroll="false">
   <div class="splash-bg"></div>
@@ -33,17 +45,22 @@
         <ion-label floating>Nome</ion-label>
         <ion-input
           type="text"
-          name="name"
-          id="name"
-          [ngModel]="newName"
+          name="newName"
+          id="newName"
+          [(ngModel)]="newName"
         ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" name="password" id="password"></ion-input>
+        <ion-label floating>Password antiga</ion-label>
+        <ion-input 
+          type="password" 
+          name="password" 
+          id="password"
+          [(ngModel)]="oldPassword"
+        ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Confirmação da password</ion-label>
+        <ion-label floating>Password nova</ion-label>
         <ion-input
           type="password"
           name="password"
@@ -54,11 +71,6 @@
     </ion-list>
   </div>
 </ion-content>
-<ion-footer>
-  <button ion-button color="primary" type="submit" full (click)="saveChanges()">
-    Atualizar perfil
-  </button>
-</ion-footer>
 <!--
 <ion-content padding scroll="false">
   <div class="container">
@@ -66,7 +78,7 @@
         <ion-list>
             <ion-item>
               <ion-label floating>Nome</ion-label>
-              <ion-input [(ngModel)]="name" type="text" formControlName="name"> {{ name }} </ion-input>
+              <ion-input [(ngModel)]="name2" type="text" formControlName="name2"> {{ name2 }} </ion-input>
             </ion-item>
             <ion-item>
               <ion-label floating>Password atual</ion-label>
@@ -75,10 +87,6 @@
             <ion-item>
               <ion-label floating>Nova password</ion-label>
               <ion-input [(ngModel)]="newPassword" type="password" formControlName="newPassword" > </ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label floating>Afiliação</ion-label>
-              <ion-input type="text"> </ion-input>
             </ion-item>
             <ion-item>
                 <button ion-button type="submit" full>Editar</button>

@@ -35,7 +35,7 @@ export class LoginPage {
     public forgotCtrl: AlertController,
     public toastCtrl: ToastController,
     public emailComposer: EmailComposer,
-  ) {}
+  ) {this.menu.swipeEnable(false);}
 
   async login() {
     this.to = '';
@@ -97,9 +97,6 @@ export class LoginPage {
               message: 'Email foi enviado com sucesso!',
               duration: 3000,
               position: 'top',
-              cssClass: 'dark-trans',
-              closeButtonText: 'OK',
-              showCloseButton: true,
             });
             toast.present();
           },

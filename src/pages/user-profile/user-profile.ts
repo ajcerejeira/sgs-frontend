@@ -26,8 +26,8 @@ export class UserProfilePage {
   email: string;
   avatar: string;
 
-  ngOnInit() {
-    this.auth();
+  async ngOnInit() {
+    await this.auth();
   }
 
   constructor(
@@ -51,7 +51,8 @@ export class UserProfilePage {
   }
 
   profileEdit() {
-    const modal = this.modalController.create('UserEditPage');
-    modal.present();
+    // const modal = this.modalController.create('UserEditPage');
+    // modal.present();
+    this.navCtrl.push('UserEditPage')
   }
 }

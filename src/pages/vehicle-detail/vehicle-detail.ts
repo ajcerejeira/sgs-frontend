@@ -80,6 +80,11 @@ export class VehicleDetailPage {
     console.log(this.vehicle);
   }
 
+  
+  imageViewer(){
+    this.navCtrl.push('VehicleImageViewerPage', {pictures: this.pictures});
+  }
+
   async confirmDelete() {
     const prompt = this.alertCtrl.create({
       title: 'Eliminar Veículo?',
@@ -181,6 +186,9 @@ export class VehicleDetailPage {
     );
   }
 
+  //this.pictures;
+
+
   onFileChange(event: any) {
     let reader = new FileReader();
    
@@ -215,6 +223,8 @@ export class VehicleDetailPage {
       console.error(err);
     }
   }
+
+  
 
   toggleDamage(index: number) {
     this.damages[index] = !this.damages[index];

@@ -38,7 +38,15 @@ export class MyApp {
     this.avatar = localStorage.getItem('avatar');
   }
 
-   initializeApp() {
+  update(){
+    console.log("triggered")
+    this.userId = parseInt(localStorage.getItem('userId'));
+    this.email = localStorage.getItem('email');
+    this.name = localStorage.getItem('name');
+    this.avatar = localStorage.getItem('avatar');
+  }
+
+  initializeApp() {
     this.appMenuItems = [
       { title: 'Sinistros', component: AccidentListPage, icon: 'car' },
       { title: 'Definições', component: null, icon: 'build' },
@@ -70,5 +78,6 @@ export class MyApp {
     // localStorage.removeItem("expires_at");
     localStorage.setItem('id_token', '');
     this.nav.setRoot('LoginPage');
+    this.nav.popToRoot()
   }
 }

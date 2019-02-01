@@ -86,7 +86,9 @@
   <ion-grid *ngSwitchCase="'gallery'">
     <ion-row>
       <ion-col col-4 col-lg-3 *ngFor="let picture of pictures">
-        <img src="{{ picture }}" class="photo" />
+        <button (click)=imageViewer()>
+          <img src="{{ picture }}" class="photo" />
+        </button>
       </ion-col>
     </ion-row>
   </ion-grid>

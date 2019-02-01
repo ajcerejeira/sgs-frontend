@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import {
   IonicPage,
   ViewController,
-  NavParams,
   NavController,
   ToastController,
 } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 /**
  * Generated class for the UserEditPage page.
  *
@@ -21,17 +19,23 @@ import { Http, Headers } from '@angular/http';
   templateUrl: 'user-edit.html',
 })
 export class UserEditPage {
-  private idUser: number;
-  private email: string;
-  private name: string;
-  private avatar: string;
-  public newName: string;
-  public newPassword: string;
-  public newAvatarFile: File;
-  public newAvatarImg: string;
-  public newAvatar:  string;
-
-  constructor(public viewCtrl: ViewController, public navCtrl: NavController, public http: Http) {}
+  constructor(
+    public viewCtrl: ViewController,
+    public navCtrl: NavController,
+    public http: Http,
+    public toastCtrl: ToastController
+  ) {
+  }
+  idUser: number;
+  email: string;
+  name: string;
+  avatar: string;
+  newName: string;
+  oldPassword: string;
+  newPassword: string;
+  newAvatarFile: File;
+  newAvatarImg: string;
+  newAvatar: string;
 
   ionViewDidLoad() {
     this.idUser = parseInt(localStorage.getItem('userId'));
@@ -39,7 +43,8 @@ export class UserEditPage {
     this.name = localStorage.getItem('name');
     this.avatar = localStorage.getItem('avatar');
     this.newAvatarImg = this.avatar;
-    console.log(this.newAvatarImg);
+
+    console.log("newavatar" + this.newAvatarImg);
     console.log('ionViewDidLoad UserEditPage');
   }
 
@@ -49,11 +54,11 @@ export class UserEditPage {
 
   onFileChange(event: any) {
     let reader = new FileReader();
-   
+
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
-    
+
       reader.onload = () => {
         this.newAvatarImg = reader.result.toString();
         this.newAvatarFile = (file as File);
@@ -61,7 +66,7 @@ export class UserEditPage {
         //this.formGroup.patchValue({
         // file: reader.result
         //});
-        
+
         // need to run CD since file load runs outside of zone
         //this.cd.markForCheck();
       };
@@ -69,135 +74,71 @@ export class UserEditPage {
   }
 
   async saveChanges() {
-    console.log(this.newName);
-    console.log(this.newPassword);
-    console.log(this.newAvatarFile);
-
     const newData = new FormData();
     newData.append('avatar', this.newAvatarFile, this.newAvatarFile.name);
     try {
-      const res = await this.http.put(`https://sgs-backend.herokuapp.com/api/users/${this.idUser}`,
-                                      newData).toPromise();
-      const data = res.json();
-      if (data) {
-        this.name = data.name;
-        this.newName = data.name;
-        localStorage.setItem('name', data.name);
-      }
-      this.dismiss();
-    } catch(err) {
+      await this.http.put(`https://sgs-backend.herokuapp.com/api/users/${this.idUser}`, newData).toPromise();
+      localStorage.setItem('avatar', this.newAvatarImg);
+    } catch (err) {
       console.error(err);
     }
   }
-}
-
-/*
-export class UserEditPage {
-  private userEdited: FormGroup;
-  private user: any;
-  name: string;
-  newPassword: string;
-  userId: any;
-  email: any;
-  oldpassword: any;
-  password: any;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    public navParams: NavParams,
-    public viewCtrl: ViewController,
-    public navCtrl: NavController,
-    public toastCtrl1: ToastController,
-    public toastCtrl2: ToastController,
-    public http: Http,
-  ) {
-    this.user = this.navParams.get('data');
-    this.userId = this.user.userId;
-    if (this.user) {
-      this.name = this.user.name;
-    } else {
-      this.name = '';
-    }
-    this.email = this.user.email;
-    this.newPassword = '';
-    this.oldpassword= null;
-
-    this.userEdited = this.formBuilder.group({
-      name: [''],
-      oldpassword: [''],
-      newPassword: [''],
-    });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UserEditPage');
-  }
 
   validate() {
-    this.http
-      .post('https://sgs-backend.herokuapp.com/api/auth/login', {
-        email: this.email,
-        password: this.oldpassword,
-      })
-      .subscribe(
-        data => {
-          console.log('ola');
-          console.log(data);
-          return true;
-        },
-        error => {
-          console.log(error);
-          const toastError = this.toastCtrl1.create({
-            position: 'top',
-            message: 'Password errada',
-            duration: 3000,
-          });
-          toastError.present();
-          return false;
-        },
-      );
+    this.http.post('https://sgs-backend.herokuapp.com/api/auth/login', {
+      email: this.email,
+      password: this.oldPassword,
+    }).subscribe(
+      data => {
+        console.log(data);
+        this.editUser();
+      },
+      error => {
+        console.log(error);
+        const toastError = this.toastCtrl.create({
+          position: 'top',
+          message: 'Por favor verifique se introduziu todas as informações corretamente!',
+          duration: 3000,
+        });
+        toastError.present();
+        return false;
+      },
+    );
   }
 
   editUser() {
-    if (this.name === '') this.name = null;
-    //console.log('mudei: ' + JSON.stringify(this.name));
     let editUser = {
-      name: this.name,
+      name: this.newName,
       password: this.newPassword,
     };
-    //console.log(this.validate())
-    if (this.oldpassword != null) {
-      if (this.validate()) {
-        this.http
-          .put(
-            'https://sgs-backend.herokuapp.com/api/users/' + this.userId,
-            editUser,
-          )
-          .subscribe(
-            data => {
-              console.log(data['_body']);
-            },
-            error => {
-              console.log(error);
-            },
-          );
-        this.viewCtrl.dismiss();
-        if (this.newPassword === '') {
-          this.navCtrl.push('UserProfilePage', {
-            user: editUser,
-            userId: this.userId,
-          });
-        } else {
-          this.navCtrl.goToRoot;
-        }
-      }
-      } else {
-        const toast = this.toastCtrl2.create({
-          position: 'top',
-          message: 'Insira password atual',
-          duration: 3000,
-        });
-        toast.present();
-      }
+
+    if (this.oldPassword != null && this.oldPassword != '' && this.newPassword != '' && this.newPassword != null) {
+      this.http.put('https://sgs-backend.herokuapp.com/api/users/' + this.idUser, editUser)
+        .subscribe(
+          data => {
+            this.saveChanges()
+            localStorage.setItem('name', this.newName);
+            localStorage.setItem('avatar',this.newAvatarImg)
+            this.navCtrl.setRoot("UserProfilePage");
+            this.navCtrl.popToRoot()
+            const toast = this.toastCtrl.create({
+              position: 'top',
+              message: 'Perfil atualizado com sucesso!',
+              duration: 3000,
+            });
+            toast.present();
+          },
+          error => {
+            console.log(error);
+          },
+        );
+    } else {
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Por favor verifique se introduziu todas as informações corretamente!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
-}*/
+}

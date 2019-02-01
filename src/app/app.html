@@ -1,4 +1,4 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" (ionOpen)="update()" (ionClose)="update()" (ionDrag)="update()">
   <ion-content>
     <ion-list>
       <ion-list-header
@@ -25,14 +25,13 @@
       </button>
     </ion-list>
 
-    <ion-footer no-padding>
+    <ion-footer no-padding (click)="logout()">
       <button
         ion-button
         icon-left
         full
         color="light"
         menuClose
-        (click)="logout()"
       >
         <ion-icon name="log-out"></ion-icon> Terminar sessão
       </button>
