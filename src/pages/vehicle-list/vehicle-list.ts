@@ -71,6 +71,7 @@ export class VehicleListPage {
   vehicleDetail(vehicle) {
     var data = {
       vehicle: vehicle,
+      idVehicle: vehicle.id,
       idAccident: this.navParams.data,
       actors: this.actors
     }

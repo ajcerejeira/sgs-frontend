@@ -49,13 +49,16 @@ export class VehicleCreatePage {
       policy: [''],
       insurance: [''],
       expirationDate: [''],
-      driver: ['']
+      driver: [''],
+      passengers: ['']
     })
     this.drivers = [];
     this.passengers = [];
     this.idAccident = this.navParams.get('id');
     if(this.navParams.get('actors').length > 0) { 
       let actorList = this.navParams.get('actors')
+      console.log(actorList);
+
       actorList.forEach(actor => {
         let new_actor = actor;
         console.log(new_actor);
@@ -74,23 +77,21 @@ export class VehicleCreatePage {
   }
 
   async createVehicle() {
-    var driver = this.vehicle.value['driver'];
-    console.log(driver);
+    this.viewCtrl.dismiss();
     var new_vehicle = {
       meta: {
         register: this.vehicle.value['register'],
         type: this.vehicle.value['type'],
         make: this.vehicle.value['make'],
         model: this.vehicle.value['model'],
-        year: parseInt(this.vehicle.value['year']),
+        year: this.vehicle.value['year'],
         color: this.vehicle.value['color'],
         policy: this.vehicle.value['policy'],
         insurance: this.vehicle.value['insurance'],
         expirationDate: this.vehicle.value['expirationDate']== '' ? null : this.vehicle.value['expirationDate'], //TODO ARRANJR NO RESTO
       },
       damages: [],
-      driver: {},
-      passengers: []
+      pictures: []
     };
 
     await this.http.post('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/', new_vehicle)

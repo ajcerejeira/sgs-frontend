@@ -23,11 +23,15 @@
         </ion-item>
         <ion-item>
           <ion-label color="primary" floating>Categoria</ion-label>
-          <ion-select formControlName="type" okText="Selecionar" cancelText="Cancelar">
-            <ion-option value="motorcycle">Motociclo</ion-option>
-            <ion-option value="light">Ligeiro</ion-option>
-            <ion-option value="heavy">Pesado</ion-option>
-            {{type.value}}
+          <ion-select [(ngModel)]="type" formControlName="type" okText="Selecionar" cancelText="Cancelar">
+            <ion-option value="Ligeiro de passageiros">Ligeiro de passageiros</ion-option>
+            <ion-option value="Ligeiro de mercadorias">Ligeiro de mercadorias</ion-option>
+            <ion-option value="Pesado de passageiros">Pesado de passageiros</ion-option>
+            <ion-option value="Pesado de mercadorias">Pesado de mercadorias</ion-option>
+            <ion-option value="Motociclo">Motociclo</ion-option>
+            <ion-option value="Bicicleta">Bicicleta</ion-option>
+            <ion-option value="Outros">Outros</ion-option>
+          {{type.value}}
           </ion-select>
         </ion-item>
         <ion-item>
@@ -44,7 +48,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Cor</ion-label>
-          <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+          <ion-select [(ngModel)]="color" formControlName="color" okText="Selecionar" cancelText="Cancelar">
             <ion-option value="#ffff00">Amarelo</ion-option>
             <ion-option value="#0000ff">Azul</ion-option>
             <ion-option value="#ffffff">Branco</ion-option>
@@ -53,9 +57,9 @@
             <ion-option value="#bebebe">Cinza</ion-option>
             <ion-option value="#ffa500">Laranja</ion-option>
             <ion-option value="#a020f0">Roxo</ion-option>
-            <ion-option value="#ffff00">Rosa</ion-option>
             <ion-option value="#00ff00">Verde</ion-option>
             <ion-option value="#ff0000">Vermelho</ion-option>
+            {{color.value}}
           </ion-select>
         </ion-item>
         <ion-list-header color="light" no-margin>
@@ -72,27 +76,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Data de Validade do Seguro</ion-label>
-          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" formControlName="expirationDate">{{expirationDate.value}}</ion-datetime>
-        </ion-item>
-        <ion-list-header color="light">
-          <ion-icon name="person"></ion-icon>
-          Condutor
-        </ion-list-header>
-        <ion-item>
-          <ion-label floating> Nome </ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
-            <ion-option *ngFor="let d of drivers">{{d.person.name}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-list-header color="light">
-          <ion-icon name="people"></ion-icon>
-          Passageiros
-        </ion-list-header>
-        <ion-item>
-          <ion-label floating> Nome </ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
-            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
-          </ion-select>
+          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="expirationDate" formControlName="expirationDate"> {{expirationDate.value}}</ion-datetime>
         </ion-item>
       </ion-list>
     </form>

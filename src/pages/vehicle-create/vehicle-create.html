@@ -47,7 +47,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Cor</ion-label>
-          <ion-select formControlName="color" value="motorcycle" okText="Selecionar" cancelText="Cancelar">
+          <ion-select formControlName="color" value="#ffff00" okText="Selecionar" cancelText="Cancelar">
             <ion-option value="#ffff00">Amarelo</ion-option>
             <ion-option value="#0000ff">Azul</ion-option>
             <ion-option value="#ffffff">Branco</ion-option>
@@ -56,7 +56,6 @@
             <ion-option value="#bebebe">Cinza</ion-option>
             <ion-option value="#ffa500">Laranja</ion-option>
             <ion-option value="#a020f0">Roxo</ion-option>
-            <ion-option value="#ffff00">Rosa</ion-option>
             <ion-option value="#00ff00">Verde</ion-option>
             <ion-option value="#ff0000">Vermelho</ion-option>
           </ion-select>
@@ -76,26 +75,6 @@
         <ion-item>
           <ion-label floating>Data de Validade</ion-label>
           <ion-datetime displayFormat="DD/MMM/YYYY" max="2050-01-01" pickerFormat="DD/MMM/YYYY" formControlName="expirationDate"></ion-datetime>
-        </ion-item>
-        <ion-list-header color="light" *ngIf="drivers.length!=0">
-          <ion-icon name="person"></ion-icon>
-          Condutor
-        </ion-list-header>
-        <ion-item *ngIf="drivers.length!=0">
-          <ion-label floating>Escolher condutor</ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="driver" multiple="true">
-            <ion-option *ngFor="let d of drivers"> {{d.person.name}} </ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-list-header color="light" *ngIf="passengers.length!=0">
-          <ion-icon name="people"></ion-icon>
-          Passageiros
-        </ion-list-header>
-        <ion-item *ngIf="passengers.length!=0">
-          <ion-label floating>Escolher passageiro(s)</ion-label>
-          <ion-select okText="Gravar" cancelText="Cancelar" formControlName="color" multiple="true">
-            <ion-option *ngFor="let p of passengers">{{p.person.name}}</ion-option>
-          </ion-select>
         </ion-item>
       </ion-list>
     </form>
