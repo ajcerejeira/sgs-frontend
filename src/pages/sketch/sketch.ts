@@ -282,7 +282,6 @@ export class SketchPage {
       this.geoJSON = res.sketch;
       this.actors = res.actors; //? res.actors.map(actor => actor.person.name) : [];
       this.actorNames = res.actors ? res.actors.map(actor => actor.person.name) : [];
-      this.
       let mapOptions: GoogleMapOptions = {
         camera: {
           target: {
