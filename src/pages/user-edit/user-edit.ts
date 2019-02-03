@@ -30,7 +30,6 @@ export class UserEditPage {
   email: string;
   name: string;
   avatar: string;
-  newName: string;
   oldPassword: string;
   newPassword: string;
   newAvatarFile: File;
@@ -52,7 +51,7 @@ export class UserEditPage {
     this.navCtrl.pop();
   }
 
-  onFileChange(event: any) {
+  async onFileChange(event: any) {
     let reader = new FileReader();
 
     if (event.target.files && event.target.files.length) {
@@ -62,25 +61,15 @@ export class UserEditPage {
       reader.onload = () => {
         this.newAvatarImg = reader.result.toString();
         this.newAvatarFile = (file as File);
-        //console.log(reader.result);
-        //this.formGroup.patchValue({
-        // file: reader.result
-        //});
-
-        // need to run CD since file load runs outside of zone
-        //this.cd.markForCheck();
+        const newData = new FormData();
+        newData.append('avatar', this.newAvatarFile, this.newAvatarFile.name);
+        try {
+          this.http.put(`https://sgs-backend.herokuapp.com/api/users/${this.idUser}`, newData).toPromise();
+          localStorage.setItem('avatar', this.newAvatarImg);
+        } catch (err) {
+          console.error(err);
+        }
       };
-    }
-  }
-
-  async saveChanges() {
-    const newData = new FormData();
-    newData.append('avatar', this.newAvatarFile, this.newAvatarFile.name);
-    try {
-      await this.http.put(`https://sgs-backend.herokuapp.com/api/users/${this.idUser}`, newData).toPromise();
-      localStorage.setItem('avatar', this.newAvatarImg);
-    } catch (err) {
-      console.error(err);
     }
   }
 
@@ -108,7 +97,7 @@ export class UserEditPage {
 
   editUser() {
     let editUser = {
-      name: this.newName,
+      name: this.name,
       password: this.newPassword,
     };
 
@@ -116,8 +105,7 @@ export class UserEditPage {
       this.http.put('https://sgs-backend.herokuapp.com/api/users/' + this.idUser, editUser)
         .subscribe(
           data => {
-            this.saveChanges()
-            localStorage.setItem('name', this.newName);
+            localStorage.setItem('name', this.name);
             localStorage.setItem('avatar',this.newAvatarImg)
             this.navCtrl.setRoot("UserProfilePage");
             this.navCtrl.popToRoot()

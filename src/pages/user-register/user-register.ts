@@ -37,10 +37,10 @@ export class UserRegisterPage {
     public toastCtrl: ToastController,
   ) {
     this.user = this.formBuilder.group({
-      name: [''],
+      name: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
-      entity: [''],
+      entity: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
     this.validationPassword = false;
@@ -69,17 +69,18 @@ export class UserRegisterPage {
             console.log(data['_body']);
             const toast = this.toastCtrl.create({
               position: 'top',
-              message: 'Foi enviado um email para confirmação de conta',
+              message: 'Utilizador criado com sucesso!',
               duration: 3000,
             });
             toast.present();
-            this.navCtrl.setRoot('LoginPage');
+            this.navCtrl.setRoot('LoginPage')
+            this.navCtrl.popToRoot()
           },
           error => {
             console.log(error);
             const toast = this.toastCtrl.create({
               position: 'top',
-              message: 'Email já existente no sistema',
+              message: 'Email já existente no sistema!',
               duration: 3000,
             });
             toast.present();
@@ -89,7 +90,7 @@ export class UserRegisterPage {
       this.validationPassword = false;
       const toast = this.toastCtrl.create({
         position: 'top',
-        message: 'As passwords não coincidem!',
+        message: 'Por favor verifique se as passwords introduzidas coincidem!',
         duration: 3000,
       });
       toast.present();

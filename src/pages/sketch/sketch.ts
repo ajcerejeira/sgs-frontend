@@ -103,18 +103,12 @@ export class SketchPage {
 
   vehicles: any;
   actors: any;
-  actorNames: any;
   customID: any;
   geoJSON: any = [];
   latitude: any;
   longitude: any;
   polygonPoints: ILatLng[] = [];
   markerList: Marker[] = [];
-  tipo:any;
-  register:any;
-  make:any;
-  model:any;
-  year: any
 
   @ViewChild('vehicleSelect') vehicleRef: Select;
   @ViewChild('actorSelect') actorRef: Select;
@@ -154,10 +148,10 @@ export class SketchPage {
             this.map.clear();
             this.polygonPoints = []
             this.markerList = []
-            console.log("ID ACC:" + this.id)
+            // console.log("ID ACC:" + this.id)
             this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': '' }).subscribe(
               data => {
-                console.log('deleted with success');
+                // console.log('deleted with success');
                 const toast = this.toastCtrl.create({
                   position: 'top',
                   message: 'Croqui apagado com sucesso!',
@@ -166,7 +160,12 @@ export class SketchPage {
                 toast.present();
               },
               error => {
-                console.log(error);
+                const toast = this.toastCtrl.create({
+                  position: 'top',
+                  message: 'Ocorreu um erro ao apagar o croqui! Por favor verifique a sua ligação à internet!',
+                  duration: 3000,
+                });
+                toast.present();
               },
             );
           },
@@ -212,12 +211,8 @@ export class SketchPage {
         this.onOkCrosswalk();
         break;
       default:
-        //console.log(this.signDictionary[chosenSign] + '---' + this.signTypes[chosenSign])
         let icon = {
           url: this.signDictionary[chosenSign],
-          // scaledSize: {
-          //   width: 200,
-          // },
           type: this.signTypes[chosenSign]
         };
         let position = { lat: this.latitude, lng: this.longitude };
@@ -229,7 +224,7 @@ export class SketchPage {
         let backupMarker = this.map.addMarkerSync(marker);
         this.map.setCameraTarget(backupMarker.getPosition())
         this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
+        // console.log("array: " + this.markerList)
         break;
     };
   }
@@ -238,7 +233,7 @@ export class SketchPage {
     this.vehicles.forEach(v => {
       if (v.meta.register === licensePlate) {
         let path = '../assets/imgs/croquiItens/carroCroqui/carroCroquiHighRes.png';
-        console.log('ID QUE ENVIO: ' + v.id);
+        // console.log('ID QUE ENVIO: ' + v.id);
         this.choosePin(path, v.meta.color, v.id, '$event');
       }
     });
@@ -251,17 +246,12 @@ export class SketchPage {
 
   onOkActor(name) {
     this.actors.forEach(a => {
-      //console.log("A: " + a.person.name + " B: "+name)
       if (a.person.name == name) {
         let icon = {
           url: '../assets/imgs/croquiItens/signs/actor.png',
-          // scaledSize: {
-          //   width: 200,
-          // },
           type: "actor",
           idActor: a.id
         };
-
         let position = { lat: this.latitude, lng: this.longitude };
         let marker = {
           position: position,
@@ -271,7 +261,6 @@ export class SketchPage {
         let backupMarker = this.map.addMarkerSync(marker);
         this.map.setCameraTarget(backupMarker.getPosition())
         this.markerList.push(backupMarker);
-        console.log("array: " + this.markerList)
       }
     });
   }
@@ -282,8 +271,7 @@ export class SketchPage {
       this.position = res.position;
       this.vehicles = res.vehicles;
       this.geoJSON = res.sketch;
-      this.actors = res.actors; //? res.actors.map(actor => actor.person.name) : [];
-      this.actorNames = res.actors ? res.actors.map(actor => actor.person.name) : [];
+      this.actors = res.actors; 
 
       let mapOptions: GoogleMapOptions = {
         camera: {
@@ -300,8 +288,6 @@ export class SketchPage {
 
       if (this.geoJSON != '' && this.geoJSON != {} && this.geoJSON != [] && this.geoJSON != null)
         this.loadSketch()
-      else
-        console.log("SKETCH VAZIO!")
 
       // Catch all camera events
       // this.map.addEventListener(GoogleMapsEvent.CAMERA_MOVE_END).subscribe(() => {
@@ -309,32 +295,34 @@ export class SketchPage {
       // });
     }, error => {
       console.log(error);
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Ocorreu um problema ao carregar o mapa! Por favor verifique se possui o GPS ativo e ligação à internet!',
+        duration: 3000,
+      });
+      toast.present();
     });
   }
 
   loadCustomMarker(img, color, degrees, type) {
-    console.log(img + " | " + color + " | " + degrees + " | " + type)
+    // console.log(img + " | " + color + " | " + degrees + " | " + type)
     var idA, idV;
 
-    console.log("TIPO: " + type.split(':')[0])
+    // console.log("TIPO: " + type.split(':')[0])
     if (type.split(':')[0] == 'carroCroquiHighRes,') {
       idV = parseInt(type.split(':')[1])
     } else {
       idA = parseInt(type.split(':')[1])
     }
 
-    console.log("idV: " + idV + ' | idA: ' + idA)
+    // console.log("idV: " + idV + ' | idA: ' + idA)
 
     let icon = {
       url: img,
       fillColor: color,
       idVehicle: idV,
       idActor: idA,
-      // fillOpacity: 1,
-      rotation: degrees//,
-      // scaledSize: {
-      //   width: 200
-      // }
+      rotation: degrees
     }
     let position = { lat: this.latitude, lng: this.longitude };
     let marker = {
@@ -356,9 +344,6 @@ export class SketchPage {
     if(flag){
       let icon = {
         url: '../assets/imgs/croquiItens/body/body.png',
-        // scaledSize: {
-        //   width: 200
-        // },
         type: "victim"
       }
 
@@ -495,11 +480,7 @@ export class SketchPage {
       ev: myEvent,
     });
     popover.onDidDismiss(data => {
-      //console.log("cenas:"+JSON.stringify(data))
       let newUrl = data.url.split('HighRes.png')[0] + data.angle + '.png'
-      //console.log("URL: " + data.url) 
-      //../assets/imgs/croquiItens/signs/crosswalk138.png
-      //console.log("SPLIT:" + data.url.split('/')[5])
       let type = data.url.split('/')[5].split('.png') + ':' + data.customID
       this.loadCustomMarker(newUrl, data.color, data.angle, type);
     })
@@ -509,19 +490,8 @@ export class SketchPage {
     this.chosenPin = pinType;
     this.color = color;
     this.customID = customID;
-    console.log("choosePin(" + pinType + ',' + color + ',' + customID + ')')
+    // console.log("choosePin(" + pinType + ',' + color + ',' + customID + ')')
     this.presentPopover(myEvent);
-  }
-
-  undoLast() {
-    console.log("before:" + this.markerList.length)
-    this.markerList = this.markerList.splice(this.markerList.length - 1, 1);
-    console.log("after:" + this.markerList.length)
-
-    console.log("SECOND")
-    this.markerList.forEach((data: Marker) => {
-      console.log(data)
-    })
   }
 
   zoomListener() {
@@ -547,27 +517,12 @@ export class SketchPage {
     });
   }
 
-  // {
-  //   "type": "Feature",
-  //   "geometry": {
-  //     "type": "Polygon/Point",
-  //     "coordinates": [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0] ]
-  //   },
-  //   "properties": {
-  //      "idVehicle": x,
-  //      "idActor": x,
-  //      "type": "StopSignal/TrafficLight/.../car/bike/truck",
-  //      "rotation": x,
-  //      "color": x,
-  //   }
-  // }
-
   loadSketch() {
     this.map.clear();
     var type2
     var htmlInfoWindow = new HtmlInfoWindow();
     this.geoJSON.features.forEach(element => {
-      console.log(element)
+      // console.log(element)
       let imgURL
       if (element.properties.type != 'polygon') {
         if (element.properties.type == 'car'){
@@ -620,8 +575,8 @@ export class SketchPage {
         this.map.setCameraTarget(cameraMoveTo)
         //this.markerList.push(backupMarker);
       } else {
-        console.log("!!!! DEVE SER POLIGONO !!!!")
-        console.log(JSON.stringify(element.geometry.coordinates))
+        // console.log("!!!! DEVE SER POLIGONO !!!!")
+        // console.log(JSON.stringify(element.geometry.coordinates))
         this.loadSavedPolygon(element.geometry.coordinates)
       }
     });
@@ -636,7 +591,7 @@ export class SketchPage {
 
     this.markerList.forEach((marker: Marker) => {
       let markerInfo = marker.get('icon');
-      console.log("------ITERACAO------\n" + JSON.stringify(markerInfo))
+      // console.log("------ITERACAO------\n" + JSON.stringify(markerInfo))
       switch (markerInfo.url) {
         case '../assets/imgs/croquiItens/body/body.png':
           iconName = 'victim'
@@ -707,17 +662,15 @@ export class SketchPage {
       // console.log("ID ACCIDENT: " + this.id)
     });
 
-    console.log("debug:" + JSON.stringify(this.polygonPoints))
+    // console.log("debug:" + JSON.stringify(this.polygonPoints))
 
-    //"coordinates":[56.162939,10.203921]
-    //[56.16324388471613,10.204071652013681,56.16302398503276,10.20347408961868,56.162575520655444,10.203573603764085,56.16281437229321,10.204038229174785]
     if (this.polygonPoints.length > 0) {
       let polygonCoords = []
       this.polygonPoints.forEach((point: ILatLng) => {
         polygonCoords.push([point.lat, point.lng])
       });
 
-      console.log("HA POLIGONO")
+      // console.log("HA POLIGONO")
       let currentMarker = {
         type: "Feature",
         geometry: {
@@ -730,14 +683,14 @@ export class SketchPage {
       }
       collection.features.push(currentMarker)
     } else {
-      console.log("NAO HA POLIGONO")
+      // console.log("NAO HA POLIGONO")
     }
 
-    console.log("\n\n FIM \n\n" + JSON.stringify(collection))
+    // console.log("\n\n FIM \n\n" + JSON.stringify(collection))
 
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.id, { 'sketch': collection }).subscribe(
       data => {
-        console.log('success');
+        // console.log('success');
         const toast = this.toastCtrl.create({
           position: 'top',
           message: 'Croqui guardado com sucesso!',
@@ -748,7 +701,12 @@ export class SketchPage {
         //this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
       },
       error => {
-        console.log(error);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Ocorreu um problema ao guardar o croqui! Por favor verifique a sua ligação à internet!',
+          duration: 3000,
+        });
+        toast.present();
       },
     );
   }
