@@ -11,6 +11,9 @@ import {
   GoogleMaps,
   GoogleMap,
   GoogleMapOptions,
+  GoogleMapsEvent,
+  LatLng,
+  Marker
 } from '@ionic-native/google-maps';
 import { Http } from '@angular/http';
 
@@ -95,8 +98,15 @@ export class AccidentEditPage {
           this.longitude = this.position[1];
           this.map = GoogleMaps.create('map_canvas', mapOptions);
           this.map.clear();
-          this.map.addMarker({
-            position: mapOptions.camera.target,
+          let marker: Marker = this.map.addMarkerSync({
+            draggable: true,
+            position:  mapOptions.camera.target,
+          });
+          marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
+            let position: LatLng = params[0];
+            console.log("NEW POSITION: " + position)
+            this.latitude = position.lat;
+            this.longitude = position.lng;
           });
         },
         error => {
@@ -138,8 +148,15 @@ export class AccidentEditPage {
         this.longitude = location.lng;
         this.map.setCameraTarget(location);
         this.map.clear();
-        this.map.addMarker({
-          position: location,
+        let marker: Marker = this.map.addMarkerSync({
+          draggable: true,
+          position:  location,
+        });
+        marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
+          let position: LatLng = params[0];
+          console.log("NEW POSITION: " + position)
+          this.latitude = position.lat;
+          this.longitude = position.lng;
         });
       }
     });
