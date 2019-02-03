@@ -18,7 +18,7 @@
         menuClose
         class="text-1x"
         *ngFor="let menuItem of appMenuItems"
-        (click)="openPage(menuItem)"
+        (click)= "openPage(menuItem)"
       >
         <ion-icon item-left [name]="menuItem.icon" color="primary"></ion-icon>
         <span ion-text color="primary">{{ menuItem.title }}</span>
