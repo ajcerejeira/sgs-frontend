@@ -27,6 +27,7 @@ export class MyApp {
   name: string = '';
   userId: number = 0;
   avatar: string = '';
+  entity: string = '';
 
   constructor(
     public platform: Platform,
@@ -38,6 +39,7 @@ export class MyApp {
     this.email = localStorage.getItem('email');
     this.name = localStorage.getItem('name');
     this.avatar = localStorage.getItem('avatar');
+    this.entity = localStorage.getItem('entity');
   }
 
   update(){
@@ -45,13 +47,14 @@ export class MyApp {
     this.email = localStorage.getItem('email');
     this.name = localStorage.getItem('name');
     this.avatar = localStorage.getItem('avatar');
+    this.entity = localStorage.getItem('entity');
   }
 
   initializeApp() {
     this.appMenuItems = [
       { title: 'Sinistros', component: AccidentListPage, icon: 'car' },
       // { title: 'Definições', component: HelpPage, icon: 'build' },
-      // { title: 'Ajuda', component: HelpPage, icon: 'help-buoy' },
+      { title: 'Ajuda', component: HelpPage, icon: 'help-buoy' },
       { title: 'Sobre', component: AboutPage, icon: 'information-circle' },
     ];
 

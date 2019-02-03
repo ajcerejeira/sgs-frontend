@@ -54,6 +54,7 @@ export class LoginPage {
         localStorage.setItem('name', data.name);
         localStorage.setItem('email', data.email);
         localStorage.setItem('avatar', `https://sgs-backend.herokuapp.com/api/users/${data.id}/avatar`);
+        localStorage.setItem('entity', data.entity);
       } catch (err) {
         console.log(err);
       }
