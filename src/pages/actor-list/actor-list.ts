@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Data } from '../../providers/data/data';
+
 
 /**
  * Generated class for the ActorListPage page.
@@ -16,6 +18,8 @@ import 'rxjs/add/operator/map';
   templateUrl: 'actor-list.html',
 })
 export class ActorListPage {
+  actors: any;
+  vehicles: any;
   accidentId: any;
   drivers: any;
   passengers: any;
@@ -23,17 +27,51 @@ export class ActorListPage {
   pedestrians: any;
   others: any;
   actor: any;
+  filteredDrivers: any = [];
+  filteredPassengers: any= [];
+  filteredPedestrians: any= [];
+  filteredWitnesses: any= [];
+  filteredOthers: any= [];
+  filterBy: string = '';
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public http: Http,
+    public dataService: Data,
   ) {
     this.drivers = [];
     this.passengers = [];
     this.witnesses = [];
     this.pedestrians = [];
     this.others = [];
+  }
+
+  searchActors() {
+    this.filteredDrivers = this.dataService.filterActors(
+      this.filterBy,
+      this.drivers,
+    );
+
+    this.filteredPassengers = this.dataService.filterActors(
+      this.filterBy,
+      this.passengers,
+    );
+
+    this.filteredPedestrians = this.dataService.filterActors(
+      this.filterBy,
+      this.pedestrians,
+    );
+
+    this.filteredWitnesses = this.dataService.filterActors(
+      this.filterBy,
+      this.witnesses,
+    );
+
+    this.filteredOthers = this.dataService.filterActors(
+      this.filterBy,
+      this.others,
+    );
   }
 
   ionViewDidLoad() {
@@ -47,42 +85,42 @@ export class ActorListPage {
       .subscribe(
         res => {
           //console.log(JSON.stringify(res))
-          var actors = res.actors;
-          var vehicles = res.vehicles;
+          this.actors = res.actors;
+          this.vehicles = res.vehicles;
           //console.log(JSON.stringify(actors))
           //console.log(JSON.stringify(vehicles))
-          for (let i = 0; i < actors.length; i++) {
-            if (actors[i].role === 'Driver') {
-              for (let j = 0; j < vehicles.length; j++) {
-                if (vehicles[j].id == actors[i].vehicle) {
-                  actors[i].register = vehicles[j].register;
-                  actors[i].make = vehicles[j].make;
-                  actors[i].model = vehicles[j].model;
+          for (let i = 0; i < this.actors.length; i++) {
+            if (this.actors[i].role === 'Driver') {
+              for (let j = 0; j < this.vehicles.length; j++) {
+                if (this.vehicles[j].id == this.actors[i].vehicle) {
+                  this.actors[i].register = this.vehicles[j].register;
+                  this.actors[i].make = this.vehicles[j].make;
+                  this.actors[i].model = this.vehicles[j].model;
                   break;
                 }
               }
               //console.log(JSON.stringify(actors[i]));
-              this.drivers.push(actors[i]);
+              this.drivers.push(this.actors[i]);
             }
-            if (actors[i].role === 'Passenger') {
-              for (let j = 0; j < vehicles.length; j++) {
-                if (vehicles[j].id == actors[i].vehicle) {
-                  actors[i].register = vehicles[j].register;
-                  actors[i].make = vehicles[j].make;
-                  actors[i].model = vehicles[j].model;
+            if (this.actors[i].role === 'Passenger') {
+              for (let j = 0; j < this.vehicles.length; j++) {
+                if (this.vehicles[j].id == this.actors[i].vehicle) {
+                  this.actors[i].register = this.vehicles[j].register;
+                  this.actors[i].make = this.vehicles[j].make;
+                  this.actors[i].model = this.vehicles[j].model;
                   break;
                 }
               }
-              this.passengers.push(actors[i]);
+              this.passengers.push(this.actors[i]);
             }
-            if (actors[i].role === 'Pedestrian') {
-              this.pedestrians.push(actors[i]);
+            if (this.actors[i].role === 'Pedestrian') {
+              this.pedestrians.push(this.actors[i]);
             }
-            if (actors[i].role === 'Witness') {
-              this.witnesses.push(actors[i]);
+            if (this.actors[i].role === 'Witness') {
+              this.witnesses.push(this.actors[i]);
             }
-            if (actors[i].role === 'Other' || !actors[i].role) {
-              this.others.push(actors[i]);
+            if (this.actors[i].role === 'Other' || !this.actors[i].role) {
+              this.others.push(this.actors[i]);
             }
           }
         },
@@ -90,6 +128,11 @@ export class ActorListPage {
           console.log(error);
         },
       );
+      this.filteredDrivers = this.drivers;
+      this.filteredOthers = this.others;
+      this.filteredPassengers = this.passengers;
+      this.filteredPedestrians= this.pedestrians;
+      this.filteredWitnesses = this.witnesses;
   }
 
   actorDetail(actor) {

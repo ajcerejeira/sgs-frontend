@@ -31,4 +31,16 @@ export class Data {
       return list;
     }
   }
+
+  filterActors(searchTerm, list) {
+    if (searchTerm && searchTerm != "") {
+      this.items = list;
+      return this.items.filter((item) => {
+        return (item.person['name'].toLowerCase().indexOf(searchTerm.toLowerCase()) > -1);
+      });
+    }
+    else {
+      return list;
+    }
+  }
 }

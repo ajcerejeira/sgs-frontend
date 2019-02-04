@@ -1,17 +1,28 @@
 <ion-header>
   <ion-navbar color="primary">
-    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title>Intervenientes</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="!isSearchBarOpen">
+      Intervenientes
+    </ion-title>
+    <ion-searchbar [(ngModel)]="filterBy" (ionInput)="searchActors()" showCancelButton placeholder="Procurar interveniente"
+      cancelButtonText="true" *ngIf="isSearchBarOpen" (ionCancel)="isSearchBarOpen=false"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only *ngIf="!isSearchBarOpen" (click)="isSearchBarOpen=true">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-      <ion-list-header *ngIf="drivers.length > 0" color="light">
+      <ion-list-header *ngIf="filteredDrivers.length>0" color="light">
           <ion-icon name="car"></ion-icon>
           Condutores
         </ion-list-header>
-        <button ion-item *ngFor="let driver of drivers" (click)="actorDetail(driver)">
+        <button ion-item *ngFor="let driver of filteredDrivers" (click)="actorDetail(driver)">
           <h2>{{ driver.person.name }}</h2>
           <p>{{ driver.register }} {{ driver.make }} {{ driver.model }}</p>
 
@@ -21,11 +32,11 @@
           <ion-note *ngIf="driver.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
-        <ion-list-header *ngIf="passengers.length > 0" color="light">
+        <ion-list-header *ngIf="filteredPassengers.length > 0" color="light">
           <ion-icon name="people"></ion-icon>
           Passageiros
         </ion-list-header>
-        <button ion-item *ngFor="let passenger of passengers"(click)="actorDetail(passenger)">
+        <button ion-item *ngFor="let passenger of filteredPassengers"(click)="actorDetail(passenger)">
             <h2>{{ passenger.person.name }}</h2>
             <p>{{ passenger.register }} {{ passenger.make }} {{ passenger.model }}</p>
             <ion-note *ngIf="passenger.wounds == 'None'" item-end>Nenhuns</ion-note>
@@ -34,11 +45,11 @@
             <ion-note *ngIf="passenger.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
-        <ion-list-header *ngIf="pedestrians.length > 0" color="light">
+        <ion-list-header *ngIf="filteredPedestrians.length > 0" color="light">
           <ion-icon name="walk"></ion-icon>
         Peões
         </ion-list-header>
-        <button ion-item *ngFor="let pedestrian of pedestrians"(click)="actorDetail(pedestrian)">
+        <button ion-item *ngFor="let pedestrian of filteredPedestrians"(click)="actorDetail(pedestrian)">
           <h2>{{ pedestrian.person.name }}</h2>
           <ion-note *ngIf="pedestrian.wounds == 'None'" item-end>Nenhuns</ion-note>
           <ion-note *ngIf="pedestrian.wounds == 'Light'" item-end>Leves</ion-note>
@@ -46,19 +57,19 @@
           <ion-note *ngIf="pedestrian.wounds == 'Dead'" item-end>Morto</ion-note>
         </button>
     
-        <ion-list-header *ngIf="witnesses.length > 0" color="light">
+        <ion-list-header *ngIf="filteredWitnesses.length > 0" color="light">
           <ion-icon name="eye"></ion-icon>
         Testemunhas
         </ion-list-header>
-        <button ion-item *ngFor="let witness of witnesses"(click)="actorDetail(witness)">
+        <button ion-item *ngFor="let witness of filteredWitnesses"(click)="actorDetail(witness)">
           <h2>{{ witness.person.name }}</h2>
         </button>
     
-        <ion-list-header *ngIf="others.length > 0" color="light">
+        <ion-list-header *ngIf="filteredOthers.length > 0" color="light">
           <ion-icon name="help"></ion-icon>
           Outros
         </ion-list-header>
-        <button ion-item *ngFor="let other of others"(click)="actorDetail(other)">
+        <button ion-item *ngFor="let other of filteredOthers"(click)="actorDetail(other)">
           <h2>{{ other.person.name }}</h2>
           <ion-note *ngIf="other.wounds == 'None'" item-end>Nenhuns</ion-note>
           <ion-note *ngIf="other.wounds == 'Light'" item-end>Leves</ion-note>
