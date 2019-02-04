@@ -80,7 +80,7 @@ export class VehicleCreatePage {
     this.viewCtrl.dismiss();
     var new_vehicle = {
       meta: {
-        register: this.vehicle.value['register'],
+        register: this.vehicle.value['register'].toUpperCase(),
         type: this.vehicle.value['type'],
         make: this.vehicle.value['make'],
         model: this.vehicle.value['model'],

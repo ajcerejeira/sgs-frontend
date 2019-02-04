@@ -16,10 +16,11 @@ import { Data } from '../providers/data/data';
 import { MyApp } from './app.component';
 import { HelpPage } from '../pages/help/help';
 import { AboutPage } from '../pages/about/about';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
   declarations: [MyApp, PinModulerComponent,HelpPage, AboutPage],
-  imports: [BrowserModule, HttpModule, IonicModule.forRoot(MyApp)],
+  imports: [BrowserModule, HttpModule, IonicImageViewerModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, PinModulerComponent,HelpPage, AboutPage],
   providers: [

@@ -48,11 +48,10 @@ export class VehicleListPage {
 
   async vehiclesList() {
     console.log("LISTA ACC ID: "+ JSON.stringify(this.navParams.data));
-    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data).map(res => res.json()).subscribe(res => {
-        this.vehicles=res.vehicles;
-        console.log(this.vehicles);
-        this.filteredVehicles = res.vehicles;
-        this.actors = res.actors;
+    await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/"+this.navParams.data+"/vehicles").map(res => res.json()).subscribe(res => {
+        this.vehicles=res;
+        this.filteredVehicles = res;
+        // this.actors = res.actors;
       }, error => {
         console.log(error);
       });
@@ -64,11 +63,7 @@ export class VehicleListPage {
 
   async ionViewDidLoad() {
     console.log('ionViewDidLoad VehicleListPage');
-    // this.vehiclesList();
-    console.log(this.navParams.data);
-    this.vehicles = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.navParams.data}/vehicles`).toPromise();
-    this.filteredVehicles = this.vehicles.json();
-    console.log("FILTRO:" + this.filteredVehicles);
+    this.vehiclesList();
   }
 
   async vehicleDetail(vehicle) {

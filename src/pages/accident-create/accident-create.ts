@@ -94,14 +94,14 @@ export class AccidentCreatePage {
       }).then((mvcArray: BaseArrayClass<GeocoderResult[]>) => {
         mvcArray.one('finish').then(() => {
           console.log('finish', mvcArray.getArray());
-          console.log("OG POSTION: " + mapOptions.camera.target)
+          // console.log("OG POSTION: " + mapOptions.camera.target)
           let marker: Marker = this.map.addMarkerSync({
             draggable: true,
             position:  mapOptions.camera.target,
           });
           marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
             let position: LatLng = params[0];
-            console.log("NEW POSITION: " + position)
+            // console.log("NEW POSITION: " + position)
             this.latitude = position.lat;
             this.longitude = position.lng;
           });
@@ -143,14 +143,14 @@ export class AccidentCreatePage {
         this.longitude = location.lng;
         this.map.setCameraTarget(location);
         this.map.clear();
-        console.log("OG POSTION: " + location)
+        // console.log("OG POSTION: " + location)
         let marker: Marker = this.map.addMarkerSync({
           draggable: true,
           position:  location,
         });
         marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
           let position: LatLng = params[0];
-          console.log("NEW POSITION: " + position)
+          // console.log("NEW POSITION: " + position)
           this.latitude = position.lat;
           this.longitude = position.lng;
         });

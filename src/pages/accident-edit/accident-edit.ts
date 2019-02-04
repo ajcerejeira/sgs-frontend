@@ -104,7 +104,7 @@ export class AccidentEditPage {
           });
           marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
             let position: LatLng = params[0];
-            console.log("NEW POSITION: " + position)
+            // console.log("NEW POSITION: " + position)
             this.latitude = position.lat;
             this.longitude = position.lng;
           });
@@ -154,7 +154,7 @@ export class AccidentEditPage {
         });
         marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
           let position: LatLng = params[0];
-          console.log("NEW POSITION: " + position)
+          // console.log("NEW POSITION: " + position)
           this.latitude = position.lat;
           this.longitude = position.lng;
         });

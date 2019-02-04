@@ -53,7 +53,7 @@ export class VehicleEditPage {
     if (this.vehicle.meta.register == null) {
       this.register = 'Matrícula inexistente';
     } else {
-      this.register = this.vehicle.meta.register;
+      this.register = this.vehicle.meta.register.toUpperCase();
     }
     if (this.vehicle.meta.type == null) {
       this.type = '';
@@ -71,7 +71,7 @@ export class VehicleEditPage {
       this.model = this.vehicle.meta.model;
     }
     if (this.vehicle.meta.year == null) {
-      this.year = 0; //verificar
+      // this.year = 0; //verificar
     } else {
       this.year = this.vehicle.meta.year;
     }
@@ -131,7 +131,7 @@ export class VehicleEditPage {
       damages: this.damages,
     };
 
-    console.log("VOU ENVIAR ISTO+\n\n" + JSON.stringify(new_vehicle))
+    console.log("VOU ENVIAR ISTO+\n\n" + JSON.stringify(new_vehicle) +" para o ID: " + this.vehicle.id)
     
     await this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicle.id, new_vehicle)
       .subscribe(
