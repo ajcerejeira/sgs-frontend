@@ -5,6 +5,7 @@ import {
   App,
   NavParams,
   NavController,
+  ToastController
 } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http } from '@angular/http';
@@ -31,7 +32,7 @@ export class VehicleEditPage {
   make: string = '';
   type: string = '';
   model: string = '';
-  year: number = 0;
+  year: Date;
   color: string = '#ffffff';
   insurance: string = '';
   policy: string = '';
@@ -44,6 +45,7 @@ export class VehicleEditPage {
     private formBuilder: FormBuilder,
     public navParams: NavParams,
     public http: Http,
+    public toastCtrl: ToastController
   ) {
     this.vehicle = this.navParams.get('data');
     this.idAccident = this.navParams.get('idAccident');
@@ -70,10 +72,8 @@ export class VehicleEditPage {
     } else {
       this.model = this.vehicle.meta.model;
     }
-    if (this.vehicle.meta.year == null) {
-      // this.year = 0; //verificar
-    } else {
-      this.year = this.vehicle.meta.year;
+    if (this.vehicle.meta.year != null) {
+      this.year = this.vehicle.meta.year; //TODO pedir ao Afonso pra mudar
     }
     if (this.vehicle.meta.color == null) {
       this.color = '';
@@ -140,19 +140,32 @@ export class VehicleEditPage {
           await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
             .subscribe(
               res => {
-                //this.navCtrl.push('VehicleDetailPage', { vehicle: res.vehicles, idAccident: this.idAccident, actors: res.actors });
-                // this.navCtrl.setRoot('VehicleDetailPage', { vehicle: new_vehicle, idVehicle: this.vehicle.id, idAccident: this.idAccident, actors: this.actors});
-                // this.navCtrl.popToRoot()
+                const toast = this.toastCtrl.create({
+                  position: 'top',
+                  message: 'Veículo editado com sucesso!',
+                  duration: 3000,
+                });
+                toast.present();
                 this.navCtrl.setRoot('VehicleListPage', this.idAccident);
                 this.navCtrl.popToRoot()
               },
               error => {
-                console.log(error);
+                const toast = this.toastCtrl.create({
+                  position: 'top',
+                  message: 'Ocorreu um erro na criação do veículo!',
+                  duration: 3000,
+                });
+                toast.present();
               }
           );
       },
       error => {
-        console.log(error);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Ocorreu um erro na criação do veículo!',
+          duration: 3000,
+        });
+        toast.present();
       },
     );
   }

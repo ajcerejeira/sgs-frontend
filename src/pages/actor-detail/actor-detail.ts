@@ -199,12 +199,22 @@ export class ActorDetailPage {
               )
               .subscribe(
                 res => {
-                  // this.navCtrl.push('ActorListPage', {accident: this.accidentId});
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Interveniente removido com sucesso!',
+                    duration: 3000,
+                  });
+                  toast.present();
                   this.navCtrl.setRoot('ActorListPage', {accident: this.accidentId});
                   this.navCtrl.popToRoot()
                 },
                 error => {
-                  console.log(error);
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Ocorreu um erro na remoção do interveniente!',
+                    duration: 3000,
+                  });
+                  toast.present();
                 },
               );
           },

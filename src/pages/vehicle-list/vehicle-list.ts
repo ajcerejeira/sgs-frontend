@@ -63,6 +63,7 @@ export class VehicleListPage {
 
   async ionViewDidLoad() {
     console.log('ionViewDidLoad VehicleListPage');
+    this.actors = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.navParams.data}/actors`).toPromise();
     this.vehiclesList();
   }
 

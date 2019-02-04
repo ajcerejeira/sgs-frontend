@@ -44,23 +44,19 @@ export class ActorCreatePage {
   ) {
     this.formGroup = this.formBuilder.group({
       identityDocumentType: [null, []],
-      identityDocumentNumber: [null, Validators.required],
+      identityDocumentNumber: [null],
       identityDocumentExpirationDate: [null, []],
-      identityDocumentEmitedBy: [null, Validators.required],
+      identityDocumentEmitedBy: [null],
       name: [null, Validators.required],
       birth: [null, []],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null],
       phone: [null, Validators.required],
-      nationality: [null, Validators.required],
-      naturality: [null, Validators.required],
-      parentage: ['', Validators.required],
-      parentage1: ['', Validators.required],
-      locality: [null, Validators.required],
-      address: [null, Validators.required],
-      zipcode: [null, Validators.required],
-      doorNumber: [null, Validators.required],
-      alcoholTest: [null, Validators.required],
-      vehicle: [null, Validators.required],
+      nationality: [null],
+      locality: [null],
+      address: [null],
+      zipcode: [null],
+      alcoholTest: [null],
+      vehicle: [null],
       role: [null, Validators.required],
       wounds: [null, []],
     });
@@ -81,12 +77,6 @@ export class ActorCreatePage {
   createActor(id) {
     var birthD = new Date(this.birth);
     var expiresD = new Date(this.expires);
-    var parentageList = [];
-
-    if (this.formGroup.value['parentage'].length > 0)
-      parentageList.push(this.formGroup.value['parentage']);
-    if (this.formGroup.value['parentage1'].length > 0)
-      parentageList.push(this.formGroup.value['parentage1']);
 
     var person = {
       identityDocumentType: this.formGroup.value['identityDocumentType'],
@@ -101,7 +91,6 @@ export class ActorCreatePage {
       phone: this.formGroup.value['phone'],
       nationality: this.formGroup.value['nationality'],
       naturality: this.formGroup.value['naturality'],
-      parentage: parentageList,
       locality: this.formGroup.value['locality'],
       address: this.formGroup.value['address'],
       zipcode: this.formGroup.value['zipcode'],
@@ -134,7 +123,7 @@ export class ActorCreatePage {
           console.log(error);
           const toast = this.toastCtrl.create({
             position: 'top',
-            message: 'Erro ao criar interveniente!',
+            message: 'Ocorreu um erro ao criar interveniente!',
             duration: 3000,
           });
           toast.present();

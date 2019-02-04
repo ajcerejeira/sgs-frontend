@@ -4,6 +4,7 @@ import {
   NavController,
   NavParams,
   ViewController,
+  ToastController
 } from 'ionic-angular';
 import { FormBuilder } from '@angular/forms';
 import { Http } from '@angular/http';
@@ -62,6 +63,7 @@ export class ActorEditPage {
     public viewCtrl: ViewController,
     public formBuilder: FormBuilder,
     public http: Http,
+    public toastCtrl: ToastController
   ) {
     //console.log(JSON.stringify(this.navParams))
     this.actor = this.navParams.get('data');
@@ -238,12 +240,22 @@ export class ActorEditPage {
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' +this.accident +'/actors/' +this.id,editActor)
       .subscribe(
         data => {
-          // console.log(data['_body']);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Interveniente editado com sucesso!',
+            duration: 3000,
+          });
+          toast.present();
           this.navCtrl.setRoot("ActorListPage",{accident : this.accident});
           this.navCtrl.popToRoot()
         },
         error => {
-          console.log(error);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Ocorreu um erro na ediação do interveniente!',
+            duration: 3000,
+          });
+          toast.present();
         },
       );
   }

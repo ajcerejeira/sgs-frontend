@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, ViewController, App } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, App, ToastController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import {
   Geocoder,
@@ -47,6 +47,7 @@ export class AccidentCreatePage {
     public geolocation: Geolocation,
     public http: Http,
     public navCtrl: NavController,
+    public toastCtrl: ToastController
   ) {
     this.geocoder = new google.maps.Geocoder();
     let elem = document.createElement('div');
@@ -166,13 +167,22 @@ export class AccidentCreatePage {
 
     this.http.post('https://sgs-backend.herokuapp.com/api/accidents', postData).subscribe(
       data => {
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Sinistro criado com sucesso!',
+          duration: 3000,
+        });
+        toast.present();
         let info = data.json()
         this.navCtrl.push('AccidentDetailPage', { id: info.id, vehicles: info.vehicles, actors: info.actors })
       }, error => {
-        console.log(error);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Ocorreu um erro na criação do sinistro!',
+          duration: 3000,
+        });
+        toast.present();
       },
     );
-    //this.navCtrl.push('AccidentListPage');
-    //this.app.getRootNav().push('AccidentDetailPage');
   }
 }

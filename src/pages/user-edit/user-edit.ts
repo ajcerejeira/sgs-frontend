@@ -66,6 +66,12 @@ export class UserEditPage {
         try {
           this.http.put(`https://sgs-backend.herokuapp.com/api/users/${this.idUser}`, newData).toPromise();
           localStorage.setItem('avatar', this.newAvatarImg);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Foto de perfil atualizada com sucesso!',
+            duration: 3000,
+          });
+          toast.present();
         } catch (err) {
           console.error(err);
         }
@@ -117,7 +123,12 @@ export class UserEditPage {
             toast.present();
           },
           error => {
-            console.log(error);
+            const toast = this.toastCtrl.create({
+              position: 'top',
+              message: 'Ocorreu um erro na edição de perfil!',
+              duration: 3000,
+            });
+            toast.present();
           },
         );
     } else {

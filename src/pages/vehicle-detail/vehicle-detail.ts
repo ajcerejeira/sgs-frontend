@@ -74,16 +74,12 @@ export class VehicleDetailPage {
   }
 
   async ionViewDidLoad() {
-    console.log('VEICULO: ' + this.vehicle.id);
     console.log('ionViewDidLoad VehicleDetailPage');
     this.vehicle.damages.forEach(value => {
       this.damages[value] = !this.damages[value];
     });
-    console.log("acidente: " + this.idAccident + " e id do veiculo: " + this.vehicleId);
     const res = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`).toPromise();
     this.pictures = res.json();
-    console.log(this.damages);
-    console.log(this.vehicle);
   }
 
 
@@ -110,19 +106,33 @@ export class VehicleDetailPage {
                   await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
                     .subscribe(
                       res => {
-                        console.log("FIZ GET: " + this.idAccident)
-                        // this.navCtrl.pop();
-                        // this.viewCtrl.dismiss()
-                        // this.navCtrl.push('VehicleListPage', this.idAccident);
+                        const toast = this.toastCtrl.create({
+                          position: 'top',
+                          message: 'Veículo removido com sucesso!',
+                          duration: 3000,
+                        });
+                        toast.present();
                         this.navCtrl.setRoot('VehicleListPage', this.idAccident);
                         this.navCtrl.popToRoot()
                       },
                       error => {
+                        const toast = this.toastCtrl.create({
+                          position: 'top',
+                          message: 'Ocorreu um erro ao remover o veículo!',
+                          duration: 3000,
+                        });
+                        toast.present();
                         console.log(error);
                       }
                     );
                 },
                 error => {
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Ocorreu um erro ao remover o veículo!',
+                    duration: 3000,
+                  });
+                  toast.present();
                   console.log(error);
                 },
               );
@@ -143,10 +153,20 @@ export class VehicleDetailPage {
 
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicle.id, { 'damages': array }).subscribe(
       data => {
-        console.log(data['_body']);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Danos do veículo atualizados com sucesso!',
+          duration: 3000,
+        });
+        toast.present();
       },
       error => {
-        console.log(error);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Ocorreu um erro ao atualizar os danos do veículo!',
+          duration: 3000,
+        });
+        toast.present();
       },
     );
   }
@@ -228,7 +248,7 @@ export class VehicleDetailPage {
                   this.pictures = pictures;
                   const toast = this.toastCtrl.create({
                     position: 'top',
-                    message: 'Upload de imagem feito com sucesso!',
+                    message: 'Upload de imagem concluído com sucesso!',
                     duration: 3000,
                   });
                   toast.present();

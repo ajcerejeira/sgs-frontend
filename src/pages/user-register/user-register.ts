@@ -69,7 +69,7 @@ export class UserRegisterPage {
             console.log(data['_body']);
             const toast = this.toastCtrl.create({
               position: 'top',
-              message: 'Utilizador criado com sucesso!',
+              message: 'Utilizador registado com sucesso!',
               duration: 3000,
             });
             toast.present();
@@ -80,7 +80,7 @@ export class UserRegisterPage {
             console.log(error);
             const toast = this.toastCtrl.create({
               position: 'top',
-              message: 'Email já existente no sistema!',
+              message: 'Já existe uma conta de utilizador registada com esse email!',
               duration: 3000,
             });
             toast.present();

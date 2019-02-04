@@ -5,7 +5,8 @@ import {
   NavParams,
   AlertController,
   ModalController,
-  ViewController
+  ViewController,
+  ToastController
 } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -35,6 +36,7 @@ export class AccidentInfoPage {
     public viewCtrl: ViewController,
     public http: Http,
     public iab: InAppBrowser,
+    public toastCtrl: ToastController
   ) {}
 
   ionViewDidLoad() {
@@ -97,13 +99,22 @@ export class AccidentInfoPage {
             this.http.delete('https://sgs-backend.herokuapp.com/api/accidents/' + this.navParams.data)
               .subscribe(
                 res => {
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Sinistro removido com sucesso!',
+                    duration: 3000,
+                  });
+                  toast.present();
                   this.navCtrl.setRoot('AccidentListPage');
-                  this.navCtrl.popToRoot()
-                  // this.navCtrl.push('AccidentListPage');
-                  //aqui
+                  this.navCtrl.popToRoot();
                 },
                 error => {
-                  console.log(error);
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Ocorreu um erro na remoção do sinistro!',
+                    duration: 3000,
+                  });
+                  toast.present();
                 },
               );
           },

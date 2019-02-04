@@ -52,7 +52,7 @@
     <ion-item *ngIf="vehicle.meta.model!=''">
       Modelo <ion-note item-end>{{ vehicle.meta.model }}</ion-note>
     </ion-item>
-    <ion-item *ngIf="vehicle.meta.year!=0 && vehicle.meta.year!=null">
+    <ion-item *ngIf="vehicle.meta.year!=null">
       Ano <ion-note item-end>{{ vehicle.meta.year }}</ion-note>
     </ion-item>
     <ion-list-header color="light" *ngIf="vehicle.meta.policy.length>0 || vehicle.meta.insurance.length>0 || vehicle.meta.expirationDate!=null">

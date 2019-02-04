@@ -44,8 +44,8 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Ano</ion-label>
-          <!-- <ion-datetime [(ngModel)]="year" displayFormat="YYYY" pickerFormat="YYYY" formControlName="year"></ion-datetime> -->
-          <ion-input [(ngModel)]="year" type="number" formControlName="year"> {{year.value}}</ion-input>
+          <ion-datetime [(ngModel)]="year" min="1900" max="2019" displayFormat="YYYY" pickerFormat="YYYY" formControlName="year">{{yearValid}}</ion-datetime>
+          <!-- <ion-input [(ngModel)]="year" type="number" formControlName="year"> {{year.value}}</ion-input> -->
         </ion-item>
         <ion-item>
           <ion-label floating>Cor</ion-label>

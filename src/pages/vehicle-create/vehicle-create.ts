@@ -5,6 +5,7 @@ import {
   App,
   NavParams,
   NavController,
+  ToastController
 } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Http } from '@angular/http';
@@ -38,6 +39,7 @@ export class VehicleCreatePage {
     private formBuilder: FormBuilder,
     public navParams: NavParams,
     public http: Http,
+    public toastCtrl: ToastController
   ) {
     this.vehicle = this.formBuilder.group({
       register: [''],
@@ -94,27 +96,40 @@ export class VehicleCreatePage {
       pictures: []
     };
 
+    // console.log('NEW_V' + JSON.stringify(new_vehicle))
+
     await this.http.post('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/', new_vehicle)
         .subscribe(
           async data => {
-            //console.log(data['_body']);
             await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
               .subscribe(
                 res => {
-                  // this.dismiss();
-                  // this.navCtrl.push('AccidentDetailPage',{id: this.idAccident, vehicles: res.vehicles, actors: res.actors});
-                  // this.navCtrl.pop();
-                  // this.navCtrl.push('VehicleListPage', this.idAccident);
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Veículo criado com sucesso!',
+                    duration: 3000,
+                  });
+                  toast.present();
                   this.navCtrl.setRoot('VehicleListPage', this.idAccident);
                   this.navCtrl.popToRoot();
                 },
                 error => {
-                  console.log(error);
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Ocorreu um erro na criação do veículo!',
+                    duration: 3000,
+                  });
+                  toast.present();
                 }
             );
         },
         error => {
-          console.log(error);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Ocorreu um erro na criação do veículo!',
+            duration: 3000,
+          });
+          toast.present();
         },
       );
   }
