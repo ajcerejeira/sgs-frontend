@@ -34,6 +34,7 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
   ) {
+    this.update();
     this.initializeApp();
     this.userId = parseInt(localStorage.getItem('userId'));
     this.email = localStorage.getItem('email');
