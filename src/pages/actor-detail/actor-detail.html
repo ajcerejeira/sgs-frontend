@@ -62,7 +62,7 @@
     </ion-item>
 
 
-    <ion-item>Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note>
+    <ion-item *ngIf="alcoholTest!=null">Teste de Alcoolemia: <ion-note item-end>{{ alcoholTest }} g/l</ion-note>
     </ion-item>
     <button *ngIf="idv" ion-item (click)="vehicleDetail(vehicle)">
       Veículo:
@@ -73,32 +73,33 @@
     </button>
 
 
-    <ion-list-header color="light">
+    <ion-list-header color="light" *ngIf="name!=null || birth!=null || phone!=null || email!=null || nationality!=null">
       <ion-icon name="person"></ion-icon>
       Dados Pessoais
     </ion-list-header>
+    <ion-item *ngIf="name!=null">Nome: <ion-note item-end>{{ name }}</ion-note>
+    </ion-item>
+    <ion-item *ngIf="birth!=null">Data de Nascimento: <ion-note item-end>{{ birthAux }}</ion-note>
+    </ion-item>
+    <ion-item *ngIf="phone!=null">Contacto: <ion-note item-end>{{ phone }}</ion-note>
+    </ion-item>
+    <ion-item *ngIf="email!=null">Email: <ion-note item-end>{{ email }}</ion-note>
+    </ion-item>
+    <ion-item *ngIf="nationality!=null">Nacionalidade: <ion-note item-end>{{ nationality }}</ion-note>
+    </ion-item>
 
-    <ion-item>Nome: <ion-note item-end>{{ name }}</ion-note>
-    </ion-item>
-    <ion-item>Data de Nascimento: <ion-note item-end>{{ birthAux }}</ion-note>
-    </ion-item>
-    <ion-item>Contacto: <ion-note item-end>{{ phone }}</ion-note>
-    </ion-item>
-    <ion-item>Email: <ion-note item-end>{{ email }}</ion-note>
-    </ion-item>
-    <ion-item>Nacionalidade: <ion-note item-end>{{ nationality }}</ion-note>
-    </ion-item>
-    <ion-list-header color="light">
+    <ion-list-header color="light" *ngIf="locality!=null || address!=null || zipcode!=null">
       <ion-icon name="home"></ion-icon>
       Localização
     </ion-list-header>
-    <ion-item>Localidade: <ion-note item-end>{{ locality }}</ion-note>
+    <ion-item *ngIf="locality!=null">Localidade: <ion-note item-end>{{ locality }}</ion-note>
     </ion-item>
-    <ion-item>Morada: <ion-note item-end>{{ address }}</ion-note>
+    <ion-item *ngIf="address!=null">Morada: <ion-note item-end>{{ address }}</ion-note>
     </ion-item>
-    <ion-item>Código-Postal: <ion-note item-end>{{ zipcode }}</ion-note>
+    <ion-item *ngIf="zipcode!=null">Código-Postal: <ion-note item-end>{{ zipcode }}</ion-note>
     </ion-item>
-    <ion-list-header color="light">
+
+    <ion-list-header color="light" *ngIf="identityDocumentNumber!=null || identityDocumentExpirationDateAux!=null || identityDocumentType == 'IdentityDocument' || identityDocumentType == 'Passport' || identityDocumentType == 'DriverLicense'">
       <ion-icon name="card"></ion-icon>
       Identificação
     </ion-list-header>
@@ -110,9 +111,9 @@
         Condução</ion-note>
     </ion-item>
 
-    <ion-item>Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note>
+    <ion-item *ngIf="identityDocumentNumber!=null">Nº de Identificação: <ion-note item-end>{{ identityDocumentNumber }}</ion-note>
     </ion-item>
-    <ion-item>Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDateAux }}</ion-note>
+    <ion-item *ngIf="identityDocumentExpirationDateAux!=null">Data de Validade: <ion-note item-end>{{ identityDocumentExpirationDateAux }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-note item-end></ion-note>

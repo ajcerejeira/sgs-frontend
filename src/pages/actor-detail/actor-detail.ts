@@ -339,9 +339,14 @@ export class ActorDetailPage {
   }
 
   vehicleDetail(vehicle) {
+    // this.navCtrl.push('VehicleDetailPage', {
+    //   vehicle: vehicle, 
+    //   idAccident: this.accidentId});
     this.navCtrl.push('VehicleDetailPage', {
-      vehicle: vehicle, 
-      idAccident: this.accidentId});
+      vehicle: vehicle,
+      idVehicle: vehicle.id,
+      idAccident: this.accidentId
+    });
   }
 
   removeItem(i) {
