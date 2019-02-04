@@ -62,7 +62,7 @@ export class LoginPage {
     } catch (err) {
       const toast = this.toastCtrl.create({
         position: 'top',
-        message: 'Login falhado, por favor verifique as suas credenciais!',
+        message: 'Erro ao realizar o login, por favor verifique as suas credenciais!',
         duration: 3000,
       });
       toast.present();
