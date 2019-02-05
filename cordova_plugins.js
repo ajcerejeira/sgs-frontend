@@ -665,7 +665,7 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.4.2",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-splashscreen": "5.0.2",
-    "cordova-plugin-ionic-webview": "2.3.2",
+    "cordova-plugin-ionic-webview": "2.3.3",
     "cordova-plugin-ionic-keyboard": "2.1.3",
     "cordova-plugin-camera": "4.1.0-dev",
     "cordova-plugin-email-composer": "0.9.2",
@@ -674,7 +674,7 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.7.1",
     "cordova-plugin-file-opener2": "2.1.3",
     "cordova-plugin-inappbrowser": "3.0.0",
-    "cordova-plugin-googlemaps": "2.5.0"
+    "cordova-plugin-googlemaps": "2.5.0-beta-20190124-1620"
 }
 // BOTTOM OF METADATA
 });
