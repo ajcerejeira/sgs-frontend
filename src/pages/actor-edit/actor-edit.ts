@@ -4,6 +4,7 @@ import {
   NavController,
   NavParams,
   ViewController,
+  ToastController
 } from 'ionic-angular';
 import { FormBuilder } from '@angular/forms';
 import { Http } from '@angular/http';
@@ -35,13 +36,9 @@ export class ActorEditPage {
   email: string;
   phone: string;
   nationality: string;
-  naturality: string;
-  parentage1: string;
-  parentage2: string;
   locality: string;
   zipcode: string;
   address: string;
-  doorNumber: string;
   role: string;
   wounds: string;
   alcoholTest: number;
@@ -54,7 +51,8 @@ export class ActorEditPage {
   register: string;
   make: string;
   model: string;
-
+  public vehicleC: any;
+  registers: any =[];
 
   constructor(
     public navCtrl: NavController,
@@ -62,12 +60,14 @@ export class ActorEditPage {
     public viewCtrl: ViewController,
     public formBuilder: FormBuilder,
     public http: Http,
+    public toastCtrl: ToastController
   ) {
     //console.log(JSON.stringify(this.navParams))
     this.actor = this.navParams.get('data');
+    // console.log("ACTOR:" + JSON.stringify(this.actor))
     //this.vehicle = this.navParams.get('vehicle');
-   
     this.id = this.actor.id;
+
     if (this.actor.person.identityDocumentType) {
       this.identityDocumentType = this.actor.person.identityDocumentType;
     } else {
@@ -115,21 +115,6 @@ export class ActorEditPage {
     } else {
       this.nationality = '';
     }
-    if (this.actor.person.naturality) {
-      this.naturality = this.actor.person.naturality;
-    } else {
-      this.naturality = '';
-    }
-    if (this.actor.person.parentage[0]) {
-      this.parentage1 = this.actor.person.parentage[0];
-    } else {
-      this.parentage1 = '';
-    }
-    if (this.actor.person.parentage[1]) {
-      this.parentage2 = this.actor.person.parentage[1];
-    } else {
-      this.parentage2 = '';
-    }
     if (this.actor.person.locality) {
       this.locality = this.actor.person.locality;
     } else {
@@ -144,11 +129,6 @@ export class ActorEditPage {
       this.address = this.actor.person.address;
     } else {
       this.address = '';
-    }
-    if (this.actor.person.doorNumber) {
-      this.doorNumber = this.actor.person.doorNumber;
-    } else {
-      this.doorNumber = '';
     }
     if (this.actor.role) {
       this.role = this.actor.role;
@@ -180,6 +160,7 @@ export class ActorEditPage {
         .subscribe(
           resv => {
             this.vehicles = resv
+            this.getRegisters();
           },
           error => {
             console.log(error);
@@ -188,6 +169,16 @@ export class ActorEditPage {
   }
 
   convertToNumber(event):number {  return +event; }
+
+  getRegisters() {
+    for (const vehicle of this.vehicles) {
+      //this.registers.push(vehicle.meta.register);
+      this.vehicleC = {
+        register: vehicle.meta.register,
+      };
+      this.registers.push(this.vehicleC);
+    }
+  }
 
   dismiss() {
     this.navCtrl.pop();
@@ -202,9 +193,6 @@ export class ActorEditPage {
     if (this.wounds === '') this.wounds = null;
     if (this.identityDocumentExpirationDate === '')
       this.identityDocumentExpirationDate = null;
-    var parents = [];
-    if (this.parentage1.length > 0) parents.push(this.parentage1);
-    if (this.parentage2.length > 0) parents.push(this.parentage2);
     let person = {
       identityDocumentType: this.identityDocumentType,
       identityDocumentNumber: this.identityDocumentNumber,
@@ -215,12 +203,9 @@ export class ActorEditPage {
       email: this.email,
       phone: this.phone,
       nationality: this.nationality,
-      naturality: this.naturality,
-      parentage: parents,
       locality: this.locality,
       zipcode: this.zipcode,
       address: this.address,
-      doorNumber: this.doorNumber,
     };
     let vehicle = {
       id: this.idVehicle
@@ -238,12 +223,22 @@ export class ActorEditPage {
     this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' +this.accident +'/actors/' +this.id,editActor)
       .subscribe(
         data => {
-          // console.log(data['_body']);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Interveniente editado com sucesso!',
+            duration: 3000,
+          });
+          toast.present();
           this.navCtrl.setRoot("ActorListPage",{accident : this.accident});
           this.navCtrl.popToRoot()
         },
         error => {
-          console.log(error);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Ocorreu um erro na ediação do interveniente!',
+            duration: 3000,
+          });
+          toast.present();
         },
       );
   }

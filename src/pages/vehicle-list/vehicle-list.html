@@ -28,14 +28,16 @@
               </ion-col>
             </ion-row>
             <ion-row align-items-center>
-              <ion-col col-8>
+              <ion-col>
                 <ion-item>
                   <ion-icon name="information-circle" item-start></ion-icon>
-                  <h2>{{ vehicle.meta.register }}</h2>
-                  <p>{{ vehicle.meta.make }}</p>
+                  <h2 *ngIf="vehicle.meta.register!=''">{{ vehicle.meta.register }}</h2>
+                  <h2 *ngIf="vehicle.meta.register==''">Matrícula desconhecida</h2>
+                  <p *ngIf="vehicle.meta.make!=''">{{ vehicle.meta.make }}</p>
+                  <p *ngIf="vehicle.meta.make==''">Modelo desconhecido</p>
                 </ion-item>
               </ion-col>
-              <ion-col col-4>
+              <ion-col *ngIf="vehicle.meta.color!=''">
                 <ion-item>
                   <ion-icon name="color-palette" item-start></ion-icon>
                   <div [style.background]="vehicle.meta.color" style="width: 16px; height: 16px; border: 1px solid rgba(1, 1, 1, .2); float: left; border-radius: 180%;"></div>

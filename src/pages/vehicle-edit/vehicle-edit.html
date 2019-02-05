@@ -44,22 +44,22 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Ano</ion-label>
-          <!-- <ion-datetime [(ngModel)]="year" displayFormat="YYYY" pickerFormat="YYYY" formControlName="year"></ion-datetime> -->
-          <ion-input [(ngModel)]="year" type="number" formControlName="year"> {{year.value}}</ion-input>
+          <ion-datetime [(ngModel)]="year" min="1900" max="2019" displayFormat="YYYY" pickerFormat="YYYY" formControlName="year">{{yearValid}}</ion-datetime>
+          <!-- <ion-input [(ngModel)]="year" type="number" formControlName="year"> {{year.value}}</ion-input> -->
         </ion-item>
         <ion-item>
           <ion-label floating>Cor</ion-label>
           <ion-select [(ngModel)]="color" formControlName="color" okText="Selecionar" cancelText="Cancelar">
-            <ion-option value="#ffff00">Amarelo</ion-option>
-            <ion-option value="#0000ff">Azul</ion-option>
             <ion-option value="#ffffff">Branco</ion-option>
             <ion-option value="#000000">Preto</ion-option>
-            <ion-option value="#a52a2a">Castanho</ion-option>
             <ion-option value="#bebebe">Cinza</ion-option>
+            <ion-option value="#0000ff">Azul</ion-option>
+            <ion-option value="#ff0000">Vermelho</ion-option>
+            <ion-option value="#a52a2a">Castanho</ion-option>
+            <ion-option value="#ffff00">Amarelo</ion-option>
             <ion-option value="#ffa500">Laranja</ion-option>
             <ion-option value="#a020f0">Roxo</ion-option>
             <ion-option value="#00ff00">Verde</ion-option>
-            <ion-option value="#ff0000">Vermelho</ion-option>
             {{color.value}}
           </ion-select>
         </ion-item>
@@ -77,7 +77,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Data de Validade do Seguro</ion-label>
-          <ion-datetime displayFormat="DD/MMM/YYYY HH:mm" pickerFormat="DD/MMM/YYYY HH:mm" [(ngModel)]="expirationDate" formControlName="expirationDate"> {{expirationDate}} </ion-datetime>
+          <ion-datetime displayFormat="DD/MMM/YYYY" pickerFormat="DD/MMM/YYYY" [(ngModel)]="expirationDate" formControlName="expirationDate"> {{expirationDate}} </ion-datetime>
           <!-- <ion-datetime [(ngModel)]="expirationDate" max="2050/01/01" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" formControlName="expirationDate"></ion-datetime> -->
         </ion-item>
       </ion-list>

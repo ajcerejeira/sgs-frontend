@@ -10,6 +10,7 @@ import {
   ToastController
 } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { ImageViewerController } from 'ionic-img-viewer';
 
 /**
  * Generated class for the VehicleDetailPage page.
@@ -36,7 +37,7 @@ export class VehicleDetailPage {
     wounds: ''
   }
   passengers = []  //TODO
-  
+
   damages: boolean[] = [
     false,
     false,
@@ -49,9 +50,10 @@ export class VehicleDetailPage {
     false
   ];
   public pictures: string[] = [];
-  public newPicture:  string;
+  public newPicture: string;
   public newPictureFile: File;
   public newPictureImg: string;
+  _imageViewerCtrl: ImageViewerController;
 
   constructor(
     public modalCtrl: ModalController,
@@ -61,30 +63,28 @@ export class VehicleDetailPage {
     public viewCtrl: ViewController,
     private camera: Camera,
     public http: Http,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public imageViewerCtrl: ImageViewerController
   ) {
     this.vehicle = this.navParams.get('vehicle');
     this.vehicleId = this.navParams.get('idVehicle');
     this.idAccident = this.navParams.get('idAccident');
     this.actors = this.navParams.get('actors');
+    this._imageViewerCtrl = imageViewerCtrl;
   }
 
   async ionViewDidLoad() {
-    console.log('VEICULO: ' + this.vehicle.id);
     console.log('ionViewDidLoad VehicleDetailPage');
     this.vehicle.damages.forEach(value => {
       this.damages[value] = !this.damages[value];
     });
-    console.log("acidente: "+ this.idAccident + " e id do veiculo: "+this.vehicleId);
     const res = await this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`).toPromise();
     this.pictures = res.json();
-    console.log(this.damages);
-    console.log(this.vehicle);
   }
 
-  
-  imageViewer(){
-    this.navCtrl.push('VehicleImageViewerPage', {pictures: this.pictures});
+
+  imageViewer() {
+    this.navCtrl.push('VehicleImageViewerPage', { pictures: this.pictures });
   }
 
   async confirmDelete() {
@@ -100,25 +100,39 @@ export class VehicleDetailPage {
         {
           text: 'Eliminar',
           handler: () => {
-            this.http.delete('https://sgs-backend.herokuapp.com/api/accidents/' +this.idAccident +'/vehicles/' +this.vehicleId,)
+            this.http.delete('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicleId)
               .subscribe(
                 async data => {
                   await this.http.get("https://sgs-backend.herokuapp.com/api/accidents/" + this.idAccident).map(res => res.json())
                     .subscribe(
                       res => {
-                        console.log("FIZ GET: " + this.idAccident)
-                        // this.navCtrl.pop();
-                        // this.viewCtrl.dismiss()
-                        // this.navCtrl.push('VehicleListPage', this.idAccident);
+                        const toast = this.toastCtrl.create({
+                          position: 'top',
+                          message: 'Veículo removido com sucesso!',
+                          duration: 3000,
+                        });
+                        toast.present();
                         this.navCtrl.setRoot('VehicleListPage', this.idAccident);
                         this.navCtrl.popToRoot()
                       },
                       error => {
+                        const toast = this.toastCtrl.create({
+                          position: 'top',
+                          message: 'Ocorreu um erro ao remover o veículo!',
+                          duration: 3000,
+                        });
+                        toast.present();
                         console.log(error);
                       }
-                  );
+                    );
                 },
                 error => {
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Ocorreu um erro ao remover o veículo!',
+                    duration: 3000,
+                  });
+                  toast.present();
                   console.log(error);
                 },
               );
@@ -137,12 +151,22 @@ export class VehicleDetailPage {
       }
     }
 
-    this.http.put('https://sgs-backend.herokuapp.com/api/accidents/'+ this.idAccident + '/vehicles/' + this.vehicle.id, { 'damages': array }).subscribe(
+    this.http.put('https://sgs-backend.herokuapp.com/api/accidents/' + this.idAccident + '/vehicles/' + this.vehicle.id, { 'damages': array }).subscribe(
       data => {
-        console.log(data['_body']);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Danos do veículo atualizados com sucesso!',
+          duration: 3000,
+        });
+        toast.present();
       },
       error => {
-        console.log(error);
+        const toast = this.toastCtrl.create({
+          position: 'top',
+          message: 'Ocorreu um erro ao atualizar os danos do veículo!',
+          duration: 3000,
+        });
+        toast.present();
       },
     );
   }
@@ -164,6 +188,8 @@ export class VehicleDetailPage {
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      saveToPhotoAlbum: true,
     };
 
     this.camera.getPicture(options).then(
@@ -188,61 +214,64 @@ export class VehicleDetailPage {
     );
   }
 
-  onFileChange(event: any) {
+  async onFileChange(event: any) {
     let reader = new FileReader();
-   
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
-    
       reader.onload = () => {
         this.newPictureImg = reader.result.toString();
         this.newPictureFile = (file as File);
-        //console.log(reader.result);
-        //this.formGroup.patchValue({
-        // file: reader.result
-        //});
-        
-        // need to run CD since file load runs outside of zone
-        //this.cd.markForCheck();
-      };
-      const toast = this.toastCtrl.create({
-        position: 'top',
-        message: 'Imagem escolhida com successo!\nPor favor faça upload da mesma.',
-        duration: 3000,
-      });
-      toast.present();
-    }
-  }
 
-  async uploadPicture() {
-    if(this.newPictureFile==undefined){
-      const toast = this.toastCtrl.create({
-        position: 'top',
-        message: 'Tem de selecionar uma imagem antes de fazer upload!',
-        duration: 3000,
-      });
-      toast.present();
-    }else{
-      console.log(this.newPictureFile);
-      const newData = new FormData();
-      newData.append('picture', this.newPictureFile, this.newPictureFile.name);
-      try {
-        const res = await this.http.post(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`,newData).toPromise();
-        console.log("RES:" +res)
-        this.pictures = res.json().pictures;
-        this.navCtrl.setRoot('VehicleImageViewerPage');
-        this.navCtrl.popToRoot();
-        // this.navCtrl.push('VehicleImageViewerPage', {pictures: this.pictures});
-      } catch(err) {
-        const toast = this.toastCtrl.create({
-          position: 'top',
-          message: 'Ocorreu um erro durante o upload da imagem!',
-          duration: 3000,
-        });
-        toast.present();
-        console.error(err);
-      }
+        if (this.newPictureFile == undefined) {
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Tem de selecionar uma imagem antes de fazer upload!',
+            duration: 3000,
+          });
+          toast.present();
+        } else {
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Upload em progresso...',
+            duration: 1500,
+          });
+          toast.present();
+          console.log(this.newPictureFile);
+          const newData = new FormData();
+          newData.append('picture', this.newPictureFile, this.newPictureFile.name);
+          this.http.post(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`, newData).map(res => res.json()).subscribe(
+            res => {
+              console.log("RES:" + res)
+              this.http.get(`https://sgs-backend.herokuapp.com/api/accidents/${this.idAccident}/vehicles/${this.vehicleId}/pictures`).map(res => res.json()).subscribe(
+                pictures => {
+                  this.pictures = pictures;
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Upload de imagem concluído com sucesso!',
+                    duration: 3000,
+                  });
+                  toast.present();
+                },
+                error => {
+                  const toast = this.toastCtrl.create({
+                    position: 'top',
+                    message: 'Ocorreu um erro durante o upload da imagem!',
+                    duration: 3000,
+                  });
+                  toast.present();
+              })
+            },
+            error => {
+              const toast = this.toastCtrl.create({
+                position: 'top',
+                message: 'Ocorreu um erro durante o upload da imagem!',
+                duration: 3000,
+              });
+              toast.present();
+          });
+        }
+      };
     }
   }
 

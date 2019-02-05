@@ -54,6 +54,7 @@ export class LoginPage {
         localStorage.setItem('name', data.name);
         localStorage.setItem('email', data.email);
         localStorage.setItem('avatar', `https://sgs-backend.herokuapp.com/api/users/${data.id}/avatar`);
+        localStorage.setItem('entity', data.entity);
       } catch (err) {
         console.log(err);
       }
@@ -61,7 +62,7 @@ export class LoginPage {
     } catch (err) {
       const toast = this.toastCtrl.create({
         position: 'top',
-        message: 'Email ou password incorrectos',
+        message: 'Erro ao realizar o login, por favor verifique as suas credenciais!',
         duration: 3000,
       });
       toast.present();
@@ -94,7 +95,7 @@ export class LoginPage {
             this.send();*/
             console.log(data);
             let toast = this.toastCtrl.create({
-              message: 'Email foi enviado com sucesso!',
+              message: 'Email enviado com sucesso!',
               duration: 3000,
               position: 'top',
             });

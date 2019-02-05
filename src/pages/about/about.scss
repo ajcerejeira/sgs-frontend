@@ -1,0 +1,26 @@
+page-about {
+
+
+  .splash-info {
+    position: relative;
+    z-index: 2;
+    margin-top: -64px;
+    text-align: center;
+  }
+  .splash-logo {
+    margin: auto;
+    background: url("../assets/imgs/appicon.png") repeat transparent;
+    background-size: 100%;
+    width: 128px;
+    height: 128px;
+  }
+
+
+.bg-image{
+        background-image: url('assets/img/bj.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+
+}

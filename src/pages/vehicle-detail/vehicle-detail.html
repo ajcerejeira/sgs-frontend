@@ -8,9 +8,9 @@
       <button ion-button icon-only (click)="confirmDelete(vehicle)" *ngSwitchCase="'info'">
         <ion-icon name="trash"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="uploadPicture()" *ngSwitchCase="'gallery'">
+      <!-- <button ion-button icon-only (click)="uploadPicture()" *ngSwitchCase="'gallery'">
         <ion-icon name="cloud-upload"></ion-icon>
-      </button>
+      </button> -->
       <button ion-button icon-only (click)="sendDamages()" *ngSwitchCase="'damages'">
         <ion-icon name="checkmark-circle"></ion-icon>
       </button>
@@ -40,29 +40,29 @@
       <ion-icon name="car"></ion-icon>
       Geral
     </ion-list-header>
-    <ion-item *ngIf="vehicle.meta.type.length>0">
+    <ion-item>
       Tipo <ion-note item-end>{{ vehicle.meta.type }}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.register!=''">
       Matrícula <ion-note item-end>{{ vehicle.meta.register }}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.make!=''">
       Fabricante <ion-note item-end>{{ vehicle.meta.make }}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.model!=''">
       Modelo <ion-note item-end>{{ vehicle.meta.model }}</ion-note>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="vehicle.meta.year!=null">
       Ano <ion-note item-end>{{ vehicle.meta.year }}</ion-note>
     </ion-item>
     <ion-list-header color="light" *ngIf="vehicle.meta.policy.length>0 || vehicle.meta.insurance.length>0 || vehicle.meta.expirationDate!=null">
       <ion-icon name="umbrella"></ion-icon>
       Seguro
     </ion-list-header>
-    <ion-item *ngIf="vehicle.meta.policy.length>0">
+    <ion-item *ngIf="vehicle.meta.policy!=''">
       Apólice <ion-note item-end>{{ vehicle.meta.policy }}</ion-note>
     </ion-item>
-    <ion-item *ngIf="vehicle.meta.insurance.length>0">
+    <ion-item *ngIf="vehicle.meta.insurance!=''">
       Seguradora <ion-note item-end>{{ vehicle.meta.insurance }}</ion-note>
     </ion-item>
     <ion-item *ngIf="vehicle.meta.expirationDate!=null">

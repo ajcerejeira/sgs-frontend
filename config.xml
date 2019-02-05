@@ -91,11 +91,11 @@
     <plugin name="cordova-plugin-file" spec="6.0.1" />
     <plugin name="cordova-plugin-file-opener2" spec="2.1.4" />
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
-    <plugin name="cordova-plugin-googlemaps" spec="^2.5.0">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
-        <variable name="API_KEY_FOR_BROWSER_RELEASE" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
-        <variable name="API_KEY_FOR_BROWSER_DEBUG" value="AIzaSyBpwbltZSqDmScWEoVZPIANvXeyfxtjcug" />
+    <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs" />
+        <variable name="API_KEY_FOR_BROWSER_RELEASE" value="AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs" />
+        <variable name="API_KEY_FOR_BROWSER_DEBUG" value="AIzaSyDJ3xMYDRkdSoSpIERsYylJWqmv3D-rpXs" />
     </plugin>
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />

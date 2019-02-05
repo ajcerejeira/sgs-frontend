@@ -5,12 +5,16 @@ import {
   ViewController,
   NavParams,
   App,
+  ToastController
 } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import {
   GoogleMaps,
   GoogleMap,
   GoogleMapOptions,
+  GoogleMapsEvent,
+  LatLng,
+  Marker
 } from '@ionic-native/google-maps';
 import { Http } from '@angular/http';
 
@@ -49,6 +53,7 @@ export class AccidentEditPage {
     public geolocation: Geolocation,
     public http: Http,
     public navParams: NavParams,
+    public toastCtrl: ToastController
   ) {
     this.geocoder = new google.maps.Geocoder();
     let elem = document.createElement('div');
@@ -95,8 +100,15 @@ export class AccidentEditPage {
           this.longitude = this.position[1];
           this.map = GoogleMaps.create('map_canvas', mapOptions);
           this.map.clear();
-          this.map.addMarker({
-            position: mapOptions.camera.target,
+          let marker: Marker = this.map.addMarkerSync({
+            draggable: true,
+            position:  mapOptions.camera.target,
+          });
+          marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
+            let position: LatLng = params[0];
+            // console.log("NEW POSITION: " + position)
+            this.latitude = position.lat;
+            this.longitude = position.lng;
           });
         },
         error => {
@@ -138,8 +150,15 @@ export class AccidentEditPage {
         this.longitude = location.lng;
         this.map.setCameraTarget(location);
         this.map.clear();
-        this.map.addMarker({
-          position: location,
+        let marker: Marker = this.map.addMarkerSync({
+          draggable: true,
+          position:  location,
+        });
+        marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
+          let position: LatLng = params[0];
+          // console.log("NEW POSITION: " + position)
+          this.latitude = position.lat;
+          this.longitude = position.lng;
         });
       }
     });
@@ -158,14 +177,22 @@ export class AccidentEditPage {
       )
       .subscribe(
         data => {
-          //console.log(data['_body']);
-          //console.log('CENAS\n'+this.id+'\n'+this.vehicles+'\n'+this.actors)
-          // this.navCtrl.push('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Sinistro editado com sucesso!',
+            duration: 3000,
+          });
+          toast.present();
           this.navCtrl.setRoot('AccidentDetailPage',{id: this.id, vehicles: this.vehicles, actors: this.actors});
           this.navCtrl.popToRoot()
         },
         error => {
-          console.log(error);
+          const toast = this.toastCtrl.create({
+            position: 'top',
+            message: 'Ocorreu um erro na edição do sinistro!',
+            duration: 3000,
+          });
+          toast.present();
         },
       );
 

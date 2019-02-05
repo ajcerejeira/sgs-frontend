@@ -18,24 +18,24 @@
             <form [formGroup]="user">
                 <ion-list>
                   <ion-item no-padding>
+                    <ion-input type="text" formControlName="name"></ion-input>
                     <ion-label floating>Nome</ion-label>
-                    <ion-input type="text" formControlName="name"> </ion-input>
                   </ion-item>
                   <ion-item no-padding>
                     <ion-label floating>Email</ion-label>
-                    <ion-input type="text" formControlName="email"> </ion-input>
+                    <ion-input type="text" formControlName="email"></ion-input>
                   </ion-item>
                   <ion-item no-padding>
                     <ion-label floating>Password</ion-label>
-                    <ion-input type="password" formControlName="password" > </ion-input>
+                    <ion-input type="password" formControlName="password"></ion-input>
                   </ion-item>
                   <ion-item no-padding>
                     <ion-label floating>Repetir password</ion-label>
-                    <ion-input type="password" formControlName="confirmPassword"> </ion-input>
+                    <ion-input type="password" formControlName="confirmPassword"></ion-input>
                   </ion-item>
                   <ion-item no-padding>
                     <ion-label floating>Entidade</ion-label>
-                    <ion-select  okText="Selecionar" cancelText="Cancelar">
+                    <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="entity">
                       <ion-option value="PSP">Polícia de Segurança Pública</ion-option>
                       <ion-option value="GNR">Guarda Nacional Republicana</ion-option>
                       <ion-option value="Seguradora">Seguradora</ion-option>

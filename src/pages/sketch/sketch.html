@@ -11,15 +11,6 @@
     </button>
     <ion-title>Croqui digital</ion-title>
     <ion-buttons end>
-      <!-- <button ion-button icon-only (click)="zoomListener()">
-        <ion-icon name="refresh"></ion-icon>
-      </button> -->
-      <!-- <button ion-button icon-only (click)="undoLast()">
-        <ion-icon name="undo"></ion-icon>
-      </button> -->
-      <!-- <button ion-button icon-only (click)="loadSketch()">
-        <ion-icon name="cloud-download"></ion-icon>
-      </button> -->
       <button ion-button icon-only (click)="saveSketch()">
         <ion-icon name="checkmark-circle"></ion-icon>
       </button>
@@ -68,18 +59,12 @@
         <button ion-fab (click)="popupActors()">
           <ion-icon name="people"></ion-icon>
         </button>
-        <button ion-fab (click)="loadVictim()">
-          <ion-icon class="skull"></ion-icon>
-        </button>
         <button ion-fab (click)="popupSigns()">
           <ion-icon name="warning" ></ion-icon>
         </button>
         <button ion-fab (click)="loadPolygons()">
           <ion-icon class="place"></ion-icon>
         </button>
-        <!-- <button ion-fab (click)="loadRadiusCircle()">
-          <ion-icon class="circle"></ion-icon>
-        </button> -->
       </ion-fab-list>
     </ion-fab>
   </div>
