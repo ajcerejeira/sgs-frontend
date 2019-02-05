@@ -77,12 +77,7 @@ export class ActorDetailPage {
   wounds: string;
   alcoholTest: number;
   accidentId: any;
-  audioList: any[] = [
-    {
-      audio: 'Gravação António Silva',
-      filename: 'Gravação António Silva',
-    },
-  ];
+  audioList: any[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -264,6 +259,7 @@ export class ActorDetailPage {
     this.audio.startRecord();
     this.recording = true;
     const toast = this.toastCtrl.create({
+      position: 'top',
       message: 'A gravar áudio...',
       duration: 3000,
     });
@@ -288,20 +284,19 @@ export class ActorDetailPage {
     this.recording = false;
     this.testimonialList();
     const toast = this.toastCtrl.create({
+      position: 'top',
       message: `Gravação concluída: ${this.fileName}`,
       duration: 3000,
     });
     toast.present();
   }
 
-  testimonialPlay(file, idx) {
+  testimonialPlay(file) {
     if (this.platform.is('ios')) {
-      this.filePath =
-        this.file.documentsDirectory.replace(/file:\/\//g, '') + file;
+      this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + file;
       this.audio = this.media.create(this.filePath);
     } else if (this.platform.is('android')) {
-      this.filePath =
-        this.file.externalDataDirectory.replace(/file:\/\//g, '') + file;
+      this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + file;
       this.audio = this.media.create(this.filePath);
     }
     this.audio.play();

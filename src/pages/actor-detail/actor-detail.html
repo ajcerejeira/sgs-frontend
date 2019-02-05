@@ -121,14 +121,11 @@
   </ion-list>
 
   <ion-list *ngSwitchCase="'testimonials'">
-    <ion-item-sliding *ngFor="let audio of audioList; index as i;">
-      <ion-item>
-        <button ion-item (click)="testimonialPlay(audio.filename, i)">
+    <ion-item-sliding *ngFor="let audio of audioList;">
+        <button ion-item (click)="testimonialPlay(audio.filename)">
           <ion-icon name="play" item-start></ion-icon>
           <h2>{{ audio.filename }}</h2>
-          <p>{{ audio.filename }}</p>
         </button>
-      </ion-item>
       <ion-item-options>
         <button ion-button color="danger" (click)="removeItem(i)">
           <ion-icon name="trash"></ion-icon>

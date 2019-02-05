@@ -18,10 +18,6 @@
           Geral
         </ion-list-header>
         <ion-item>
-          <ion-label floating> Matrícula</ion-label>
-          <ion-input [(ngModel)]="register" type="text" formControlName="register"> {{register.value}} </ion-input>
-        </ion-item>
-        <ion-item>
           <ion-label color="primary" floating>Categoria</ion-label>
           <ion-select [(ngModel)]="type" formControlName="type" okText="Selecionar" cancelText="Cancelar">
             <ion-option value="Ligeiro de passageiros">Ligeiro de passageiros</ion-option>
@@ -33,6 +29,10 @@
             <ion-option value="Outros">Outros</ion-option>
           {{type.value}}
           </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating> Matrícula</ion-label>
+          <ion-input [(ngModel)]="register" type="text" formControlName="register"> {{register.value}} </ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Marca</ion-label>
