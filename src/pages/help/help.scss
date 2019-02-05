@@ -1,3 +1,43 @@
 page-help {
-
+    .splash-bg {
+        position: relative;
+        background: linear-gradient(
+            rgba(20, 101, 170, 0.7), 
+            rgba(20, 101, 170, 0.7)
+          ), url("../assets/imgs/splashbg.jpg") no-repeat transparent;
+        background-position: center;
+        background-size: cover;
+        height: 30%;
+        z-index: 1;
+      }
+      .splash-info {
+        position: relative;
+        z-index: 2;
+        margin-top: -64px;
+        text-align: center;
+      }
+      
+      .splash-logo {
+        margin: auto;
+        background: url("../assets/imgs/appicon.png") repeat transparent;
+        background-size: 100%;
+        width: 128px;
+        height: 128px;
+      }
+      .splash-intro {
+        color: #1465aa;
+        font-size: 16px;
+        font-weight: normal;
+        margin: auto;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+      }
+    
+      .splash-info2 {
+        font-size: 15px;
+        font-weight: normal;
+        margin: auto;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+      }
 }
