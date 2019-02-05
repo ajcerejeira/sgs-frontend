@@ -57,18 +57,18 @@ export class SketchPage {
   ];
 
   signDictionary = {
-    "Sinal STOP": '../assets/imgs/croquiItens/signs/stop.png',
-    "Semáforo": '../assets/imgs/croquiItens/signs/traffic-light.png',
-    "Sinal proibido": '../assets/imgs/croquiItens/signs/forbidden-sign.png',
-    "Sentido único": '../assets/imgs/croquiItens/signs/one-way.png',
-    "Cedência passagem": '../assets/imgs/croquiItens/signs/yield.png',
-    "Passadeira": '../assets/imgs/croquiItens/signs/crosswalk.png',
-    "Estacionamento": '../assets/imgs/croquiItens/signs/parkSign.png',
-    "Estacionamento proibido": '../assets/imgs/croquiItens/signs/noParking.png',
-    "Proibido virar esquerda": '../assets/imgs/croquiItens/signs/noLeftTurn.png',
-    "Proibido virar direita": '../assets/imgs/croquiItens/signs/noRightTurn.png',
-    "Rotunda": '../assets/imgs/croquiItens/signs/roundabout.png',
-    "Passagem de nível": '../assets/imgs/croquiItens/signs/railwayCrossing.png'
+    "Sinal STOP": 'assets/imgs/croquiItens/signs/stop.png',
+    "Semáforo": 'assets/imgs/croquiItens/signs/traffic-light.png',
+    "Sinal proibido": 'assets/imgs/croquiItens/signs/forbidden-sign.png',
+    "Sentido único": 'assets/imgs/croquiItens/signs/one-way.png',
+    "Cedência passagem": 'assets/imgs/croquiItens/signs/yield.png',
+    "Passadeira": 'assets/imgs/croquiItens/signs/crosswalk.png',
+    "Estacionamento": 'assets/imgs/croquiItens/signs/parkSign.png',
+    "Estacionamento proibido": 'assets/imgs/croquiItens/signs/noParking.png',
+    "Proibido virar esquerda": 'assets/imgs/croquiItens/signs/noLeftTurn.png',
+    "Proibido virar direita": 'assets/imgs/croquiItens/signs/noRightTurn.png',
+    "Rotunda": 'assets/imgs/croquiItens/signs/roundabout.png',
+    "Passagem de nível": 'assets/imgs/croquiItens/signs/railwayCrossing.png'
   };
 
   signTypes = {
@@ -233,7 +233,7 @@ export class SketchPage {
   onOkVehicle(licensePlate) {
     this.vehicles.forEach(v => {
       if (v.meta.register === licensePlate) {
-        let path = '../assets/imgs/croquiItens/carroCroqui/carroCroquiHighRes.png';
+        let path = 'assets/imgs/croquiItens/carroCroqui/carroCroquiHighRes.png';
         // console.log('ID QUE ENVIO: ' + v.id);
         this.choosePin(path, v.meta.color, v.id, '$event');
       }
@@ -241,7 +241,7 @@ export class SketchPage {
   }
 
   onOkCrosswalk() {
-    let path = '../assets/imgs/croquiItens/signs/crosswalkHighRes.png';
+    let path = 'assets/imgs/croquiItens/signs/crosswalkHighRes.png';
     this.choosePin(path, '', '', '$event');
   }
 
@@ -250,7 +250,7 @@ export class SketchPage {
       if (a.person.name == name) {
         console.log('ID_ACTOR: ' + a.id)
         let icon = {
-          url: '../assets/imgs/croquiItens/signs/actor.png',
+          url: 'assets/imgs/croquiItens/signs/actor.png',
           type: "actor",
           idActor: a.id
         };
@@ -488,7 +488,7 @@ export class SketchPage {
     });
     popover.onDidDismiss(data => {
       let newUrl = data.url.split('HighRes.png')[0] + data.angle + '.png'
-      let type = data.url.split('/')[5].split('.png') + ':' + data.customID
+      let type = data.url.split('/')[4].split('.png') + ':' + data.customID
       this.loadCustomMarker(newUrl, data.color, data.angle, type);
     })
   }
@@ -516,7 +516,7 @@ export class SketchPage {
       switch(element.properties['type']){
         case 'forbidden':
         console.log('forbiddenLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/forbidden-sign.png'
+          imgURL = 'assets/imgs/croquiItens/signs/forbidden-sign.png'
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -526,7 +526,7 @@ export class SketchPage {
           break;
         case 'oneWay':
           console.log('oneWayLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/one-way.png';
+          imgURL = 'assets/imgs/croquiItens/signs/one-way.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -536,7 +536,7 @@ export class SketchPage {
           break;
         case 'stop':
           console.log('stopLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/stop.png';
+          imgURL = 'assets/imgs/croquiItens/signs/stop.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -546,7 +546,7 @@ export class SketchPage {
           break;
         case 'trafficLight':
           console.log('trafficLightLOAD')
-          imgURL =  '../assets/imgs/croquiItens/signs/traffic-light.png';
+          imgURL =  'assets/imgs/croquiItens/signs/traffic-light.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -556,7 +556,7 @@ export class SketchPage {
           break;
         case 'yield':
           console.log('yieldLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/yield.png';
+          imgURL = 'assets/imgs/croquiItens/signs/yield.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -566,7 +566,7 @@ export class SketchPage {
           break;
         case 'actor':
           console.log('actorLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/actor.png';
+          imgURL = 'assets/imgs/croquiItens/signs/actor.png';
 
           icon = {
             url: imgURL,
@@ -610,7 +610,7 @@ export class SketchPage {
           break;
         case 'noPark':
           console.log('noParkLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/noParking.png';
+          imgURL = 'assets/imgs/croquiItens/signs/noParking.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -620,7 +620,7 @@ export class SketchPage {
           break;
         case 'parkSign':
           console.log('parkSignLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/parkSign.png';
+          imgURL = 'assets/imgs/croquiItens/signs/parkSign.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -630,7 +630,7 @@ export class SketchPage {
           break;
         case 'noRightTurn':
           console.log('noRightTurnLOAD')
-          imgURL =  '../assets/imgs/croquiItens/signs/noRightTurn.png';
+          imgURL =  'assets/imgs/croquiItens/signs/noRightTurn.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -640,7 +640,7 @@ export class SketchPage {
           break;
         case 'noLeftTurn':
           console.log('noLeftTurnLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/noLeftTurn.png';
+          imgURL = 'assets/imgs/croquiItens/signs/noLeftTurn.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -650,7 +650,7 @@ export class SketchPage {
           break;
         case 'roundabout':
           console.log('roundaboutLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/roundabout.png';
+          imgURL = 'assets/imgs/croquiItens/signs/roundabout.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -660,7 +660,7 @@ export class SketchPage {
           break;
         case 'railwayCrossing':
           console.log('railwayCrossingLOAD')
-          imgURL = '../assets/imgs/croquiItens/signs/railwayCrossing.png';
+          imgURL = 'assets/imgs/croquiItens/signs/railwayCrossing.png';
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -670,7 +670,7 @@ export class SketchPage {
           break;
         case 'car':
           console.log('carLOAD:'+element.properties['rotation'])
-          imgURL = `../assets/imgs/croquiItens/carroCroqui/carroCroqui${element.properties['rotation']}.png`;
+          imgURL = `assets/imgs/croquiItens/carroCroqui/carroCroqui${element.properties['rotation']}.png`;
 
            icon = {
             url: imgURL,
@@ -719,7 +719,7 @@ export class SketchPage {
           break;
         case 'crosswalk':
           console.log('crosswalkLOAD:'+element.properties['rotation'])
-          imgURL = `../assets/imgs/croquiItens/signs/crosswalk${element.properties['rotation']}.png`;
+          imgURL = `assets/imgs/croquiItens/signs/crosswalk${element.properties['rotation']}.png`;
           icon = {url: imgURL,fillColor: element.properties['fillColor'],type: this.signTypesInverted[element.properties.type],idVehicle: element.properties['idVehicle'],idActor: element.properties['idActor'],rotation: element.properties['rotation']};
           position = {lat: element.geometry.coordinates[0],lng: element.geometry.coordinates[1]};
           marker = {position: position,draggable: true,icon: icon};
@@ -750,59 +750,59 @@ export class SketchPage {
       console.log("COLOR " +markerInfo['fillColor'] + ' | ' +markerInfo.fillColor)
 
       switch (markerInfo.url) {
-        case '../assets/imgs/croquiItens/signs/forbidden-sign.png':
+        case 'assets/imgs/croquiItens/signs/forbidden-sign.png':
           console.log('forbiddenSAVE')
           iconName = 'forbidden'
           break;
-        case '../assets/imgs/croquiItens/signs/one-way.png':
+        case 'assets/imgs/croquiItens/signs/one-way.png':
           console.log('oneWaySAVE')
           iconName = 'oneWay'
           break;
-        case '../assets/imgs/croquiItens/signs/stop.png':
+        case 'assets/imgs/croquiItens/signs/stop.png':
           console.log('stopSAVE')
           iconName = 'stop'
           break;
-        case '../assets/imgs/croquiItens/signs/traffic-light.png':
+        case 'assets/imgs/croquiItens/signs/traffic-light.png':
           console.log('trafficLightSAVE')
           iconName = 'trafficLight'
           break;
-        case '../assets/imgs/croquiItens/signs/yield.png':
+        case 'assets/imgs/croquiItens/signs/yield.png':
           console.log('yieldSAVE')
           iconName = 'yield'
           break;
-        case '../assets/imgs/croquiItens/signs/actor.png':
+        case 'assets/imgs/croquiItens/signs/actor.png':
           console.log('actorSAVE')
           iconName = 'actor'
           break;
-        case '../assets/imgs/croquiItens/signs/noParking.png':
+        case 'assets/imgs/croquiItens/signs/noParking.png':
           console.log('noParkSAVE')
           iconName = 'noPark'
           break;
-        case '../assets/imgs/croquiItens/signs/parkSign.png':
+        case 'assets/imgs/croquiItens/signs/parkSign.png':
           console.log('parkSignSAVE')
           iconName = 'parkSign'
           break;
-        case '../assets/imgs/croquiItens/signs/noRightTurn.png':
+        case 'assets/imgs/croquiItens/signs/noRightTurn.png':
           console.log('noRighTurnSAVE')
           iconName = 'noRightTurn'
           break;
-        case '../assets/imgs/croquiItens/signs/noLeftTurn.png':
+        case 'assets/imgs/croquiItens/signs/noLeftTurn.png':
           console.log('noLeftTurnSAVE')
           iconName = 'noLeftTurn'
           break;
-        case '../assets/imgs/croquiItens/signs/roundabout.png':
+        case 'assets/imgs/croquiItens/signs/roundabout.png':
           console.log('roundaboutSAVE')
           iconName = 'roundabout'
           break;
-        case '../assets/imgs/croquiItens/signs/railwayCrossing.png':
+        case 'assets/imgs/croquiItens/signs/railwayCrossing.png':
           console.log('railwayCrossingSAVE')
           iconName = 'railwayCrossing'
           break;
-        case `../assets/imgs/croquiItens/carroCroqui/carroCroqui${markerInfo['rotation']}.png`:
+        case `assets/imgs/croquiItens/carroCroqui/carroCroqui${markerInfo['rotation']}.png`:
           console.log('carSAVE')
           iconName = 'car'
           break;
-        case `../assets/imgs/croquiItens/signs/crosswalk${markerInfo['rotation']}.png`:
+        case `assets/imgs/croquiItens/signs/crosswalk${markerInfo['rotation']}.png`:
           console.log('crosswalkSAVE')
           iconName = 'crosswalk'
           break;
