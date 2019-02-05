@@ -142,8 +142,12 @@ export class ActorDetailPage {
     this.wounds = res.wounds;
     this.alcoholTest = res.alcoholTest;
     
-    
-    
+    if (res.signature) {
+      this.signatureImage = res.signature;
+      this.drawn = true;
+    }
+
+
     if(res.vehicle){
       this.idv = res.vehicle.id;
       this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accidentId+"/vehicles/"+this.idv)
@@ -272,12 +276,23 @@ export class ActorDetailPage {
 
   clearSignature(){
     this.drawn = false;
-    this.signaturePad.clear();
+
+    if (this.signaturePad) {
+      this.signaturePad.clear();
+    }
+    // this.signaturePad.clear();
   }
 
   saveSignature() {
     this.drawn = true;
     this.signatureImage = this.signaturePad.toDataURL();
+
+    try {
+      const res = this.http.put(`https://sgs-backend.herokuapp.com/api/accidents/${this.accidentId}/actors/${this.actorId}`,{ signature: this.signatureImage }).toPromise();
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   testimonialStopRecord() {
