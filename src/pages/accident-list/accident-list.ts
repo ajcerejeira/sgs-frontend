@@ -7,7 +7,7 @@ import {
   ModalController,
   ViewController,
 } from 'ionic-angular';
-import { Http } from '@angular/http';
+import { Headers, Http } from '@angular/http';
 import { Data } from '../../providers/data/data';
 import 'rxjs/add/operator/map';
 
@@ -49,7 +49,9 @@ export class AccidentListPage {
   }
 
   async accidentList() {
-    await this.http.get('https://sgs-backend.herokuapp.com/api/accidents').map(res => res.json()).subscribe(
+    let headers = new Headers();
+    headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+    await this.http.get('https://sgs-backend.herokuapp.com/api/accidents', { headers }).map(res => res.json()).subscribe(
       res => {
         this.accidents = res;
         this.filteredAccidents = res;
