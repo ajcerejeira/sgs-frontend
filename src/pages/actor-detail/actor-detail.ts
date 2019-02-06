@@ -77,12 +77,7 @@ export class ActorDetailPage {
   wounds: string;
   alcoholTest: number;
   accidentId: any;
-  audioList: any[] = [
-    {
-      audio: 'Gravação António Silva',
-      filename: 'Gravação António Silva',
-    },
-  ];
+  audioList: any[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -142,8 +137,12 @@ export class ActorDetailPage {
     this.wounds = res.wounds;
     this.alcoholTest = res.alcoholTest;
     
-    
-    
+    if (res.signature) {
+      this.signatureImage = res.signature;
+      this.drawn = true;
+    }
+
+
     if(res.vehicle){
       this.idv = res.vehicle.id;
       this.http.get('https://sgs-backend.herokuapp.com/api/accidents/' +this.accidentId+"/vehicles/"+this.idv)
@@ -264,6 +263,7 @@ export class ActorDetailPage {
     this.audio.startRecord();
     this.recording = true;
     const toast = this.toastCtrl.create({
+      position: 'top',
       message: 'A gravar áudio...',
       duration: 3000,
     });
@@ -272,12 +272,23 @@ export class ActorDetailPage {
 
   clearSignature(){
     this.drawn = false;
-    this.signaturePad.clear();
+
+    if (this.signaturePad) {
+      this.signaturePad.clear();
+    }
+    // this.signaturePad.clear();
   }
 
   saveSignature() {
     this.drawn = true;
     this.signatureImage = this.signaturePad.toDataURL();
+
+    try {
+      const res = this.http.put(`https://sgs-backend.herokuapp.com/api/accidents/${this.accidentId}/actors/${this.actorId}`,{ signature: this.signatureImage }).toPromise();
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   testimonialStopRecord() {
@@ -288,20 +299,19 @@ export class ActorDetailPage {
     this.recording = false;
     this.testimonialList();
     const toast = this.toastCtrl.create({
+      position: 'top',
       message: `Gravação concluída: ${this.fileName}`,
       duration: 3000,
     });
     toast.present();
   }
 
-  testimonialPlay(file, idx) {
+  testimonialPlay(file) {
     if (this.platform.is('ios')) {
-      this.filePath =
-        this.file.documentsDirectory.replace(/file:\/\//g, '') + file;
+      this.filePath = this.file.documentsDirectory.replace(/file:\/\//g, '') + file;
       this.audio = this.media.create(this.filePath);
     } else if (this.platform.is('android')) {
-      this.filePath =
-        this.file.externalDataDirectory.replace(/file:\/\//g, '') + file;
+      this.filePath = this.file.externalDataDirectory.replace(/file:\/\//g, '') + file;
       this.audio = this.media.create(this.filePath);
     }
     this.audio.play();

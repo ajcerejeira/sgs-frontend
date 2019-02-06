@@ -53,10 +53,9 @@ export class MyApp {
 
   initializeApp() {
     this.appMenuItems = [
-      { title: 'Sinistros', component: AccidentListPage, icon: 'car' },
-      // { title: 'Definições', component: HelpPage, icon: 'build' },
-      { title: 'Ajuda', component: HelpPage, icon: 'help-buoy' },
-      { title: 'Sobre', component: AboutPage, icon: 'information-circle' },
+      { title: 'Sinistros', component: 'AccidentListPage', icon: 'car' },
+      { title: 'Ajuda', component: 'HelpPage', icon: 'help-buoy' },
+      { title: 'Sobre', component: 'AboutPage', icon: 'information-circle' },
     ];
 
     this.platform.ready().then(() => {

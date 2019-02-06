@@ -12,7 +12,7 @@ import {
   Marker,
   LatLng
 } from '@ionic-native/google-maps';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 declare var google: any;
 
@@ -164,8 +164,9 @@ export class AccidentCreatePage {
       date: this.myDate,
       position: [this.latitude, this.longitude],
     };
-
-    this.http.post('https://sgs-backend.herokuapp.com/api/accidents', postData).subscribe(
+    let headers = new Headers();
+    headers.append('Authorization', `bearer ${localStorage.getItem('token')}`);
+    this.http.post('https://sgs-backend.herokuapp.com/api/accidents', postData, { headers }).subscribe(
       data => {
         const toast = this.toastCtrl.create({
           position: 'top',
