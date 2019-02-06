@@ -30,7 +30,7 @@ export class ActorCreatePage {
   public register: any;
   public registers: any;
   id: string;
-  public url: string ='http://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors';
+  public url: string ='https://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors';
   public vehicleC: any;
   public birth: any;
   public expires: any;
@@ -106,7 +106,7 @@ export class ActorCreatePage {
         id: this.getCarId(this.register)
       },
     };
-    this.http.post('http://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors',personDetails,)
+    this.http.post('https://sgs-backend.herokuapp.com/api/accidents/' + this.id + '/actors',personDetails,)
       .subscribe(
         data => {
           console.log(data['_body']);
