@@ -78,7 +78,7 @@ export class AccidentCreatePage {
           lat: this.position.coords.latitude,
           lng: this.position.coords.longitude,
         },
-        zoom: 15,
+        zoom: 18,
       },
     };
     this.latitude = this.position.coords.latitude;

@@ -101,6 +101,7 @@ export class SketchPage {
     'railwayCrossing': "Passagem de nível"
   };
 
+  hasArea: any = false;
   vehicles: any;
   actors: any = [];
   actorNames: any = [];
@@ -159,6 +160,7 @@ export class SketchPage {
                   duration: 3000,
                 });
                 toast.present();
+                this.hasArea=false;
               },
               error => {
                 const toast = this.toastCtrl.create({
@@ -374,45 +376,55 @@ export class SketchPage {
   }
 
   loadPolygons() {
-    this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
-    this.polygonPoints = [];
-    this.polygonPoints.push({
-      lat: this.latitude + 0.0005,
-      lng: this.longitude + 0.00075,
-    });
-    this.polygonPoints.push({
-      lat: this.latitude + 0.0005,
-      lng: this.longitude - 0.00075,
-    });
-    this.polygonPoints.push({
-      lat: this.latitude - 0.0005,
-      lng: this.longitude - 0.00075,
-    });
-    this.polygonPoints.push({
-      lat: this.latitude - 0.0005,
-      lng: this.longitude + 0.00075,
-    });
-
-    let polygon: Polygon = this.map.addPolygonSync({
-      points: this.polygonPoints,
-      strokeColor: '#72a2cc',
-      fillColor: '#72a2cc',
-      strokeWidth: 10,
-    });
-
-    let points: BaseArrayClass<ILatLng> = polygon.getPoints();
-
-    points.forEach((latLng: ILatLng, idx: number) => {
-      let marker: Marker = this.map.addMarkerSync({
-        draggable: true,
-        position: latLng,
+    if(this.hasArea==false){
+      this.hasArea=true;
+      this.map.setCameraTarget({ lat: this.latitude, lng: this.longitude })
+      this.polygonPoints = [];
+      this.polygonPoints.push({
+        lat: this.latitude + 0.0005,
+        lng: this.longitude + 0.00075,
       });
-      marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
-        let position: LatLng = params[0];
-        points.setAt(idx, position);
-        this.polygonPoints = points.getArray();
+      this.polygonPoints.push({
+        lat: this.latitude + 0.0005,
+        lng: this.longitude - 0.00075,
       });
-    });
+      this.polygonPoints.push({
+        lat: this.latitude - 0.0005,
+        lng: this.longitude - 0.00075,
+      });
+      this.polygonPoints.push({
+        lat: this.latitude - 0.0005,
+        lng: this.longitude + 0.00075,
+      });
+
+      let polygon: Polygon = this.map.addPolygonSync({
+        points: this.polygonPoints,
+        strokeColor: '#72a2cc',
+        fillColor: '#72a2cc',
+        strokeWidth: 10,
+      });
+
+      let points: BaseArrayClass<ILatLng> = polygon.getPoints();
+
+      points.forEach((latLng: ILatLng, idx: number) => {
+        let marker: Marker = this.map.addMarkerSync({
+          draggable: true,
+          position: latLng,
+        });
+        marker.on(GoogleMapsEvent.MARKER_DRAG).subscribe(params => {
+          let position: LatLng = params[0];
+          points.setAt(idx, position);
+          this.polygonPoints = points.getArray();
+        });
+      });
+    }else{
+      const toast = this.toastCtrl.create({
+        position: 'top',
+        message: 'Já existe uma área do acidente representada no croqui!',
+        duration: 3000,
+      });
+      toast.present();
+    }
   }
 
   loadSavedPolygon(polyPoints) {
@@ -697,6 +709,7 @@ export class SketchPage {
         }
       }else{
         this.loadSavedPolygon(element.geometry.coordinates)
+        this.hasArea=true;
       }
     });
   }
