@@ -674,7 +674,7 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.7.1",
     "cordova-plugin-file-opener2": "2.1.3",
     "cordova-plugin-inappbrowser": "3.0.0",
-    "cordova-plugin-googlemaps": "2.5.0-beta-20190124-1620"
+    "cordova-plugin-googlemaps": "2.5.0"
 }
 // BOTTOM OF METADATA
 });
