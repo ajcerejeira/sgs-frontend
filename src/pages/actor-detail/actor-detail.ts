@@ -300,7 +300,7 @@ export class ActorDetailPage {
     this.testimonialList();
     const toast = this.toastCtrl.create({
       position: 'top',
-      message: `Gravação concluída: ${this.fileName}`,
+      message: 'Gravação concluída.',
       duration: 3000,
     });
     toast.present();
@@ -365,7 +365,7 @@ export class ActorDetailPage {
     this.audioList.splice(i, 1);
     const toast = this.toastCtrl.create({
       position: 'top',
-      message: 'Gravação "' + name + '" eliminada com sucesso!',
+      message: 'Gravação eliminada com sucesso!',
       duration: 3000,
     });
     toast.present();

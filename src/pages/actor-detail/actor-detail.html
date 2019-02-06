@@ -121,19 +121,21 @@
   </ion-list>
 
   <ion-list *ngSwitchCase="'testimonials'">
-    <ion-item-sliding *ngFor="let audio of audioList;">
-        <button ion-item (click)="testimonialPlay(audio.filename)">
-          <ion-icon name="play" item-start></ion-icon>
-          <h2>{{ audio.filename }}</h2>
-        </button>
-      <ion-item-options>
-        <button ion-button color="danger" (click)="removeItem(i)">
-          <ion-icon name="trash"></ion-icon>
-          Eliminar
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+      <ion-item-sliding *ngFor="let audio of audioList; index as i;">
+        <ion-item>
+          <button ion-item (click)="testimonialPlay(audio.filename, i)">
+            <ion-icon name="play" item-start></ion-icon>
+            <h2>{{ audio.filename }}</h2>
+          </button>
+        </ion-item>
+        <ion-item-options>
+          <button ion-button color="danger" (click)="removeItem(i)">
+            <ion-icon name="trash"></ion-icon>
+            Eliminar
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
   <ion-fab right bottom *ngSwitchCase="'testimonials'">
     <button ion-fab color="primary" (click)="testimonialStartRecord()" *ngIf="!recording">
       <ion-icon name="mic"></ion-icon>
